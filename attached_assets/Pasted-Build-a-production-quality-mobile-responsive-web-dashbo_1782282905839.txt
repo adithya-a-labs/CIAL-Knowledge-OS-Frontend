@@ -1,0 +1,303 @@
+Build a production-quality, mobile-responsive web dashboard called “CIAL Knowledge OS” based on the two uploaded reference images. The final UI must look like an exact, polished replica of the generated images in layout, visual language, spacing, card style, sidebar, typography, CIAL green/white theme, rounded panels, airport imagery treatment, dashboard widgets, AI assistant screen, documents table, knowledge base page, assets page, and analytics page.
+
+Important: The uploaded images are visual references only. Do not hardcode the images directly into the UI. Do not hardcode page content, stats, menu items, document rows, user details, cards, table fields, chart data, search suggestions, announcements, or dashboard blocks. Everything must be driven from configurable data objects, JSON files, constants, or mock API responses so that it can later be connected to a real backend.
+
+Project goal:
+Create a modular enterprise-grade dashboard UI for CIAL Knowledge OS, an AI-powered internal knowledge platform for Cochin International Airport. The system should help employees search SOPs, manuals, FAQs, engineering documents, asset knowledge, policies, and operational procedures using a clean CIAL-themed interface.
+
+Tech stack:
+Use React with TypeScript. Use Vite if needed. Use Tailwind CSS for styling. Use shadcn/ui-style components or clean reusable custom components. Use lucide-react icons. Use Recharts for analytics charts. The app must be componentized, scalable, and easy to extend.
+
+Design direction:
+Follow the uploaded images very closely. Use a clean white and soft green enterprise interface. The dashboard should feel modern, premium, calm, and trustworthy. It should use CIAL-inspired colors: olive green, lime green, deep forest green, soft mint backgrounds, white cards, subtle shadows, rounded corners, light borders, and clean spacing. Use a large left sidebar, a top-right user profile area, notification icon, help icon, and a dashboard content area. The UI should feel like an internal airport command/knowledge portal, not a generic SaaS dashboard.
+
+Brand/theme requirements:
+Create a theme config file where all brand values can be changed later:
+
+* primaryGreen
+* darkOlive
+* lightGreen
+* softMint
+* accentOrange
+* background
+* cardBackground
+* borderColor
+* textPrimary
+* textSecondary
+* danger
+* warning
+* success
+  Also create configurable logo path, app name, tagline, department name, footer text, and background image paths. Do not hardcode CIAL images directly inside components. Use config-driven assets.
+
+Required pages:
+
+1. Dashboard/Home
+2. AI Assistant
+3. Documents
+4. Knowledge Base
+5. Assets
+6. Policies & SOPs
+7. FAQs
+8. Departments
+9. Analytics
+10. Admin/Settings
+
+Sidebar:
+Replicate the reference images’ left sidebar. Include CIAL logo at the top, menu items with icons, active green state, clean spacing, and a bottom promotional/brand card with the text “Swagatham to greener skies”. The bottom card should use a configurable background image or gradient, not a hardcoded image. Sidebar must collapse on tablets/mobile into a drawer or hamburger menu.
+
+Dashboard page:
+Create a hero area with greeting text like “Welcome back, Ananya 👋”, subtitle “How can I help you today?”, and a large AI search bar. Behind or beside it, include a soft airport terminal/landscape hero background area similar to the image. This must be configurable through theme/assets. Under the hero, show KPI cards:
+
+* Total Documents
+* Knowledge Articles
+* SOPs
+* FAQs
+* Unanswered Queries
+  Each KPI card must be generated from a data array with icon, label, value, delta, and color.
+
+Below KPI cards, create configurable modular dashboard blocks:
+
+* Recent Documents
+* Popular Searches
+* Knowledge Gaps
+* AI Assistant Recent Conversations
+* Quick Access
+* Announcements
+  Each block must be a reusable DashboardBlock component. Users/developers should be able to add/remove/reorder blocks by changing a config array. Do not hardcode block layout inside the page.
+
+AI Assistant page:
+Replicate the AI assistant page from the generated image. Include:
+
+* Header: “AI Assistant”
+* Chat conversation area
+* User query bubble
+* AI answer card with step-by-step response
+* Source citation card below the AI response
+* Feedback buttons
+* Chat input at bottom
+* Conversation history panel on the right for desktop
+* On mobile, conversation history should move below or become a drawer
+  The assistant must use mock configurable chat data. Do not call real AI APIs yet. Structure it so real API integration can be added later.
+
+Documents page:
+Replicate the clean documents table page. Include:
+
+* Page title “Documents”
+* Subtitle
+* Search bar
+* Category filter
+* Department filter
+* Document type filter
+* Sort dropdown
+* Upload Document button
+* Table with document name, category, department, type, last updated, actions
+  All rows should come from mock data/config. Make the table responsive: on mobile, convert rows into cards.
+
+Knowledge Base page:
+Create category cards and popular article list like the reference. Include filters and search. Data should be config-driven. Categories should include:
+
+* Airfield Operations
+* Baggage Handling
+* Electrical Systems
+* HVAC Systems
+* Safety & Fire
+* IT Systems
+* Terminal Operations
+
+Assets page:
+Create an asset management page similar to the reference. Include:
+
+* KPI cards for total assets, operational assets, under maintenance, out of service
+* Search and filters
+* Assets table with asset name, asset ID, category, location, status, actions
+* Status pills for Operational, Under Maintenance, Out of Service
+  Make it ready for future Asset Intelligence OS integration.
+
+Analytics page:
+Create analytics cards and charts:
+
+* Total Queries
+* Resolved Queries
+* Unanswered Queries
+* Average Satisfaction
+* Top Query Categories donut chart
+* Query Trend line chart
+  Use Recharts. All chart data should come from mock data files. The page must be responsive and clean.
+
+Policies & SOPs page:
+Create a document-focused page for SOPs and policies. Include cards/tables for SOP title, department, version, status, owner, last review date, next review date. Add filters for department, status, and type.
+
+FAQs page:
+Create FAQ accordion/list page. Include categories, search, helpful count, and last updated.
+
+Departments page:
+Create department overview cards:
+
+* Engineering
+* Safety
+* Operations
+* IT
+* Facilities
+* Commercial
+  Each card should show document count, SOP count, unresolved questions, and owner.
+
+Admin/Settings page:
+Create configurable admin UI sections:
+
+* Theme settings placeholder
+* Document ingestion settings placeholder
+* User roles placeholder
+* Audit log table
+* Integration status cards
+  No real backend needed, but UI should look enterprise-ready.
+
+Modularity requirements:
+Create reusable components:
+
+* AppShell
+* Sidebar
+* TopBar
+* PageHeader
+* StatCard
+* DashboardBlock
+* DataTable
+* SearchBar
+* FilterBar
+* StatusPill
+* EmptyState
+* ChartCard
+* DocumentRow
+* AssetRow
+* ChatPanel
+* ChatMessage
+* SourceCitationCard
+* QuickActionCard
+* AnnouncementCard
+* MobileSidebarDrawer
+
+Create data/config files:
+
+* themeConfig.ts
+* navigationConfig.ts
+* dashboardConfig.ts
+* documentsData.ts
+* knowledgeBaseData.ts
+* assetsData.ts
+* analyticsData.ts
+* userConfig.ts
+* appConfig.ts
+* securityConfig.ts
+
+Do not hardcode:
+
+* Logo path
+* User name
+* Department
+* Menu items
+* KPI values
+* Document rows
+* Asset rows
+* Chart values
+* Chat messages
+* Search suggestions
+* Quick actions
+* Announcements
+* Footer text
+* Background images
+* Theme colors
+
+Security requirements:
+Although this is a frontend prototype, structure it like an enterprise app:
+
+* Add route guards placeholder.
+* Add role-based access control config.
+* Create mock roles: admin, engineer, manager, viewer.
+* Add permission checks for upload, delete, edit, admin settings.
+* Do not expose secrets in frontend.
+* Add .env.example for future API endpoints.
+* Add comments explaining where real auth and backend integration will go.
+* Add secure coding practices: no dangerouslySetInnerHTML, no hardcoded API keys, sanitize displayed user-generated text, and separate config from logic.
+* Add audit log mock data for admin page.
+* Design so Microsoft Entra ID or Keycloak can be integrated later.
+
+Responsiveness:
+The dashboard must work beautifully on:
+
+* 320px mobile screens
+* large phones
+* tablets
+* laptops
+* ultra-wide monitors
+  Use responsive grids:
+* KPI cards: 1 column mobile, 2 columns tablet, 5 columns desktop
+* Dashboard blocks: 1 column mobile, 2 columns tablet, 3 columns desktop where appropriate
+* Sidebar: full sidebar on desktop, collapsible drawer on mobile
+* Tables: convert to cards on small screens
+* Charts: resize cleanly
+* Text must not overflow
+* Cards must preserve spacing and readability
+
+Visual polish:
+Match the generated images closely:
+
+* White cards with subtle green tint
+* Rounded 18–24px corners
+* Very soft shadows
+* Thin borders
+* Active menu item in green gradient/solid green
+* CIAL green highlights
+* Soft background gradients
+* Calm enterprise typography
+* Compact but readable dashboard density
+* Icon circles in pale green/orange/blue
+* Pills for filters and statuses
+* “View All” links in green
+* Footer text similar to reference
+* Smooth hover states
+* Smooth transitions
+* No clutter
+
+Functional UI behavior:
+
+* Sidebar navigation should switch pages using React Router or internal state.
+* Search bars should filter visible mock data.
+* Filter dropdowns should filter documents/assets.
+* Upload button can open a placeholder modal.
+* Chat input can add a mock user message and mock assistant response.
+* Quick access buttons should navigate to pages or show placeholder actions.
+* Theme config should be easy to modify.
+
+Suggested file structure:
+src/
+app/
+components/
+layout/
+common/
+dashboard/
+assistant/
+documents/
+knowledge/
+assets/
+analytics/
+admin/
+config/
+data/
+hooks/
+lib/
+types/
+styles/
+
+Deliverables:
+
+* Fully working responsive React dashboard
+* Clean modular code
+* Config-driven data
+* CIAL-themed design matching uploaded references
+* No hardcoded business data inside components
+* No hardcoded images directly inside components
+* Mobile-friendly layout
+* Enterprise-ready architecture placeholders
+* README explaining how to run, how to change theme, how to add a new dashboard block, how to add a new page, and how to later connect backend/auth/AI APIs
+
+Final quality target:
+The output should look like a real internal CIAL enterprise product demo. One look at the dashboard should communicate that this is not just a document chatbot, but the foundation for a larger CIAL Knowledge OS that can later expand into Asset Intelligence OS and Engineering OS.
