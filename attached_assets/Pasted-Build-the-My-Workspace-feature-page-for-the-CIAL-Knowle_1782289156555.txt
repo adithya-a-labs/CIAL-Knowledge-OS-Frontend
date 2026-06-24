@@ -1,0 +1,184 @@
+Build the “My Workspace” feature page for the CIAL Knowledge OS dashboard, matching the attached reference image as closely as possible.
+
+This page represents each employee’s private, compartmentalized knowledge workspace. It must feel like a secure personal knowledge vault inside the larger CIAL Knowledge OS.
+
+Core concept:
+Each employee gets a private 5 GB storage area where they can upload documents, notes, reports, vendor manuals, and personal references. These files are visible only to that employee. They are not added to the central enterprise repository. However, the AI Assistant can use both the central CIAL Knowledge Base and the employee’s private documents when the user chooses Hybrid Mode.
+
+Design:
+Use the attached image as the main visual reference. Replicate the layout, spacing, green/white CIAL theme, rounded cards, soft shadows, sidebar, storage ring, right-side panels, file lists, collection cards, and AI search mode selector.
+
+Tech stack:
+React + TypeScript + Tailwind CSS + lucide-react + Recharts.
+
+Add this page into the existing modular dashboard structure.
+
+Required page:
+My Workspace
+
+Sidebar:
+Add a new sidebar section called “MY WORKSPACE” with:
+- My Workspace
+- My Documents
+- My Notes
+- Bookmarks
+- My Conversations
+- Storage Usage
+
+The active item should be highlighted in CIAL green.
+
+Main header:
+Title: My Workspace
+Add a small lock icon beside the title.
+Subtitle: “Your personal knowledge space. Private. Secure. Only visible to you.”
+
+Top storage card:
+Create a large “Your Personal Storage” card showing:
+- circular usage chart
+- 3.2 GB / 5 GB used
+- 64%
+- 1.8 GB available
+- storage resets note
+- privacy/security bullet points:
+  - Only you can view your documents
+  - Included in your AI search and answers
+  - Not shared with anyone
+  - Secure and encrypted
+
+Do not hardcode these values inside the component. Put them in workspaceData.ts.
+
+Stats cards:
+Create four cards:
+- My Documents: 128 documents
+- My Notes: 34 notes
+- My Collections: 12 collections
+- My Conversations: 56 conversations
+
+Recent uploads block:
+Create a table/list showing:
+- file icon
+- filename
+- category/folder
+- size
+- upload time
+- actions menu
+Example files:
+- Vendor Manual - AGL Controller.pdf
+- Runway Lighting Inspection Notes.docx
+- PAPI Calibration Report - 23 May 2025.pdf
+- Maintenance Cost Analysis.xlsx
+- Transformer Oil Test Results.pdf
+
+Recent AI Chats block:
+Show recent conversations with source badges:
+- Enterprise
+- My Workspace
+
+Example chats:
+- How to troubleshoot AGL controller failure?
+- Runway lighting circuit isolation procedure
+- PAPI calibration steps and tools required
+- Transformer overheating possible causes
+- Best practices for cable termination
+
+My Collections block:
+Show folder cards:
+- Runway Lighting
+- Electrical Systems
+- Maintenance Notes
+- Vendor Manuals
+- Project Reports
+- New Collection
+
+Right panel:
+Create three cards:
+
+1. AI Search Mode
+Options:
+- Enterprise Only: Search in central knowledge base
+- My Workspace Only: Search in your personal workspace
+- Hybrid Recommended: Search in both enterprise and your workspace
+
+Hybrid should be selected by default.
+
+2. Storage Breakdown
+Use Recharts donut chart:
+- Documents: 2.1 GB
+- Notes: 0.6 GB
+- Chats: 0.3 GB
+- Others: 0.2 GB
+
+3. Recent Activity
+Show:
+- Uploaded Vendor Manual - AGL Controller.pdf
+- Added note: PAPI alignment observation
+- AI Chat: Runway lighting isolation
+- Bookmarked: Fire alarm escalation SOP
+
+Privacy/security behavior:
+This is a frontend prototype, but structure it for enterprise security:
+- Every personal document must have visibility: “private”
+- Add ownerId field to all personal workspace items
+- Add mock currentUserId
+- Only show documents where ownerId === currentUserId
+- Add placeholder permission helper:
+  canViewPrivateDocument(user, document)
+- Add storage limit check:
+  if usedStorage >= 5GB, disable upload button and show warning
+- Add mock audit log entries for uploads, deletes, AI usage, and bookmark actions
+
+Data/config:
+Create:
+- workspaceData.ts
+- workspaceTypes.ts
+- workspacePermissions.ts
+- storageUtils.ts
+
+Do not hardcode data in components.
+
+Components to create:
+- WorkspacePage
+- PersonalStorageCard
+- StorageRing
+- WorkspaceStatCard
+- RecentUploadsTable
+- RecentAIChats
+- CollectionCard
+- AISearchModeSelector
+- StorageBreakdownChart
+- RecentActivityCard
+- PrivacyBadge
+- WorkspaceUploadButton
+
+Responsive behavior:
+Desktop:
+- left sidebar
+- main content
+- right insights panel
+
+Tablet:
+- right panel moves below top content
+- cards become 2 columns
+
+Mobile:
+- sidebar becomes hamburger drawer
+- storage card stacks vertically
+- tables become mobile cards
+- AI Search Mode becomes full-width
+- collections scroll horizontally if needed
+- all text must remain readable
+- no overflow issues
+
+Important:
+The attached image is only a design reference. Do not hardcode it as a background. Recreate the UI using actual components, layout, icons, cards, charts, and mock data.
+
+Visual target:
+The page should look like a real CIAL internal enterprise product:
+clean, calm, secure, green-white, polished, spacious, responsive, and production-ready.
+
+Also update README with:
+- What My Workspace is
+- How 5 GB/user storage works conceptually
+- How Hybrid AI Search works
+- How to add new private document types
+- How to later connect this to backend storage and real authentication

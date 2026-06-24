@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'wouter';
 import {
   Home, Bot, FileText, BookOpen, Box, ShieldCheck,
-  HelpCircle, Users, BarChart2, Settings, Leaf
+  HelpCircle, Users, BarChart2, Settings, Leaf,
+  LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
 } from 'lucide-react';
-import { NAV_ITEMS } from '@/config/navigationConfig';
+import { NAV_ITEMS, WORKSPACE_NAV_ITEMS } from '@/config/navigationConfig';
 import { THEME } from '@/config/themeConfig';
 import { CURRENT_USER } from '@/config/userConfig';
 import { hasPermission } from '@/config/securityConfig';
@@ -11,7 +12,8 @@ import { Role } from '@/types';
 
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   Home, Bot, FileText, BookOpen, Box, ShieldCheck,
-  HelpCircle, Users, BarChart2, Settings
+  HelpCircle, Users, BarChart2, Settings,
+  LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
 };
 
 export default function Sidebar() {
@@ -24,9 +26,17 @@ export default function Sidebar() {
   });
 
   const isActive = (path: string) => {
+    if (path === '/workspace') return location === '/workspace';
     if (path === '/') return location === '/';
     return location.startsWith(path);
   };
+
+  const navLinkCls = (path: string) =>
+    `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer ${
+      isActive(path)
+        ? 'bg-gradient-to-r from-[#4a7c3f] to-[#5a9a45] text-white shadow-sm'
+        : 'text-[#3d5c30] hover:bg-[#f0f7ed] hover:text-[#2d4f22]'
+    }`;
 
   return (
     <aside
@@ -47,28 +57,39 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Nav Items */}
+      {/* Nav */}
       <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-0.5" data-testid="sidebar-nav">
         {visibleItems.map((item) => {
           const IconComponent = ICON_MAP[item.icon] || Home;
-          const active = isActive(item.path);
           return (
             <Link
               key={item.path}
               href={item.path}
-              className={`
-                flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer
-                ${active
-                  ? 'bg-gradient-to-r from-[#4a7c3f] to-[#5a9a45] text-white shadow-sm'
-                  : 'text-[#3d5c30] hover:bg-[#f0f7ed] hover:text-[#2d4f22]'
-                }
-              `}
+              className={navLinkCls(item.path)}
               data-testid={`nav-${item.label.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '')}`}
             >
-              <IconComponent
-                size={18}
-                className={active ? 'text-white' : 'text-[#5a7a52]'}
-              />
+              <IconComponent size={18} className={isActive(item.path) ? 'text-white' : 'text-[#5a7a52]'} />
+              <span className="truncate">{item.label}</span>
+            </Link>
+          );
+        })}
+
+        {/* MY WORKSPACE section */}
+        <div className="pt-4 pb-1">
+          <p className="text-[10px] font-bold text-[#7a9a72] uppercase tracking-widest px-3 mb-1">
+            My Workspace
+          </p>
+        </div>
+        {WORKSPACE_NAV_ITEMS.map((item) => {
+          const IconComponent = ICON_MAP[item.icon] || Home;
+          return (
+            <Link
+              key={item.path}
+              href={item.path}
+              className={navLinkCls(item.path)}
+              data-testid={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+            >
+              <IconComponent size={18} className={isActive(item.path) ? 'text-white' : 'text-[#5a7a52]'} />
               <span className="truncate">{item.label}</span>
             </Link>
           );
@@ -90,7 +111,6 @@ export default function Sidebar() {
             <p className="text-sm font-semibold text-white leading-snug">{THEME.swagathamText}</p>
             <p className="text-[10px] text-green-200 mt-1">Greener Aviation</p>
           </div>
-          {/* Decorative circles */}
           <div className="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/5" />
           <div className="absolute -right-2 -bottom-4 w-14 h-14 rounded-full bg-white/5" />
         </div>

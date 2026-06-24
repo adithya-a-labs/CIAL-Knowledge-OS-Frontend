@@ -13,6 +13,7 @@ import FAQsPage from "@/pages/FAQsPage";
 import DepartmentsPage from "@/pages/DepartmentsPage";
 import AnalyticsPage from "@/pages/AnalyticsPage";
 import AdminSettingsPage from "@/pages/AdminSettingsPage";
+import WorkspacePage from "@/pages/WorkspacePage";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,8 @@ function Router() {
         <Route path="/departments" component={DepartmentsPage} />
         <Route path="/analytics" component={AnalyticsPage} />
         <Route path="/admin" component={AdminSettingsPage} />
+        <Route path="/workspace" component={WorkspacePage} />
+        <Route path="/workspace/:sub" component={WorkspacePage} />
         <Route component={NotFound} />
       </Switch>
     </AppShell>

@@ -1,1 +1,2 @@
-- [CIAL Dashboard architecture](cial-dashboard.md) — 10-page React+Vite dashboard; all data is mock/static; CSS variables set in index.css (no overwrite); sidebar uses Link directly (no nested a tags)
+- [CIAL Dashboard Architecture](cial-dashboard.md) — type system, config-driven patterns, brand colors, key conventions
+- [My Workspace Feature](workspace-feature.md) — private 5 GB workspace; ownerId-gated docs; AISearchMode; storageUtils; all data in src/data/workspace/
