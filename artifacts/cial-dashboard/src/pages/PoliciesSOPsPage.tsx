@@ -4,11 +4,7 @@ import PageHeader from '@/components/common/PageHeader';
 import SearchBar from '@/components/common/SearchBar';
 import StatusPill from '@/components/common/StatusPill';
 import EmptyState from '@/components/common/EmptyState';
-import { SOPS } from '@/data/sopData';
-
-const DEPARTMENTS = ['Engineering', 'Safety', 'Operations', 'IT'];
-const TYPES = ['SOP', 'Policy', 'Procedure'];
-const STATUSES = ['Active', 'Under Review', 'Archived'];
+import { SOPS, SOP_DEPARTMENTS, SOP_TYPES, SOP_STATUSES } from '@/data/sopData';
 
 export default function PoliciesSOPsPage() {
   const [search, setSearch] = useState('');
@@ -28,9 +24,9 @@ export default function PoliciesSOPsPage() {
       <div className="flex flex-col sm:flex-row gap-3 mb-4">
         <SearchBar value={search} onChange={setSearch} placeholder="Search SOPs..." className="flex-1" />
         {[
-          { key: 'department', label: 'All Departments', options: DEPARTMENTS },
-          { key: 'status', label: 'All Status', options: STATUSES },
-          { key: 'type', label: 'All Types', options: TYPES },
+          { key: 'department', label: 'All Departments', options: SOP_DEPARTMENTS },
+          { key: 'status', label: 'All Status', options: SOP_STATUSES },
+          { key: 'type', label: 'All Types', options: SOP_TYPES },
         ].map(f => (
           <select
             key={f.key}

@@ -3,9 +3,7 @@ import { ChevronDown, ThumbsUp, ThumbsDown } from 'lucide-react';
 import PageHeader from '@/components/common/PageHeader';
 import SearchBar from '@/components/common/SearchBar';
 import EmptyState from '@/components/common/EmptyState';
-import { FAQS } from '@/data/faqData';
-
-const CATEGORIES = ['Airfield Operations', 'Baggage Handling', 'HVAC Systems', 'Safety & Fire', 'IT Systems', 'Emergency Procedures'];
+import { FAQS, FAQ_CATEGORIES } from '@/data/faqData';
 
 export default function FAQsPage() {
   const [search, setSearch] = useState('');
@@ -31,7 +29,7 @@ export default function FAQsPage() {
           data-testid="filter-faq-category"
         >
           <option value="">All Categories</option>
-          {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+          {FAQ_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
         </select>
       </div>
 

@@ -22,3 +22,22 @@ export const DOCUMENTS: Document[] = [
   { id: '19', name: 'VIP Lounge Protocol', category: 'Terminal Operations', department: 'Commercial', type: 'SOP', lastUpdated: '20 Apr 2025', status: 'Published' },
   { id: '20', name: 'Runway Friction Testing', category: 'Airfield Operations', department: 'Engineering', type: 'Report', lastUpdated: '15 Apr 2025', status: 'Published' },
 ];
+
+export const DOC_CATEGORIES: string[] = [
+  'Airfield Operations', 'Baggage Handling', 'Electrical Systems', 'HVAC Systems',
+  'Safety & Fire', 'IT Systems', 'Terminal Operations', 'Security',
+];
+
+export const DOC_DEPARTMENTS: string[] = [
+  'Engineering', 'Safety', 'Operations', 'IT', 'Facilities', 'Commercial',
+];
+
+export const DOC_TYPES: string[] = ['Manual', 'SOP', 'Checklist', 'Policy', 'Report'];
+
+export const DOC_TYPE_COLORS: Record<string, string> = {
+  Manual: 'bg-blue-100 text-blue-700',
+  SOP: 'bg-green-100 text-green-700',
+  Checklist: 'bg-purple-100 text-purple-700',
+  Policy: 'bg-orange-100 text-orange-700',
+  Report: 'bg-gray-100 text-gray-600',
+};

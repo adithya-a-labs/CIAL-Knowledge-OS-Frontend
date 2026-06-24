@@ -6,6 +6,7 @@ import { AUDIT_LOG, MOCK_USERS } from '@/data/auditLogData';
 import { CURRENT_USER } from '@/config/userConfig';
 import { Role } from '@/types';
 import { hasPermission } from '@/config/securityConfig';
+import { INTEGRATIONS, ROLE_COLORS, THEME_CONFIG_ITEMS, INGESTION_SETTINGS } from '@/data/adminData';
 
 type TabId = 'theme' | 'ingestion' | 'users' | 'audit' | 'integrations';
 
@@ -16,20 +17,6 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'audit', label: 'Audit Log' },
   { id: 'integrations', label: 'Integrations' },
 ];
-
-const INTEGRATIONS = [
-  { name: 'Microsoft Entra ID', status: 'Connected', version: 'v2.1', lastSync: '23 May 2025, 10:00 AM', color: 'text-[#27ae60]' },
-  { name: 'SharePoint', status: 'Disconnected', version: 'v1.8', lastSync: 'Never', color: 'text-[#c0392b]' },
-  { name: 'CMMS (IBM Maximo)', status: 'Connected', version: 'v7.6.1', lastSync: '23 May 2025, 09:00 AM', color: 'text-[#27ae60]' },
-  { name: 'SAP', status: 'Disconnected', version: 'v3.0', lastSync: 'Never', color: 'text-[#c0392b]' },
-];
-
-const ROLE_COLORS: Record<string, string> = {
-  admin: 'bg-purple-100 text-purple-700',
-  engineer: 'bg-blue-100 text-blue-700',
-  manager: 'bg-green-100 text-green-700',
-  viewer: 'bg-gray-100 text-gray-600',
-};
 
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState<TabId>('theme');
@@ -73,15 +60,13 @@ export default function AdminSettingsPage() {
       {/* Theme Tab */}
       {activeTab === 'theme' && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4" data-testid="tab-content-theme">
-          {[
-            { label: 'Primary Color', value: '#4a7c3f', display: <div className="w-8 h-8 rounded-lg border" style={{ background: '#4a7c3f' }} /> },
-            { label: 'Font Family', value: 'Inter / Segoe UI', display: <span className="text-sm font-semibold">Aa</span> },
-            { label: 'Logo', value: '/cial-logo.png', display: <img src="/cial-logo.png" alt="Logo" className="h-8 w-auto object-contain" /> },
-          ].map(item => (
+          {THEME_CONFIG_ITEMS.map(item => (
             <div key={item.label} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-xs font-semibold text-[#5a7a52] uppercase tracking-wide">{item.label}</p>
-                {item.display}
+                {item.type === 'swatch' && <div className="w-8 h-8 rounded-lg border" style={{ background: item.value }} />}
+                {item.type === 'font' && <span className="text-sm font-semibold">Aa</span>}
+                {item.type === 'logo' && <img src={item.value} alt="Logo" className="h-8 w-auto object-contain" />}
               </div>
               <p className="text-sm text-[#1a2e14] font-medium">{item.value}</p>
               <p className="text-xs text-[#9ab88e] mt-1">Coming soon — Configure</p>
@@ -94,12 +79,7 @@ export default function AdminSettingsPage() {
       {/* Document Ingestion Tab */}
       {activeTab === 'ingestion' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="tab-content-ingestion">
-          {[
-            { label: 'Batch Size', value: '50 documents', type: 'text' },
-            { label: 'Auto-Index', value: 'Enabled', type: 'toggle' },
-            { label: 'Schedule', value: 'Daily at 02:00 AM', type: 'text' },
-            { label: 'Supported Formats', value: 'PDF, DOCX, XLSX, PPT', type: 'text' },
-          ].map(item => (
+          {INGESTION_SETTINGS.map(item => (
             <div key={item.label} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4">
               <p className="text-xs font-semibold text-[#5a7a52] uppercase tracking-wide mb-1.5">{item.label}</p>
               <div className="flex items-center justify-between">

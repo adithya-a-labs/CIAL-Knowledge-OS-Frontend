@@ -17,3 +17,17 @@ export const ASSETS: Asset[] = [
   { id: '14', assetId: 'FIRE-EX-88', name: 'Fire Extinguisher', category: 'Safety', location: 'T1 - Check-in', status: 'Operational' },
   { id: '15', assetId: 'SOLAR-INV-04', name: 'Solar Inverter', category: 'Electrical', location: 'Solar Plant', status: 'Under Maintenance' },
 ];
+
+export const ASSET_CATEGORIES: string[] = [
+  'Airfield Lighting', 'Baggage Handling', 'HVAC', 'Electrical', 'Aerobridge',
+  'Security', 'Vertical Transport', 'IT Network', 'Safety', 'Air Traffic', 'Plumbing',
+];
+
+export const ASSET_STATUSES: string[] = ['Operational', 'Under Maintenance', 'Out of Service'];
+
+export const ASSET_KPI_STATS = [
+  { label: 'Total Assets', value: '3,248' },
+  { label: 'Operational', value: '2,896', colorClass: 'text-[#1e7e34]' },
+  { label: 'Under Maintenance', value: '210', colorClass: 'text-[#b35900]' },
+  { label: 'Out of Service', value: '142', colorClass: 'text-[#991b1b]' },
+];

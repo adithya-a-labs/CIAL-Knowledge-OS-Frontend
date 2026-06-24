@@ -12,3 +12,9 @@ export const SOPS: SOP[] = [
   { id: '9', title: 'Runway Inspection SOP', department: 'Operations', version: 'v5.1', status: 'Active', owner: 'Vikram Pillai', lastReview: '15 Apr 2024', nextReview: '15 Apr 2025' },
   { id: '10', title: 'IT Incident Response Procedure', department: 'IT', version: 'v2.9', status: 'Archived', owner: 'Vikram Pillai', lastReview: '01 Mar 2024', nextReview: '01 Mar 2025' },
 ];
+
+export const SOP_DEPARTMENTS: string[] = ['Engineering', 'Safety', 'Operations', 'IT'];
+
+export const SOP_TYPES: string[] = ['SOP', 'Policy', 'Procedure'];
+
+export const SOP_STATUSES: string[] = ['Active', 'Under Review', 'Archived'];
