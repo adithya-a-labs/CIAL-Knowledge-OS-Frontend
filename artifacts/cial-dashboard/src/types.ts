@@ -53,16 +53,6 @@ export interface Document {
   status: string;
 }
 
-// ─── Assets ───────────────────────────────────────────────────────────────────
-export interface Asset {
-  id: string;
-  assetId: string;
-  name: string;
-  category: string;
-  location: string;
-  status: string;
-}
-
 // ─── SOPs ─────────────────────────────────────────────────────────────────────
 export interface SOP {
   id: string;

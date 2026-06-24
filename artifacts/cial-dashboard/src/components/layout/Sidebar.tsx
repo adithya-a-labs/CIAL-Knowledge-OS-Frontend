@@ -1,33 +1,39 @@
 import { Link, useLocation } from 'wouter';
 import {
-  Home, Bot, FileText, BookOpen, Box, ShieldCheck,
-  HelpCircle, Users, BarChart2, Settings, Leaf,
+  Home, Bot, FileText, BookOpen, ShieldCheck,
+  HelpCircle, Users, Users2, BarChart2, Settings, Leaf,
   LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
+  GraduationCap, Network, AlertTriangle, Building2,
+  Shield, KeyRound, ScrollText,
 } from 'lucide-react';
-import { NAV_ITEMS, WORKSPACE_NAV_ITEMS } from '@/config/navigationConfig';
+import { NAV_ITEMS, WORKSPACE_NAV_ITEMS, ADMIN_NAV_ITEMS } from '@/config/navigationConfig';
 import { THEME } from '@/config/themeConfig';
 import { CURRENT_USER } from '@/config/userConfig';
 import { hasPermission } from '@/config/securityConfig';
 import { Role } from '@/types';
 
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  Home, Bot, FileText, BookOpen, Box, ShieldCheck,
-  HelpCircle, Users, BarChart2, Settings,
+  Home, Bot, FileText, BookOpen, ShieldCheck,
+  HelpCircle, Users, Users2, BarChart2, Settings,
   LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
+  GraduationCap, Network, AlertTriangle, Building2,
+  Shield, KeyRound, ScrollText,
 };
 
 export default function Sidebar() {
   const [location] = useLocation();
   const userRole = CURRENT_USER.role as Role;
+  const canAdmin = hasPermission(userRole, 'canAccessAdmin');
 
   const visibleItems = NAV_ITEMS.filter(item => {
     if (!item.requiredRole) return true;
-    return hasPermission(userRole, 'canAccessAdmin');
+    return canAdmin;
   });
 
   const isActive = (path: string) => {
     if (path === '/workspace') return location === '/workspace';
     if (path === '/') return location === '/';
+    if (path === '/admin') return location === '/admin';
     return location.startsWith(path);
   };
 
@@ -66,7 +72,7 @@ export default function Sidebar() {
               key={item.path}
               href={item.path}
               className={navLinkCls(item.path)}
-              data-testid={`nav-${item.label.toLowerCase().replace(/\s+/g, '-').replace(/&/g, '')}`}
+              data-testid={`nav-${item.label.toLowerCase().replace(/[\s&]/g, '-').replace(/-+/g, '-')}`}
             >
               <IconComponent size={18} className={isActive(item.path) ? 'text-white' : 'text-[#5a7a52]'} />
               <span className="truncate">{item.label}</span>
@@ -94,6 +100,31 @@ export default function Sidebar() {
             </Link>
           );
         })}
+
+        {/* ADMIN section */}
+        {canAdmin && (
+          <>
+            <div className="pt-4 pb-1">
+              <p className="text-[10px] font-bold text-[#7a9a72] uppercase tracking-widest px-3 mb-1">
+                Admin
+              </p>
+            </div>
+            {ADMIN_NAV_ITEMS.map((item) => {
+              const IconComponent = ICON_MAP[item.icon] || Shield;
+              return (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className={navLinkCls(item.path)}
+                  data-testid={`nav-${item.label.toLowerCase().replace(/[\s&]/g, '-').replace(/-+/g, '-')}`}
+                >
+                  <IconComponent size={18} className={isActive(item.path) ? 'text-white' : 'text-[#5a7a52]'} />
+                  <span className="truncate">{item.label}</span>
+                </Link>
+              );
+            })}
+          </>
+        )}
       </nav>
 
       {/* Bottom Card */}

@@ -6,6 +6,8 @@ import KnowledgeGapsBlock from '@/components/dashboard/blocks/KnowledgeGapsBlock
 import AIConversationsBlock from '@/components/dashboard/blocks/AIConversationsBlock';
 import QuickAccessBlock from '@/components/dashboard/blocks/QuickAccessBlock';
 import AnnouncementsBlock from '@/components/dashboard/blocks/AnnouncementsBlock';
+import ExpertSpotlightBlock from '@/components/dashboard/blocks/ExpertSpotlightBlock';
+import TopContributorsBlock from '@/components/dashboard/blocks/TopContributorsBlock';
 import { DASHBOARD_BLOCKS } from '@/config/dashboardConfig';
 
 const BLOCK_COMPONENTS: Record<string, React.ComponentType> = {
@@ -15,6 +17,8 @@ const BLOCK_COMPONENTS: Record<string, React.ComponentType> = {
   AIConversationsBlock,
   QuickAccessBlock,
   AnnouncementsBlock,
+  ExpertSpotlightBlock,
+  TopContributorsBlock,
 };
 
 const COL_SPAN_CLASS: Record<number, string> = {

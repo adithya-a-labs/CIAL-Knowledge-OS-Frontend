@@ -5,12 +5,14 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'AI Assistant', path: '/assistant', icon: 'Bot' },
   { label: 'Documents', path: '/documents', icon: 'FileText' },
   { label: 'Knowledge Base', path: '/knowledge', icon: 'BookOpen' },
-  { label: 'Assets', path: '/assets', icon: 'Box' },
   { label: 'Policies & SOPs', path: '/policies', icon: 'ShieldCheck' },
   { label: 'FAQs', path: '/faqs', icon: 'HelpCircle' },
-  { label: 'Departments', path: '/departments', icon: 'Users' },
+  { label: 'Expert Directory', path: '/experts', icon: 'Users2' },
+  { label: 'Learning Hub', path: '/learning', icon: 'GraduationCap' },
+  { label: 'Knowledge Graph', path: '/knowledge-graph', icon: 'Network' },
+  { label: 'Knowledge Gaps', path: '/knowledge-gaps', icon: 'AlertTriangle' },
+  { label: 'Departments', path: '/departments', icon: 'Building2' },
   { label: 'Analytics', path: '/analytics', icon: 'BarChart2' },
-  { label: 'Admin', path: '/admin', icon: 'Settings', requiredRole: 'admin' },
 ];
 
 export const WORKSPACE_NAV_ITEMS: NavItem[] = [
@@ -20,4 +22,12 @@ export const WORKSPACE_NAV_ITEMS: NavItem[] = [
   { label: 'Bookmarks', path: '/workspace/bookmarks', icon: 'Bookmark' },
   { label: 'My Conversations', path: '/workspace/conversations', icon: 'MessageSquare' },
   { label: 'Storage Usage', path: '/workspace/storage', icon: 'HardDrive' },
+];
+
+export const ADMIN_NAV_ITEMS: NavItem[] = [
+  { label: 'Admin', path: '/admin', icon: 'Shield', requiredRole: 'admin' },
+  { label: 'Users', path: '/admin/users', icon: 'Users', requiredRole: 'admin' },
+  { label: 'Roles & Permissions', path: '/admin/roles', icon: 'KeyRound', requiredRole: 'admin' },
+  { label: 'Audit Logs', path: '/admin/audit', icon: 'ScrollText', requiredRole: 'admin' },
+  { label: 'Settings', path: '/admin/settings', icon: 'Settings', requiredRole: 'admin' },
 ];

@@ -1,20 +1,24 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import {
-  X, Home, Bot, FileText, BookOpen, Box, ShieldCheck,
-  HelpCircle, Users, BarChart2, Settings, Leaf,
+  X, Home, Bot, FileText, BookOpen, ShieldCheck,
+  HelpCircle, Users, Users2, BarChart2, Settings, Leaf,
   LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
+  GraduationCap, Network, AlertTriangle, Building2,
+  Shield, KeyRound, ScrollText,
 } from 'lucide-react';
-import { NAV_ITEMS, WORKSPACE_NAV_ITEMS } from '@/config/navigationConfig';
+import { NAV_ITEMS, WORKSPACE_NAV_ITEMS, ADMIN_NAV_ITEMS } from '@/config/navigationConfig';
 import { THEME } from '@/config/themeConfig';
 import { CURRENT_USER } from '@/config/userConfig';
 import { hasPermission } from '@/config/securityConfig';
 import { Role } from '@/types';
 
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  Home, Bot, FileText, BookOpen, Box, ShieldCheck,
-  HelpCircle, Users, BarChart2, Settings,
+  Home, Bot, FileText, BookOpen, ShieldCheck,
+  HelpCircle, Users, Users2, BarChart2, Settings,
   LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
+  GraduationCap, Network, AlertTriangle, Building2,
+  Shield, KeyRound, ScrollText,
 };
 
 interface MobileSidebarDrawerProps {
@@ -25,10 +29,11 @@ interface MobileSidebarDrawerProps {
 export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDrawerProps) {
   const [location] = useLocation();
   const userRole = CURRENT_USER.role as Role;
+  const canAdmin = hasPermission(userRole, 'canAccessAdmin');
 
   const visibleItems = NAV_ITEMS.filter(item => {
     if (!item.requiredRole) return true;
-    return hasPermission(userRole, 'canAccessAdmin');
+    return canAdmin;
   });
 
   useEffect(() => {
@@ -43,6 +48,7 @@ export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDraw
   const isActive = (path: string) => {
     if (path === '/workspace') return location === '/workspace';
     if (path === '/') return location === '/';
+    if (path === '/admin') return location === '/admin';
     return location.startsWith(path);
   };
 
@@ -98,6 +104,26 @@ export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDraw
               </Link>
             );
           })}
+
+          {/* ADMIN section */}
+          {canAdmin && (
+            <>
+              <div className="pt-4 pb-1">
+                <p className="text-[10px] font-bold text-[#7a9a72] uppercase tracking-widest px-3 mb-1">
+                  Admin
+                </p>
+              </div>
+              {ADMIN_NAV_ITEMS.map((item) => {
+                const Icon = ICON_MAP[item.icon] || Shield;
+                return (
+                  <Link key={item.path} href={item.path} className={linkCls(item.path)}>
+                    <Icon size={18} className={isActive(item.path) ? 'text-white' : 'text-[#5a7a52]'} />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </>
+          )}
         </nav>
 
         {/* Bottom */}

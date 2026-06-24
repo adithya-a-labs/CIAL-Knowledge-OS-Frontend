@@ -7,9 +7,12 @@ import DashboardPage from "@/pages/DashboardPage";
 import AIAssistantPage from "@/pages/AIAssistantPage";
 import DocumentsPage from "@/pages/DocumentsPage";
 import KnowledgeBasePage from "@/pages/KnowledgeBasePage";
-import AssetsPage from "@/pages/AssetsPage";
 import PoliciesSOPsPage from "@/pages/PoliciesSOPsPage";
 import FAQsPage from "@/pages/FAQsPage";
+import ExpertDirectoryPage from "@/pages/ExpertDirectoryPage";
+import LearningHubPage from "@/pages/LearningHubPage";
+import KnowledgeGraphPage from "@/pages/KnowledgeGraphPage";
+import KnowledgeGapsPage from "@/pages/KnowledgeGapsPage";
 import DepartmentsPage from "@/pages/DepartmentsPage";
 import AnalyticsPage from "@/pages/AnalyticsPage";
 import AdminSettingsPage from "@/pages/AdminSettingsPage";
@@ -26,12 +29,16 @@ function Router() {
         <Route path="/assistant" component={AIAssistantPage} />
         <Route path="/documents" component={DocumentsPage} />
         <Route path="/knowledge" component={KnowledgeBasePage} />
-        <Route path="/assets" component={AssetsPage} />
         <Route path="/policies" component={PoliciesSOPsPage} />
         <Route path="/faqs" component={FAQsPage} />
+        <Route path="/experts" component={ExpertDirectoryPage} />
+        <Route path="/learning" component={LearningHubPage} />
+        <Route path="/knowledge-graph" component={KnowledgeGraphPage} />
+        <Route path="/knowledge-gaps" component={KnowledgeGapsPage} />
         <Route path="/departments" component={DepartmentsPage} />
         <Route path="/analytics" component={AnalyticsPage} />
         <Route path="/admin" component={AdminSettingsPage} />
+        <Route path="/admin/:sub" component={AdminSettingsPage} />
         <Route path="/workspace" component={WorkspacePage} />
         <Route path="/workspace/:sub" component={WorkspacePage} />
         <Route component={NotFound} />

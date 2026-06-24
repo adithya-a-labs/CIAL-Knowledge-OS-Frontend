@@ -1,11 +1,11 @@
-import { TrendingUp, TrendingDown, Search, CheckCircle, HelpCircle, Star } from 'lucide-react';
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { TrendingUp, TrendingDown, Search, CheckCircle, HelpCircle, Star, Target, Users, BookOpen, GraduationCap } from 'lucide-react';
+import { PieChart, Pie, Cell, LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import PageHeader from '@/components/common/PageHeader';
 import ChartCard from '@/components/common/ChartCard';
-import { ANALYTICS_KPIS, TOP_CATEGORIES_DATA, QUERY_TREND_DATA } from '@/data/analyticsData';
+import { ANALYTICS_KPIS, TOP_CATEGORIES_DATA, QUERY_TREND_DATA, TOP_DEPARTMENTS_DATA, LEARNING_TREND_DATA } from '@/data/analyticsData';
 
 const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  Search, CheckCircle, HelpCircle, Star
+  Search, CheckCircle, HelpCircle, Star, Target, Users, BookOpen, GraduationCap,
 };
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -41,7 +41,7 @@ export default function AnalyticsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
           <h1 className="text-xl font-bold text-[#1a2e14]">Analytics</h1>
-          <p className="text-sm text-[#5a7a52] mt-0.5">Insights and analytics across knowledge base.</p>
+          <p className="text-sm text-[#5a7a52] mt-0.5">Knowledge OS insights across search, learning, and coverage.</p>
         </div>
         <select className="text-sm bg-white border border-[#ddecd6] rounded-lg px-3 py-2 text-[#1a2e14] focus:outline-none focus:ring-2 focus:ring-[#4a7c3f]/30 self-start sm:self-auto" data-testid="filter-date-range">
           <option>Last 30 Days</option>
@@ -51,7 +51,7 @@ export default function AnalyticsPage() {
         </select>
       </div>
 
-      {/* KPI Cards */}
+      {/* KPI Cards — 2 rows of 4 */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {ANALYTICS_KPIS.map((kpi) => {
           const IconComp = ICON_MAP[kpi.icon] || Search;
@@ -73,8 +73,8 @@ export default function AnalyticsPage() {
         })}
       </div>
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {/* Charts row 1 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
         {/* Donut / Pie Chart */}
         <ChartCard title="Top Query Categories" subtitle="Distribution by category — last 30 days">
           <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -98,7 +98,6 @@ export default function AnalyticsPage() {
                 <Tooltip formatter={(value: number) => [`${value}%`, '']} />
               </PieChart>
             </ResponsiveContainer>
-            {/* Legend */}
             <div className="space-y-1.5 min-w-[160px]">
               {TOP_CATEGORIES_DATA.map((item) => (
                 <div key={item.name} className="flex items-center gap-2" data-testid={`legend-${item.name.toLowerCase().replace(/\s+/g, '-').slice(0, 20)}`}>
@@ -120,26 +119,42 @@ export default function AnalyticsPage() {
               <YAxis tick={{ fontSize: 11, fill: '#5a7a52' }} />
               <Tooltip content={<CustomTooltip />} />
               <Legend wrapperStyle={{ fontSize: 11 }} />
-              <Line
-                type="monotone"
-                dataKey="total"
-                name="Total Queries"
-                stroke="#4a7c3f"
-                strokeWidth={2.5}
-                dot={{ r: 4, fill: '#4a7c3f' }}
-                activeDot={{ r: 6 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="resolved"
-                name="Resolved Queries"
-                stroke="#7ab648"
-                strokeWidth={2.5}
-                dot={{ r: 4, fill: '#7ab648' }}
-                strokeDasharray="5 3"
-                activeDot={{ r: 6 }}
-              />
+              <Line type="monotone" dataKey="total" name="Total Queries" stroke="#4a7c3f" strokeWidth={2.5} dot={{ r: 4, fill: '#4a7c3f' }} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="resolved" name="Resolved Queries" stroke="#7ab648" strokeWidth={2.5} dot={{ r: 4, fill: '#7ab648' }} strokeDasharray="5 3" activeDot={{ r: 6 }} />
             </LineChart>
+          </ResponsiveContainer>
+        </ChartCard>
+      </div>
+
+      {/* Charts row 2 */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Top Departments */}
+        <ChartCard title="Top Departments" subtitle="Query volume and resolution rate by department">
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={TOP_DEPARTMENTS_DATA} margin={{ top: 5, right: 10, left: -10, bottom: 0 }} layout="vertical">
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2eedd" horizontal={false} />
+              <XAxis type="number" tick={{ fontSize: 11, fill: '#5a7a52' }} />
+              <YAxis dataKey="department" type="category" tick={{ fontSize: 11, fill: '#5a7a52' }} width={72} />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Bar dataKey="queries" name="Total Queries" fill="#4a7c3f" radius={[0, 4, 4, 0]} barSize={12} />
+              <Bar dataKey="resolved" name="Resolved" fill="#7ab648" radius={[0, 4, 4, 0]} barSize={12} />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartCard>
+
+        {/* Learning Completions Trend */}
+        <ChartCard title="Learning Completions" subtitle="Course enrollments vs completions over time">
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={LEARNING_TREND_DATA} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e2eedd" />
+              <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#5a7a52' }} />
+              <YAxis tick={{ fontSize: 11, fill: '#5a7a52' }} />
+              <Tooltip content={<CustomTooltip />} />
+              <Legend wrapperStyle={{ fontSize: 11 }} />
+              <Bar dataKey="enrolled" name="Enrolled" fill="#ddecd6" radius={[4, 4, 0, 0]} barSize={20} />
+              <Bar dataKey="completions" name="Completions" fill="#4a7c3f" radius={[4, 4, 0, 0]} barSize={20} />
+            </BarChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>

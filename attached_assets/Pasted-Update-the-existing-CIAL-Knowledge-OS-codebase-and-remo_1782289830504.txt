@@ -1,0 +1,260 @@
+Update the existing CIAL Knowledge OS codebase and remove all Asset-related functionality, pages, routes, navigation items, components, mock data, charts, tables, and references.
+
+Knowledge OS is NOT an Asset Management platform.
+
+Knowledge OS focuses exclusively on:
+
+* Knowledge Discovery
+* AI Search
+* SOPs
+* Policies
+* Manuals
+* FAQs
+* Learning & Training
+* Expert Discovery
+* Knowledge Graphs
+* Knowledge Gaps
+* Personal Workspaces
+
+Remove:
+
+* Assets page
+* Asset routes
+* Asset sidebar item
+* Asset cards
+* Asset tables
+* Asset charts
+* Asset mock data
+* Asset analytics
+* Asset components
+* Asset navigation references
+* Asset-related search filters
+* Asset-specific API placeholders
+* Asset status badges
+* Asset KPIs
+
+Delete components such as:
+
+* AssetsPage
+* AssetTable
+* AssetRow
+* AssetStatusPill
+* AssetCard
+* AssetAnalytics
+* AssetFilters
+* AssetData
+* AssetCharts
+
+Delete routes:
+
+* /assets
+* /asset/*
+* Any related child routes
+
+Delete menu entries:
+
+* Assets
+
+Update sidebar navigation to:
+
+Home
+
+AI Assistant
+
+Documents
+
+Knowledge Base
+
+Policies & SOPs
+
+FAQs
+
+Expert Directory
+
+Learning Hub
+
+Knowledge Graph
+
+Knowledge Gaps
+
+Departments
+
+Analytics
+
+---
+
+My Workspace
+
+My Documents
+
+My Notes
+
+Bookmarks
+
+My Conversations
+
+Storage Usage
+
+---
+
+Admin
+
+Users
+
+Roles & Permissions
+
+Audit Logs
+
+Settings
+
+Create the following new pages to replace Assets:
+
+1. Expert Directory
+   Purpose:
+   Help employees discover subject matter experts.
+
+Features:
+
+* Search experts
+* Filter by department
+* Expertise tags
+* Contact card
+* Knowledge contribution score
+* Documents contributed
+* SOPs authored
+* Most helpful answers
+
+Example expert card:
+
+Name
+Role
+Department
+Expertise Tags
+Knowledge Score
+Associated Documents
+Associated SOPs
+
+2. Learning Hub
+   Purpose:
+   Airport training and learning center.
+
+Features:
+
+* Courses
+* Certifications
+* Learning Paths
+* Mandatory Training
+* Department Training
+* Progress Tracking
+* Completion Status
+
+Include:
+
+* Course cards
+* Progress bars
+* Completion badges
+* Recommended learning
+
+3. Knowledge Graph
+   Purpose:
+   Visualize relationships between knowledge entities.
+
+Features:
+
+* Interactive graph view
+* Nodes:
+
+  * SOPs
+  * Manuals
+  * Experts
+  * Departments
+  * Policies
+  * FAQs
+  * Learning Content
+* Zoom
+* Pan
+* Search
+* Node details panel
+
+Use mock graph data.
+
+4. Knowledge Gaps
+   Purpose:
+   Identify missing knowledge.
+
+Features:
+
+* Most asked unanswered questions
+* Missing documents
+* Missing SOPs
+* Most searched topics
+* Knowledge coverage score
+* Trending gaps
+* Department knowledge health
+
+Create dashboards showing:
+
+* Gap severity
+* Department impact
+* Search frequency
+* Suggested action
+
+Update Home Dashboard:
+
+Remove:
+
+* Asset KPIs
+* Asset widgets
+
+Add:
+
+* Expert Spotlight
+* Popular SOPs
+* Learning Progress
+* Knowledge Gap Alerts
+* Top Contributors
+* Trending Searches
+
+Update Analytics:
+
+Remove asset metrics.
+
+Add:
+
+* Total Queries
+* Resolved Queries
+* Unanswered Queries
+* Search Success Rate
+* Knowledge Coverage
+* Active Users
+* Top Departments
+* Top Search Categories
+* Learning Completion Metrics
+
+Update README:
+
+Clearly state:
+
+Knowledge OS Scope:
+
+* Knowledge Management
+* AI Search
+* SOP Discovery
+* Document Intelligence
+* Learning & Training
+* Expert Discovery
+* Knowledge Graph
+* Knowledge Gap Analysis
+* Personal Knowledge Workspaces
+
+Out of Scope:
+
+* Asset Registry
+* Asset Monitoring
+* Digital Twins
+* Predictive Maintenance
+* Asset Health
+
+These belong to a future product called Asset Intelligence OS.
+
+Ensure all references to assets are completely removed from the UI so the product presents itself as a pure enterprise Knowledge Operating System.
