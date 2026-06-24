@@ -1,12 +1,20 @@
 interface DashboardBlockProps {
   title: string;
+  viewAllLabel?: string;
   viewAllHref?: string;
   onViewAll?: () => void;
   children: React.ReactNode;
   className?: string;
 }
 
-export default function DashboardBlock({ title, viewAllHref, onViewAll, children, className = '' }: DashboardBlockProps) {
+export default function DashboardBlock({
+  title,
+  viewAllLabel = 'View All',
+  viewAllHref,
+  onViewAll,
+  children,
+  className = '',
+}: DashboardBlockProps) {
   return (
     <div
       className={`bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden ${className}`}
@@ -20,7 +28,7 @@ export default function DashboardBlock({ title, viewAllHref, onViewAll, children
             className="text-xs text-[#4a7c3f] hover:underline font-medium"
             data-testid={`link-viewall-${title.toLowerCase().replace(/\s+/g, '-')}`}
           >
-            View All
+            {viewAllLabel}
           </button>
         )}
       </div>

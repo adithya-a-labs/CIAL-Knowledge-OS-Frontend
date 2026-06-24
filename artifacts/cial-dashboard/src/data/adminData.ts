@@ -3,13 +3,14 @@ export interface Integration {
   status: 'Connected' | 'Disconnected';
   version: string;
   lastSync: string;
+  color: string;
 }
 
 export const INTEGRATIONS: Integration[] = [
-  { name: 'Microsoft Entra ID', status: 'Connected', version: 'v2.1', lastSync: '23 May 2025, 10:00 AM' },
-  { name: 'SharePoint', status: 'Disconnected', version: 'v1.8', lastSync: 'Never' },
-  { name: 'CMMS (IBM Maximo)', status: 'Connected', version: 'v7.6.1', lastSync: '23 May 2025, 09:00 AM' },
-  { name: 'SAP', status: 'Disconnected', version: 'v3.0', lastSync: 'Never' },
+  { name: 'Microsoft Entra ID', status: 'Connected', version: 'v2.1', lastSync: '23 May 2025, 10:00 AM', color: 'text-green-600' },
+  { name: 'SharePoint', status: 'Disconnected', version: 'v1.8', lastSync: 'Never', color: 'text-gray-400' },
+  { name: 'CMMS (IBM Maximo)', status: 'Connected', version: 'v7.6.1', lastSync: '23 May 2025, 09:00 AM', color: 'text-green-600' },
+  { name: 'SAP', status: 'Disconnected', version: 'v3.0', lastSync: 'Never', color: 'text-gray-400' },
 ];
 
 export const THEME_CONFIG_ITEMS = [

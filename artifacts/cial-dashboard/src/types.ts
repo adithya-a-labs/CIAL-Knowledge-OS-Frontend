@@ -1,3 +1,31 @@
+// ─── Navigation ───────────────────────────────────────────────────────────────
+export interface NavItem {
+  label: string;
+  path: string;
+  icon: string;
+  requiredRole?: string;
+}
+
+// ─── Auth / Users ─────────────────────────────────────────────────────────────
+export type Role = 'admin' | 'manager' | 'engineer' | 'viewer';
+
+export interface Permission {
+  canUpload: boolean;
+  canDelete: boolean;
+  canEdit: boolean;
+  canAccessAdmin: boolean;
+}
+
+export interface User {
+  name: string;
+  role: string;
+  department: string;
+  avatar: string | null;
+  initials: string;
+  notificationsCount: number;
+}
+
+// ─── Dashboard ────────────────────────────────────────────────────────────────
 export interface DashboardBlock {
   id: string;
   title: string;
@@ -14,6 +42,7 @@ export interface KPIStat {
   icon: string;
 }
 
+// ─── Documents ────────────────────────────────────────────────────────────────
 export interface Document {
   id: string;
   name: string;
@@ -24,6 +53,7 @@ export interface Document {
   status: string;
 }
 
+// ─── Assets ───────────────────────────────────────────────────────────────────
 export interface Asset {
   id: string;
   assetId: string;
@@ -33,6 +63,7 @@ export interface Asset {
   status: string;
 }
 
+// ─── SOPs ─────────────────────────────────────────────────────────────────────
 export interface SOP {
   id: string;
   title: string;
@@ -44,6 +75,7 @@ export interface SOP {
   nextReview: string;
 }
 
+// ─── FAQs ─────────────────────────────────────────────────────────────────────
 export interface FAQ {
   id: string;
   question: string;
@@ -53,6 +85,7 @@ export interface FAQ {
   lastUpdated: string;
 }
 
+// ─── Knowledge Base ───────────────────────────────────────────────────────────
 export interface KnowledgeCategory {
   id: string;
   name: string;
@@ -67,35 +100,30 @@ export interface KnowledgeArticle {
   views: number;
 }
 
-export interface AuditLog {
-  id: string;
-  action: string;
-  user: string;
-  role: string;
-  resource: string;
-  time: string;
-  status: string;
-}
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  department: string;
-  status: string;
+// ─── Departments ──────────────────────────────────────────────────────────────
+export interface DepartmentStats {
+  documents: number;
+  sops: number;
+  unresolvedQuestions: number;
 }
 
 export interface Department {
   id: string;
   name: string;
-  type: string;
-  documents: number;
-  sops: number;
-  unresolved: number;
-  head: string;
-  color: string;
   icon: string;
+  headName: string;
+  headInitials: string;
+  stats: DepartmentStats;
+  color?: string;
 }
 
-export type Role = 'admin' | 'manager' | 'engineer' | 'viewer';
+// ─── Audit Log ────────────────────────────────────────────────────────────────
+export interface AuditLog {
+  id: string;
+  timestamp: string;
+  user: string;
+  action: string;
+  resource: string;
+  ip: string;
+  status: string;
+}
