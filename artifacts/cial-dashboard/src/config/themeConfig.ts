@@ -1,0 +1,23 @@
+export const THEME = {
+  primaryGreen: '#4a7c3f',
+  darkOlive: '#2d4f22',
+  lightGreen: '#7ab648',
+  softMint: '#f0f7ed',
+  accentOrange: '#e8820c',
+  background: '#f3f7f0',
+  cardBackground: '#ffffff',
+  borderColor: '#ddecd6',
+  textPrimary: '#1a2e14',
+  textSecondary: '#5a7a52',
+  danger: '#c0392b',
+  warning: '#e67e22',
+  success: '#27ae60',
+  logoPath: '/cial-logo.png',
+  appName: 'CIAL Knowledge OS',
+  tagline: 'Your intelligent knowledge platform',
+  departmentName: 'Engineering Dept.',
+  footerText: '© 2025 Cochin International Airport Limited (CIAL). All rights reserved.',
+  heroBackground: 'linear-gradient(135deg, hsl(100 35% 94%) 0%, hsl(95 40% 90%) 50%, hsl(88 45% 88%) 100%)',
+  sidebarBottomBackground: 'linear-gradient(180deg, hsl(90 60% 25%) 0%, hsl(88 55% 30%) 60%, hsl(85 50% 22%) 100%)',
+  swagathamText: 'Swagatham to greener skies'
+};
