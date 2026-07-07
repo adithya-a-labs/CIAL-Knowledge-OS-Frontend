@@ -46,13 +46,13 @@ export default function DocumentsPage() {
   const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
   return (
-    <div data-testid="documents-page">
-      <div className="flex items-start justify-between gap-4">
+    <div className="fluid-section" data-testid="documents-page">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <PageHeader title="Documents" subtitle="Search, filter and access all documents." />
         {canUpload && (
           <button
             onClick={() => setShowUploadModal(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-[#4a7c3f] hover:bg-[#3d6834] text-white rounded-xl text-sm font-medium transition-colors flex-shrink-0 mt-1"
+            className="flex w-full flex-shrink-0 items-center justify-center gap-2 rounded-xl bg-[#4a7c3f] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#3d6834] sm:mt-1 sm:w-auto"
             data-testid="button-upload"
           >
             <Upload size={15} />
@@ -62,12 +62,12 @@ export default function DocumentsPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-3 flex flex-wrap items-center gap-3 mb-4">
+      <div className="responsive-card mb-4 grid grid-cols-1 gap-3 border border-[#e2eedd] bg-white p-3 shadow-sm xl:grid-cols-[minmax(16rem,1.2fr)_minmax(26rem,2fr)_auto]">
         <SearchBar
           value={search}
           onChange={setSearch}
           placeholder="Search documents..."
-          className="flex-1 min-w-48"
+          className="min-w-0"
         />
         <FilterBar
           filters={[
@@ -81,7 +81,7 @@ export default function DocumentsPage() {
         <select
           value={filters.sort}
           onChange={e => handleFilterChange('sort', e.target.value)}
-          className="text-sm border border-[#ddecd6] rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#4a7c3f]/30"
+          className="w-full rounded-lg border border-[#ddecd6] px-3 py-2 text-sm transition-colors focus:ring-2 focus:ring-[#4a7c3f]/30 xl:w-auto"
           data-testid="select-sort"
         >
           <option value="">Sort: Latest</option>
@@ -90,8 +90,8 @@ export default function DocumentsPage() {
       </div>
 
       {/* Desktop Table */}
-      <div className="hidden md:block bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden">
-        <table className="w-full" data-testid="documents-table">
+      <div className="scrollbar-soft hidden overflow-x-auto rounded-xl border border-[#e2eedd] bg-white shadow-sm md:block">
+        <table className="w-full min-w-[58rem]" data-testid="documents-table">
           <thead>
             <tr className="border-b border-[#e2eedd] bg-[#f8fdf6]">
               <th className="px-5 py-3 text-left text-xs font-semibold text-[#5a7a52] uppercase tracking-wider">#</th>
@@ -124,7 +124,7 @@ export default function DocumentsPage() {
       </div>
 
       {/* Mobile Cards */}
-      <div className="md:hidden space-y-3">
+      <div className="space-y-3 md:hidden">
         {paginated.length > 0 ? paginated.map(doc => (
           <DocumentCard key={doc.id} doc={doc} />
         )) : (
@@ -134,11 +134,11 @@ export default function DocumentsPage() {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-4">
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm text-[#5a7a52]">
             Showing {(page - 1) * PER_PAGE + 1}–{Math.min(page * PER_PAGE, filtered.length)} of {filtered.length}
           </p>
-          <div className="flex gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:flex">
             <button
               onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
