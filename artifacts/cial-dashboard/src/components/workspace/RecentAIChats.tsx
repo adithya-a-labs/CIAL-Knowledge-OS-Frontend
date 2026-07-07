@@ -14,11 +14,11 @@ interface RecentAIChatsProps {
 
 export default function RecentAIChats({ conversations, onViewAll, mode = 'Hybrid Mode' }: RecentAIChatsProps) {
   return (
-    <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden" data-testid="recent-ai-chats">
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[#f0f7ed]">
-        <div>
+    <div className="responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm" data-testid="recent-ai-chats">
+      <div className="flex items-center justify-between gap-3 border-b border-[#f0f7ed] px-4 py-3">
+        <div className="min-w-0">
           <h3 className="text-sm font-semibold text-[#1a2e14]">Recent AI Chats</h3>
-          <p className="text-[10px] text-[#5a7a52]">({mode})</p>
+          <p className="truncate text-[10px] text-[#5a7a52]">({mode})</p>
         </div>
         <button
           onClick={onViewAll}
@@ -31,12 +31,12 @@ export default function RecentAIChats({ conversations, onViewAll, mode = 'Hybrid
 
       <div className="divide-y divide-[#f0f7ed]">
         {conversations.map((conv) => (
-          <div key={conv.id} className="flex items-start gap-3 px-4 py-3 hover:bg-[#f8fdf6] transition-colors cursor-pointer" data-testid={`chat-row-${conv.id}`}>
+          <div key={conv.id} className="flex cursor-pointer items-start gap-3 px-4 py-3 transition-colors hover:bg-[#f8fdf6]" data-testid={`chat-row-${conv.id}`}>
             <div className="w-7 h-7 rounded-full bg-[#f0f7ed] flex items-center justify-center flex-shrink-0 mt-0.5">
               <MessageSquare size={13} className="text-[#4a7c3f]" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm text-[#1a2e14] font-medium leading-snug truncate">{conv.question}</p>
+              <p className="truncate text-sm font-medium leading-snug text-[#1a2e14]">{conv.question}</p>
               <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                 {conv.sources.map((src) => (
                   <span key={src} className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${SOURCE_STYLE[src] ?? 'bg-gray-50 text-gray-500'}`}>
