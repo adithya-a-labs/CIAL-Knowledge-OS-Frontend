@@ -8,49 +8,49 @@ interface SourceCitationCardProps {
 
 function getSourceTypeStyles(sourceType: ChatSource['sourceType']) {
   if (sourceType === 'enterprise') {
-    return { label: 'Enterprise', className: 'bg-[#f0f7ed] text-[#4a7c3f] border-[#cfe3c7]' };
+    return { label: 'Enterprise', className: 'ce-badge-accent' };
   }
   if (sourceType === 'workspace') {
     return { label: 'Workspace', className: 'bg-[#eef6fc] text-[#346c96] border-[#c7d8e8]' };
   }
-  return { label: 'Upload', className: 'bg-[#fff5e8] text-[#a86005] border-[#efd8b5]' };
+  return { label: 'Upload', className: 'bg-[#fff5e8] text-[#8a5208] border-[#efd8b5]' };
 }
 
 export default function SourceCitationCard({ sources, onOpenSource }: SourceCitationCardProps) {
   if (sources.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-[#dbead4] bg-white p-3 text-xs text-[#7d9b73]" data-testid="source-citation-card-empty">
+      <div className="rounded-xl border border-dashed border-border bg-white p-3 text-xs text-muted-foreground" data-testid="source-citation-card-empty">
         No sources available for this response.
       </div>
     );
   }
 
   return (
-    <div className="space-y-2 rounded-xl border border-[#ddecd6] bg-white p-3" data-testid="source-citation-card">
-      <p className="text-xs font-semibold text-[#1a2e14]">Sources</p>
+    <div className="ce-card space-y-2 p-3" data-testid="source-citation-card">
+      <p className="text-xs font-semibold text-foreground">Sources</p>
       {sources.map((source) => {
         const badge = getSourceTypeStyles(source.sourceType);
         return (
-          <article key={source.id} className="rounded-lg border border-[#e2eedd] bg-[#fbfef9] p-3">
+          <article key={source.id} className="rounded-lg border border-border bg-[hsl(210_20%_98%)] p-3">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="mb-1.5 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-[#4a7c3f] px-2 py-0.5 text-[11px] font-bold text-white">
+                  <span className="ce-badge ce-badge-accent">
                     [{source.citationIndex}]
                   </span>
-                  <span className={`rounded-full border px-2 py-0.5 text-[11px] font-semibold ${badge.className}`}>
+                  <span className={`ce-badge ${badge.className}`}>
                     {badge.label}
                   </span>
                   {source.score !== undefined && (
-                    <span className="text-[11px] font-semibold text-[#5a7a52]">
+                    <span className="ce-meta-text font-semibold">
                       {Math.round(source.score * 100)}% confidence
                     </span>
                   )}
                 </div>
-                <h3 className="safe-text text-xs font-semibold text-[#1a2e14]">
+                <h3 className="safe-text text-xs font-semibold text-foreground">
                   {source.documentTitle}
                 </h3>
-                <p className="mt-1 text-[11px] text-[#5a7a52]">
+                <p className="mt-1 text-[11px] text-muted-foreground">
                   {source.department ?? 'Department pending'}
                   {source.pageNumber ? ` / Page ${source.pageNumber}` : ''}
                 </p>
@@ -58,7 +58,7 @@ export default function SourceCitationCard({ sources, onOpenSource }: SourceCita
               <button
                 type="button"
                 onClick={() => onOpenSource(source)}
-                className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-[#cfe3c7] bg-white px-2 py-1 text-[11px] font-semibold text-[#4a7c3f] hover:bg-[#f0f7ed]"
+                className="ce-action shrink-0 text-primary"
                 data-testid={`button-open-source-${source.citationIndex}`}
               >
                 <ExternalLink size={12} />
@@ -66,7 +66,7 @@ export default function SourceCitationCard({ sources, onOpenSource }: SourceCita
               </button>
             </div>
             {source.reason && (
-              <p className="safe-text mt-2 text-[11px] leading-5 text-[#1a2e14]">
+              <p className="safe-text mt-2 border-t border-border pt-2 text-[11px] leading-5 text-foreground">
                 {source.reason}
               </p>
             )}
