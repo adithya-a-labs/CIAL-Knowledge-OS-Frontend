@@ -26,7 +26,7 @@ interface RecentUploadsTableProps {
 
 export default function RecentUploadsTable({ documents, onViewAll }: RecentUploadsTableProps) {
   return (
-    <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden" data-testid="recent-uploads-table">
+    <div className="responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm" data-testid="recent-uploads-table">
       <div className="flex items-center justify-between px-4 py-3 border-b border-[#f0f7ed]">
         <h3 className="text-sm font-semibold text-[#1a2e14]">Recent Uploads</h3>
         <button
@@ -39,8 +39,8 @@ export default function RecentUploadsTable({ documents, onViewAll }: RecentUploa
       </div>
 
       {/* Desktop table */}
-      <div className="hidden sm:block overflow-x-auto">
-        <table className="w-full text-sm">
+      <div className="scrollbar-soft hidden overflow-x-auto sm:block">
+        <table className="w-full min-w-[35rem] text-sm">
           <thead>
             <tr className="border-b border-[#f0f7ed]">
               <th className="text-left text-xs font-semibold text-[#5a7a52] uppercase tracking-wide py-2 px-4">File</th>
@@ -61,7 +61,7 @@ export default function RecentUploadsTable({ documents, onViewAll }: RecentUploa
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${colorCls}`}>
                         <Icon size={16} />
                       </div>
-                      <span className="text-sm font-medium text-[#1a2e14] truncate max-w-[200px]">{doc.name}</span>
+                      <span className="max-w-[200px] truncate text-sm font-medium text-[#1a2e14]">{doc.name}</span>
                     </div>
                   </td>
                   <td className="py-3 px-3 text-xs text-[#5a7a52]">{doc.category}</td>
@@ -90,7 +90,7 @@ export default function RecentUploadsTable({ documents, onViewAll }: RecentUploa
                 <Icon size={16} />
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-[#1a2e14] truncate">{doc.name}</p>
+                <p className="truncate text-sm font-medium text-[#1a2e14]">{doc.name}</p>
                 <p className="text-xs text-[#5a7a52]">{doc.category} · {doc.size} · {doc.uploadedAt}</p>
               </div>
               <button className="p-1 rounded hover:bg-[#f0f7ed] text-[#5a7a52] flex-shrink-0">
