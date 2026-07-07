@@ -1,105 +1,293 @@
-import { useState, useRef, useEffect } from 'react';
-import { Send, Mic } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Mic, Paperclip, Send } from 'lucide-react';
+import ChatControlBar from './ChatControlBar';
 import ChatMessage, { ChatMessageData } from './ChatMessage';
-import { INITIAL_CHAT, MOCK_AI_RESPONSES } from '@/data/faqData';
+import ContextChips from './ContextChips';
+import ContextManagerDialog from './ContextManagerDialog';
+import RetrievalTimeline from './RetrievalTimeline';
+import SourceViewerPanel from './SourceViewerPanel';
+import {
+  CONTEXT_DOCUMENTS,
+  INITIAL_ASSISTANT_MESSAGES,
+  MOCK_AI_RESPONSES,
+  MOCK_CHAT_SOURCES,
+  RETRIEVAL_STAGES,
+} from '@/data/assistantData';
+import { toast } from '@/hooks/use-toast';
+import type {
+  ChatRequestPayload,
+  ChatSource,
+  FeedbackType,
+  ResponseLength,
+  SearchScope,
+  UploadedFileContext,
+} from '@/types/assistant';
+
+const supportedFileTypes = '.pdf,.docx,.pptx,.xlsx,.csv,.txt,image/*';
+
+function createUploadedFileContext(file: File): UploadedFileContext {
+  return {
+    id: `upload-${Date.now()}-${Math.random().toString(36).slice(2)}-${file.name.replace(/[^a-z0-9]/gi, '-').toLowerCase()}`,
+    name: file.name,
+    size: file.size,
+    type: file.type || file.name.split('.').pop()?.toUpperCase() || 'Unknown',
+    sourceType: 'upload',
+    uploadStatus: 'mock_uploaded',
+  };
+}
+
+function createMetadata(
+  requestPayload: ChatRequestPayload,
+  sources: ChatSource[],
+  selectedDocumentCount: number
+) {
+  return {
+    searchScope: requestPayload.searchScope,
+    responseLength: requestPayload.responseLength,
+    documentsSearched: Math.max(selectedDocumentCount + requestPayload.uploadedFileIds.length, 3),
+    chunksRetrieved: requestPayload.responseLength === 'operational' ? 24 : 18,
+    sourcesUsed: sources.length,
+    confidence: requestPayload.searchScope === 'current_upload' ? 86 : 91,
+    generationTimeSeconds: requestPayload.responseLength === 'quick' ? 1.4 : 2.4,
+  };
+}
 
 export default function ChatPanel() {
   const [messages, setMessages] = useState<ChatMessageData[]>(
-    INITIAL_CHAT as ChatMessageData[]
+    INITIAL_ASSISTANT_MESSAGES as ChatMessageData[]
   );
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [activeStageIndex, setActiveStageIndex] = useState(0);
+  const [searchScope, setSearchScope] = useState<SearchScope>('hybrid');
+  const [responseLength, setResponseLength] = useState<ResponseLength>('detailed');
+  const [selectedContextIds, setSelectedContextIds] = useState<string[]>([
+    'enterprise-airfield-lighting',
+    'enterprise-electrical-sop',
+  ]);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFileContext[]>([]);
+  const [contextManagerOpen, setContextManagerOpen] = useState(false);
+  const [selectedSource, setSelectedSource] = useState<ChatSource | null>(null);
+  const [sourceViewerOpen, setSourceViewerOpen] = useState(false);
+  const [feedbackByMessageId, setFeedbackByMessageId] = useState<Record<string, FeedbackType>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const selectedDocuments = useMemo(
+    () => CONTEXT_DOCUMENTS.filter((doc) => selectedContextIds.includes(doc.id)),
+    [selectedContextIds]
+  );
+
+  const allVisibleSources = useMemo(() => {
+    const sourceMap = new Map<string, ChatSource>();
+    messages.forEach((message) => {
+      message.sources?.forEach((source) => sourceMap.set(source.id, source));
+    });
+    if (selectedSource) sourceMap.set(selectedSource.id, selectedSource);
+    return Array.from(sourceMap.values()).sort((a, b) => a.citationIndex - b.citationIndex);
+  }, [messages, selectedSource]);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isLoading, activeStageIndex]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setActiveStageIndex(0);
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setActiveStageIndex((current) => Math.min(current + 1, RETRIEVAL_STAGES.length - 1));
+    }, 220);
+
+    return () => window.clearInterval(interval);
+  }, [isLoading]);
+
+  const openSource = (source: ChatSource) => {
+    setSelectedSource(source);
+    setSourceViewerOpen(true);
+  };
 
   const handleSend = () => {
     if (!input.trim() || isLoading) return;
 
+    const requestPayload: ChatRequestPayload = {
+      query: input.trim(),
+      searchScope,
+      responseLength,
+      selectedContextIds,
+      uploadedFileIds: uploadedFiles.map((file) => file.id),
+    };
+
     const userMsg: ChatMessageData = {
       id: `user-${Date.now()}`,
       role: 'user',
-      content: input.trim(),
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      content: requestPayload.query,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
-    setMessages(prev => [...prev, userMsg]);
+
+    setMessages((prev) => [...prev, userMsg]);
     setInput('');
     setIsLoading(true);
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       const response = MOCK_AI_RESPONSES[Math.floor(Math.random() * MOCK_AI_RESPONSES.length)];
+      const sources = MOCK_CHAT_SOURCES;
       const aiMsg: ChatMessageData = {
         id: `ai-${Date.now()}`,
         role: 'assistant',
         content: response.content,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        sources: response.sources
+        sources,
+        metadata: createMetadata(requestPayload, sources, selectedDocuments.length),
+        relatedQuestions: response.relatedQuestions,
       };
-      setMessages(prev => [...prev, aiMsg]);
+
+      // TODO: Replace this mock response path with the retrieval/chat backend call.
+      setMessages((prev) => [...prev, aiMsg]);
       setIsLoading(false);
-    }, 1200);
+    }, 1600);
+  };
+
+  const handleFileChange = (files: FileList | null) => {
+    if (!files?.length) return;
+
+    const newFiles = Array.from(files).map(createUploadedFileContext);
+    // TODO: Upload and index files with backend before marking them retrievable.
+    setUploadedFiles((current) => [...current, ...newFiles]);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const handleCopy = async (content: string) => {
+    try {
+      await navigator.clipboard.writeText(content);
+      toast({ title: 'Copied response' });
+    } catch {
+      toast({ title: 'Copy failed', description: 'Clipboard permission is unavailable.' });
+    }
   };
 
   return (
-    <div className="responsive-card flex min-h-0 min-w-0 flex-1 flex-col border border-[#e2eedd] bg-white shadow-sm" data-testid="chat-panel">
-      {/* Messages */}
-      <div className="scrollbar-soft min-h-0 flex-1 space-y-4 overflow-y-auto p-3 sm:space-y-5 sm:p-5" data-testid="chat-messages">
-        {messages.map((msg) => (
-          <ChatMessage key={msg.id} message={msg} />
-        ))}
+    <div className="flex min-h-0 min-w-0 flex-1 gap-4" data-testid="assistant-workspace">
+      <div className="responsive-card flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden border border-[#e2eedd] bg-white shadow-sm" data-testid="chat-panel">
+        <ChatControlBar
+          searchScope={searchScope}
+          responseLength={responseLength}
+          selectedContextCount={selectedContextIds.length}
+          uploadedFileCount={uploadedFiles.length}
+          onSearchScopeChange={setSearchScope}
+          onResponseLengthChange={setResponseLength}
+          onManageContext={() => setContextManagerOpen(true)}
+        />
 
-        {isLoading && (
-          <div className="flex justify-start">
-            <div className="bg-[#f8fdf6] border border-[#e2eedd] rounded-2xl rounded-tl-sm px-4 py-3">
-              <div className="flex gap-1">
-                <div className="w-2 h-2 bg-[#4a7c3f] rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <div className="w-2 h-2 bg-[#4a7c3f] rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <div className="w-2 h-2 bg-[#4a7c3f] rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
-              </div>
+        <div className="scrollbar-soft min-h-0 flex-1 space-y-4 overflow-y-auto p-3 sm:space-y-5 sm:p-5" data-testid="chat-messages">
+          {messages.map((msg) => (
+            <ChatMessage
+              key={msg.id}
+              message={msg}
+              selectedFeedback={feedbackByMessageId[msg.id]}
+              onCitationClick={openSource}
+              onSourceOpen={openSource}
+              onRelatedQuestionClick={setInput}
+              onCopy={handleCopy}
+              onUnavailableAction={(label) => {
+                // TODO: Wire assistant actions to backend job endpoints.
+                toast({ title: `${label} is coming soon` });
+              }}
+              onFeedback={(messageId, feedback) =>
+                setFeedbackByMessageId((current) => ({ ...current, [messageId]: feedback }))
+              }
+            />
+          ))}
+
+          {isLoading && (
+            <div className="flex justify-start">
+              <RetrievalTimeline activeStageIndex={activeStageIndex} />
             </div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Disclaimer */}
-      <div className="px-4 py-1.5 bg-[#fffdf8] border-t border-[#e2eedd]">
-        <p className="text-[10px] text-[#9ab88e] text-center">
-          All responses may be inaccurate. Please verify critical information with official documents.
-        </p>
-      </div>
-
-      {/* Input */}
-      <div className="border-t border-[#e2eedd] p-3 sm:p-4">
-        <div className="flex min-w-0 items-center gap-2 rounded-xl border border-[#ddecd6] bg-[#f8fdf6] px-3 py-2.5 transition-all focus-within:border-[#4a7c3f] focus-within:ring-2 focus-within:ring-[#4a7c3f]/30 sm:px-4">
-          <input
-            type="text"
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
-            placeholder="Ask another question..."
-            className="min-w-0 flex-1 bg-transparent text-sm text-[#1a2e14] outline-none placeholder:text-[#9ab88e]"
-            data-testid="input-chat"
-          />
-          <button className="text-[#9ab88e] hover:text-[#4a7c3f] transition-colors" data-testid="button-voice">
-            <Mic size={16} />
-          </button>
-          <button
-            onClick={handleSend}
-            disabled={!input.trim() || isLoading}
-            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#4a7c3f] text-white transition-colors hover:bg-[#3d6834] disabled:bg-gray-300"
-            data-testid="button-send"
-          >
-            <Send size={14} />
-          </button>
+          )}
+          <div ref={messagesEndRef} />
         </div>
+
+        <ContextChips
+          selectedDocuments={selectedDocuments}
+          uploadedFiles={uploadedFiles}
+          searchScope={searchScope}
+          onRemoveDocument={(id) =>
+            setSelectedContextIds((current) => current.filter((contextId) => contextId !== id))
+          }
+          onRemoveFile={(id) =>
+            setUploadedFiles((current) => current.filter((file) => file.id !== id))
+          }
+        />
+
+        <div className="border-t border-[#e2eedd] bg-[#fffdf8] px-4 py-1.5">
+          <p className="text-center text-[10px] text-[#9ab88e]">
+            All responses may be inaccurate. Please verify critical information with official documents.
+          </p>
+        </div>
+
+        <div className="border-t border-[#e2eedd] p-3 sm:p-4">
+          <div className="flex min-w-0 items-center gap-2 rounded-xl border border-[#ddecd6] bg-[#f8fdf6] px-3 py-2.5 transition-all focus-within:border-[#4a7c3f] focus-within:ring-2 focus-within:ring-[#4a7c3f]/30 sm:px-4">
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              accept={supportedFileTypes}
+              className="hidden"
+              onChange={(event) => handleFileChange(event.target.files)}
+              data-testid="input-file-upload"
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="rounded-lg p-1.5 text-[#7d9b73] transition-colors hover:bg-white hover:text-[#4a7c3f]"
+              aria-label="Attach files"
+              data-testid="button-attach-file"
+            >
+              <Paperclip size={16} />
+            </button>
+            <input
+              type="text"
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && !event.shiftKey) handleSend();
+              }}
+              placeholder="Ask a grounded question..."
+              className="min-w-0 flex-1 bg-transparent text-sm text-[#1a2e14] outline-none placeholder:text-[#9ab88e]"
+              data-testid="input-chat"
+            />
+            <button className="text-[#9ab88e] transition-colors hover:text-[#4a7c3f]" data-testid="button-voice">
+              <Mic size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={handleSend}
+              disabled={!input.trim() || isLoading}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#4a7c3f] text-white transition-colors hover:bg-[#3d6834] disabled:bg-gray-300"
+              data-testid="button-send"
+            >
+              <Send size={14} />
+            </button>
+          </div>
+        </div>
+
+        <ContextManagerDialog
+          open={contextManagerOpen}
+          selectedIds={selectedContextIds}
+          onApply={setSelectedContextIds}
+          onClose={() => setContextManagerOpen(false)}
+        />
       </div>
+
+      <SourceViewerPanel
+        open={sourceViewerOpen}
+        source={selectedSource}
+        sources={allVisibleSources.length > 0 ? allVisibleSources : MOCK_CHAT_SOURCES}
+        onClose={() => setSourceViewerOpen(false)}
+        onSelectSource={openSource}
+      />
     </div>
   );
 }
