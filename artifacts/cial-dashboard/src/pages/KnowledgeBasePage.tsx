@@ -32,22 +32,22 @@ export default function KnowledgeBasePage() {
   });
 
   return (
-    <div data-testid="knowledge-base-page">
+    <div className="fluid-section" data-testid="knowledge-base-page">
       <PageHeader title="Knowledge Base" subtitle="Explore articles and knowledge base." />
 
       {/* Search + filter */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-3 md:grid-cols-[minmax(16rem,1fr)_minmax(10rem,14rem)_minmax(10rem,12rem)]">
         <SearchBar value={search} onChange={setSearch} placeholder="Search articles..." className="flex-1" />
         <select
           value={selectedCategory}
           onChange={e => setSelectedCategory(e.target.value)}
-          className="text-sm bg-white border border-[#ddecd6] rounded-lg px-3 py-2 text-[#1a2e14] focus:outline-none focus:ring-2 focus:ring-[#4a7c3f]/30"
+          className="rounded-lg border border-[#ddecd6] bg-white px-3 py-2 text-sm text-[#1a2e14] transition-colors focus:ring-2 focus:ring-[#4a7c3f]/30"
           data-testid="filter-category"
         >
           <option value="">All Categories</option>
           {KB_CATEGORIES.map(c => <option key={c.id} value={c.name}>{c.name}</option>)}
         </select>
-        <select className="text-sm bg-white border border-[#ddecd6] rounded-lg px-3 py-2 text-[#1a2e14] focus:outline-none focus:ring-2 focus:ring-[#4a7c3f]/30" data-testid="filter-sort">
+        <select className="rounded-lg border border-[#ddecd6] bg-white px-3 py-2 text-sm text-[#1a2e14] transition-colors focus:ring-2 focus:ring-[#4a7c3f]/30" data-testid="filter-sort">
           <option>Sort: Popular</option>
           <option>Sort: Recent</option>
           <option>Sort: A–Z</option>
@@ -57,14 +57,14 @@ export default function KnowledgeBasePage() {
       {/* Categories Grid */}
       <div className="mb-6">
         <h2 className="text-sm font-semibold text-[#1a2e14] mb-3">Categories</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3">
+        <div className="fluid-grid-sm">
           {KB_CATEGORIES.map((cat, idx) => {
             const IconComp = ICON_MAP[cat.icon] || Monitor;
             return (
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(selectedCategory === cat.name ? '' : cat.name)}
-                className={`p-4 rounded-xl border bg-gradient-to-br transition-all hover:shadow-md text-left ${CATEGORY_COLORS[idx % CATEGORY_COLORS.length]} ${selectedCategory === cat.name ? 'ring-2 ring-[#4a7c3f] ring-offset-1' : ''}`}
+                className={`fluid-card min-h-28 rounded-xl border bg-gradient-to-br p-4 text-left transition-all hover:shadow-md ${CATEGORY_COLORS[idx % CATEGORY_COLORS.length]} ${selectedCategory === cat.name ? 'ring-2 ring-[#4a7c3f] ring-offset-1' : ''}`}
                 data-testid={`category-card-${cat.id}`}
               >
                 <IconComp size={20} className={`${ICON_COLORS[idx % ICON_COLORS.length]} mb-2`} />
@@ -77,8 +77,8 @@ export default function KnowledgeBasePage() {
       </div>
 
       {/* Popular Articles */}
-      <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm">
-        <div className="flex items-center justify-between p-4 border-b border-[#e2eedd]">
+      <div className="responsive-card border border-[#e2eedd] bg-white shadow-sm">
+        <div className="flex items-center justify-between gap-3 border-b border-[#e2eedd] p-4">
           <h2 className="text-sm font-semibold text-[#1a2e14]">Popular Articles</h2>
           <span className="text-xs text-[#5a7a52]">{filteredArticles.length} articles</span>
         </div>
@@ -89,11 +89,11 @@ export default function KnowledgeBasePage() {
             filteredArticles.map((article) => (
               <div
                 key={article.id}
-                className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-[#f8fdf6] transition-colors group cursor-pointer"
+                className="group flex flex-col gap-2 px-4 py-3 transition-colors hover:bg-[#f8fdf6] sm:flex-row sm:items-center sm:justify-between sm:gap-4"
                 data-testid={`article-${article.id}`}
               >
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-[#1a2e14] group-hover:text-[#4a7c3f] transition-colors flex items-center gap-1.5 truncate">
+                  <p className="safe-text flex items-center gap-1.5 text-sm font-medium text-[#1a2e14] transition-colors group-hover:text-[#4a7c3f]">
                     {article.title}
                     <ExternalLink size={11} className="text-[#9ab88e] flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </p>
