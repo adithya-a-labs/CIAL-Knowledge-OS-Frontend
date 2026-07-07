@@ -37,7 +37,7 @@ const PieLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) 
 
 export default function AnalyticsPage() {
   return (
-    <div data-testid="analytics-page">
+    <div className="fluid-section" data-testid="analytics-page">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
           <h1 className="text-xl font-bold text-[#1a2e14]">Analytics</h1>
@@ -52,11 +52,11 @@ export default function AnalyticsPage() {
       </div>
 
       {/* KPI Cards — 2 rows of 4 */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+      <div className="fluid-grid-sm mb-5">
         {ANALYTICS_KPIS.map((kpi) => {
           const IconComp = ICON_MAP[kpi.icon] || Search;
           return (
-            <div key={kpi.label} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4" data-testid={`analytics-kpi-${kpi.label.toLowerCase().replace(/\s+/g, '-')}`}>
+            <div key={kpi.label} className="fluid-card responsive-card min-w-0 border border-[#e2eedd] bg-white p-4 shadow-sm hover:shadow-md" data-testid={`analytics-kpi-${kpi.label.toLowerCase().replace(/\s+/g, '-')}`}>
               <div className="flex items-center justify-between mb-2">
                 <div className="w-8 h-8 rounded-lg bg-[#f0f7ed] flex items-center justify-center">
                   <IconComp size={15} className="text-[#4a7c3f]" />
@@ -66,7 +66,7 @@ export default function AnalyticsPage() {
                   {kpi.delta}
                 </span>
               </div>
-              <p className="text-xs text-[#5a7a52] font-medium">{kpi.label}</p>
+              <p className="safe-text text-xs font-medium text-[#5a7a52]">{kpi.label}</p>
               <p className="text-2xl font-bold text-[#1a2e14] mt-0.5">{kpi.value}</p>
             </div>
           );
@@ -74,10 +74,10 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Charts row 1 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-1 gap-4 mb-4 xl:grid-cols-2">
         {/* Donut / Pie Chart */}
         <ChartCard title="Top Query Categories" subtitle="Distribution by category — last 30 days">
-          <div className="flex flex-col sm:flex-row items-center gap-4">
+          <div className="flex flex-col items-center gap-4 sm:flex-row">
             <ResponsiveContainer width="100%" height={200}>
               <PieChart>
                 <Pie
@@ -98,7 +98,7 @@ export default function AnalyticsPage() {
                 <Tooltip formatter={(value: number) => [`${value}%`, '']} />
               </PieChart>
             </ResponsiveContainer>
-            <div className="space-y-1.5 min-w-[160px]">
+            <div className="w-full min-w-0 space-y-1.5 sm:w-44">
               {TOP_CATEGORIES_DATA.map((item) => (
                 <div key={item.name} className="flex items-center gap-2" data-testid={`legend-${item.name.toLowerCase().replace(/\s+/g, '-').slice(0, 20)}`}>
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ background: item.fill }} />
@@ -127,7 +127,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Charts row 2 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
         {/* Top Departments */}
         <ChartCard title="Top Departments" subtitle="Query volume and resolution rate by department">
           <ResponsiveContainer width="100%" height={220}>
