@@ -1,4 +1,5 @@
-import { Building2, Folder, Layers } from 'lucide-react';
+import { Building2, Folder, Layers, ShieldCheck } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import type { AISearchMode } from '@/data/workspace/workspaceTypes';
 
 const MODES: {
@@ -11,19 +12,19 @@ const MODES: {
     value: 'enterprise',
     icon: Building2,
     label: 'Enterprise Only',
-    description: 'Search in central knowledge base',
+    description: 'Search only the enterprise knowledge base.',
   },
   {
     value: 'workspace',
     icon: Folder,
     label: 'My Workspace Only',
-    description: 'Search in your personal workspace',
+    description: 'Search only documents in your personal workspace.',
   },
   {
     value: 'hybrid',
     icon: Layers,
-    label: 'Hybrid (Recommended)',
-    description: 'Search in both enterprise and your workspace',
+    label: 'Hybrid',
+    description: 'Search across enterprise knowledge and your workspace.',
   },
 ];
 
@@ -34,43 +35,58 @@ interface AISearchModeSelectorProps {
 
 export default function AISearchModeSelector({ value, onChange }: AISearchModeSelectorProps) {
   return (
-    <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4" data-testid="ai-search-mode-selector">
-      <h3 className="text-sm font-semibold text-[#1a2e14] mb-1">AI Search Mode</h3>
-      <p className="text-xs text-[#5a7a52] mb-3">Choose what AI should search in</p>
-      <div className="space-y-2">
+    <div className="ce-panel p-5" data-testid="ai-search-mode-selector">
+      <h3 className="mb-1 text-base font-semibold text-foreground">AI Search Mode</h3>
+      <p className="mb-4 text-sm leading-5 text-muted-foreground">Choose where the assistant searches for information.</p>
+      <div className="space-y-3" role="radiogroup" aria-label="AI Search Mode">
         {MODES.map((mode) => {
           const Icon = mode.icon;
           const selected = value === mode.value;
+          const recommended = mode.value === 'hybrid';
           return (
             <button
               key={mode.value}
+              type="button"
+              role="radio"
+              aria-checked={selected}
               onClick={() => onChange(mode.value)}
-              className={`w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-all border ${
+              className={cn(
+                'group flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
                 selected
-                  ? 'border-[#4a7c3f] bg-[#f0f7ed]'
-                  : 'border-[#e2eedd] hover:border-[#b8d9b0] hover:bg-[#f8fdf6]'
-              }`}
+                  ? 'border-primary bg-[hsl(95_24%_94%)] shadow-sm'
+                  : 'border-border bg-white hover:border-[hsl(95_28%_78%)] hover:bg-[hsl(210_20%_98%)] hover:shadow-sm'
+              )}
               data-testid={`mode-${mode.value}`}
             >
-              <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${selected ? 'bg-[#4a7c3f] text-white' : 'bg-[#f0f7ed] text-[#5a7a52]'}`}>
+              <div className={cn(
+                'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl transition-colors duration-200',
+                selected ? 'bg-primary text-white' : 'bg-[hsl(95_24%_94%)] text-primary'
+              )}>
                 <Icon size={14} />
               </div>
-              <div className="flex-1 min-w-0">
-                <p className={`text-xs font-semibold ${selected ? 'text-[#4a7c3f]' : 'text-[#1a2e14]'}`}>{mode.label}</p>
-                <p className="text-[10px] text-[#5a7a52] leading-tight">{mode.description}</p>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className={cn('text-sm font-semibold', selected ? 'text-primary' : 'text-foreground')}>{mode.label}</p>
+                  {recommended && <span className="ce-badge ce-badge-accent text-[10px]">Recommended</span>}
+                </div>
+                <p className="safe-text mt-1 text-xs leading-5 text-muted-foreground">{mode.description}</p>
               </div>
-              <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-colors ${selected ? 'border-[#4a7c3f] bg-[#4a7c3f]' : 'border-[#b8d9b0]'}`}>
+              <div className={cn(
+                'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-200',
+                selected ? 'border-primary bg-primary' : 'border-[hsl(214_16%_78%)] bg-white group-hover:border-primary'
+              )}>
                 {selected && (
-                  <div className="w-full h-full rounded-full flex items-center justify-center">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                  </div>
+                  <div className="h-1.5 w-1.5 rounded-full bg-white" />
                 )}
               </div>
             </button>
           );
         })}
       </div>
-      <p className="text-[10px] text-[#7a9a72] mt-2 px-1">This is your default mode for AI Assistant.</p>
+      <p className="mt-4 flex items-center gap-2 px-1 text-xs text-muted-foreground">
+        <ShieldCheck size={14} className="text-primary" />
+        Hybrid is your default mode for AI Assistant.
+      </p>
     </div>
   );
 }
