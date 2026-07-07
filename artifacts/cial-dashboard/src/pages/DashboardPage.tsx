@@ -29,12 +29,12 @@ const COL_SPAN_CLASS: Record<number, string> = {
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-5" data-testid="dashboard-page">
+    <div className="fluid-section space-y-5" data-testid="dashboard-page">
       <HeroSearch />
       <KpiRow />
 
       {/* Config-driven block grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:gap-5">
         {DASHBOARD_BLOCKS.filter(block => block.visible).map(block => {
           const BlockComponent = BLOCK_COMPONENTS[block.component];
           if (!BlockComponent) return null;
