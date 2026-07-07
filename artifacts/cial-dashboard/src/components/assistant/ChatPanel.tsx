@@ -47,9 +47,9 @@ export default function ChatPanel() {
   };
 
   return (
-    <div className="flex flex-col bg-white rounded-xl border border-[#e2eedd] shadow-sm min-h-0 flex-1" data-testid="chat-panel">
+    <div className="responsive-card flex min-h-0 min-w-0 flex-1 flex-col border border-[#e2eedd] bg-white shadow-sm" data-testid="chat-panel">
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-5 space-y-5 min-h-0" data-testid="chat-messages">
+      <div className="scrollbar-soft min-h-0 flex-1 space-y-4 overflow-y-auto p-3 sm:space-y-5 sm:p-5" data-testid="chat-messages">
         {messages.map((msg) => (
           <ChatMessage key={msg.id} message={msg} />
         ))}
@@ -76,15 +76,15 @@ export default function ChatPanel() {
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t border-[#e2eedd]">
-        <div className="flex items-center gap-2 bg-[#f8fdf6] border border-[#ddecd6] rounded-xl px-4 py-2.5 focus-within:ring-2 focus-within:ring-[#4a7c3f]/30 focus-within:border-[#4a7c3f] transition-all">
+      <div className="border-t border-[#e2eedd] p-3 sm:p-4">
+        <div className="flex min-w-0 items-center gap-2 rounded-xl border border-[#ddecd6] bg-[#f8fdf6] px-3 py-2.5 transition-all focus-within:border-[#4a7c3f] focus-within:ring-2 focus-within:ring-[#4a7c3f]/30 sm:px-4">
           <input
             type="text"
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && !e.shiftKey && handleSend()}
             placeholder="Ask another question..."
-            className="flex-1 bg-transparent text-sm text-[#1a2e14] placeholder:text-[#9ab88e] outline-none"
+            className="min-w-0 flex-1 bg-transparent text-sm text-[#1a2e14] outline-none placeholder:text-[#9ab88e]"
             data-testid="input-chat"
           />
           <button className="text-[#9ab88e] hover:text-[#4a7c3f] transition-colors" data-testid="button-voice">
@@ -93,7 +93,7 @@ export default function ChatPanel() {
           <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="w-8 h-8 bg-[#4a7c3f] hover:bg-[#3d6834] disabled:bg-gray-300 rounded-lg flex items-center justify-center text-white transition-colors"
+            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#4a7c3f] text-white transition-colors hover:bg-[#3d6834] disabled:bg-gray-300"
             data-testid="button-send"
           >
             <Send size={14} />
