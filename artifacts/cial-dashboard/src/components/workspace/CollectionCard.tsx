@@ -8,7 +8,7 @@ interface CollectionCardProps {
 export function CollectionCard({ collection }: CollectionCardProps) {
   return (
     <div
-      className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4 flex flex-col gap-2 hover:border-[#4a7c3f] hover:shadow-md transition-all cursor-pointer"
+      className="fluid-card responsive-card flex min-h-32 cursor-pointer flex-col gap-2 border border-[#e2eedd] bg-white p-4 shadow-sm transition-all hover:border-[#4a7c3f] hover:shadow-md"
       data-testid={`collection-card-${collection.id}`}
     >
       <div className="flex items-start justify-between">
@@ -20,7 +20,7 @@ export function CollectionCard({ collection }: CollectionCardProps) {
         </button>
       </div>
       <div>
-        <p className="text-sm font-semibold text-[#1a2e14]">{collection.name}</p>
+        <p className="safe-text text-sm font-semibold text-[#1a2e14]">{collection.name}</p>
         <p className="text-xs text-[#5a7a52]">{collection.itemCount} items</p>
       </div>
     </div>
@@ -31,7 +31,7 @@ export function NewCollectionCard({ onClick }: { onClick?: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="bg-white rounded-xl border border-dashed border-[#b8d9b0] p-4 flex flex-col items-center justify-center gap-2 hover:border-[#4a7c3f] hover:bg-[#f8fdf6] transition-all cursor-pointer w-full min-h-[100px]"
+      className="fluid-card responsive-card flex min-h-32 w-full cursor-pointer flex-col items-center justify-center gap-2 border border-dashed border-[#b8d9b0] bg-white p-4 transition-all hover:border-[#4a7c3f] hover:bg-[#f8fdf6]"
       data-testid="button-new-collection"
     >
       <div className="w-9 h-9 rounded-full bg-[#f0f7ed] flex items-center justify-center">
