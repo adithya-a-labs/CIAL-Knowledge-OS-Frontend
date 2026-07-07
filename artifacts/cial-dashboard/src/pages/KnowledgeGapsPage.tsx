@@ -42,7 +42,7 @@ export default function KnowledgeGapsPage() {
   const filteredGaps = KNOWLEDGE_GAPS.filter(g => !severityFilter || g.severity === severityFilter);
 
   return (
-    <div data-testid="knowledge-gaps-page">
+    <div className="fluid-section" data-testid="knowledge-gaps-page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div>
@@ -52,11 +52,11 @@ export default function KnowledgeGapsPage() {
       </div>
 
       {/* Overview stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+      <div className="fluid-grid-sm mb-5">
         {GAP_OVERVIEW_STATS.map(stat => {
           const TrendIcon = stat.trend === 'up' ? TrendingUp : stat.trend === 'down' ? TrendingDown : Minus;
           return (
-            <div key={stat.label} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4" data-testid={`gap-stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
+            <div key={stat.label} className="fluid-card responsive-card min-w-0 border border-[#e2eedd] bg-white p-4 shadow-sm hover:shadow-md" data-testid={`gap-stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
               <div className="flex items-center justify-between mb-1">
                 <p className="text-xs text-[#5a7a52] font-medium">{stat.label}</p>
                 <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: stat.color + '18' }}>
@@ -74,7 +74,7 @@ export default function KnowledgeGapsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-4 bg-white border border-[#e2eedd] rounded-xl p-1 w-fit">
+      <div className="scrollbar-soft mb-4 flex w-full gap-1 overflow-x-auto rounded-xl border border-[#e2eedd] bg-white p-1 shadow-sm sm:w-fit">
         {[
           { key: 'gaps', label: 'Unanswered Questions' },
           { key: 'missing', label: 'Missing Documents' },
@@ -114,7 +114,7 @@ export default function KnowledgeGapsPage() {
             {filteredGaps.map(gap => {
               const TrendIcon = TREND_ICON[gap.trend];
               return (
-                <div key={gap.id} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4 hover:border-[#4a7c3f] transition-colors" data-testid={`gap-${gap.id}`}>
+                <div key={gap.id} className="fluid-card responsive-card border border-[#e2eedd] bg-white p-4 shadow-sm transition-colors hover:border-[#4a7c3f]" data-testid={`gap-${gap.id}`}>
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start gap-2 flex-wrap mb-1">
@@ -149,13 +149,13 @@ export default function KnowledgeGapsPage() {
       )}
 
       {activeTab === 'missing' && (
-        <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden">
+        <div className="responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm">
           <div className="px-4 py-3 border-b border-[#f0f7ed]">
             <h3 className="text-sm font-semibold text-[#1a2e14]">Missing Documents ({MISSING_DOCUMENTS.length})</h3>
           </div>
           <div className="divide-y divide-[#f0f7ed]">
             {MISSING_DOCUMENTS.map(doc => (
-              <div key={doc.id} className="flex items-center gap-3 px-4 py-3 hover:bg-[#f8fdf6] transition-colors" data-testid={`missing-${doc.id}`}>
+              <div key={doc.id} className="flex flex-col gap-3 px-4 py-3 transition-colors hover:bg-[#f8fdf6] sm:flex-row sm:items-center" data-testid={`missing-${doc.id}`}>
                 <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
                   <FileWarning size={15} className="text-red-500" />
                 </div>
@@ -182,7 +182,7 @@ export default function KnowledgeGapsPage() {
       )}
 
       {activeTab === 'health' && (
-        <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden">
+        <div className="responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm">
           <div className="px-4 py-3 border-b border-[#f0f7ed]">
             <h3 className="text-sm font-semibold text-[#1a2e14]">Department Knowledge Health</h3>
           </div>
@@ -203,7 +203,7 @@ export default function KnowledgeGapsPage() {
                       <span className="text-xs text-[#5a7a52]">{dept.documents} docs · {dept.sops} SOPs</span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-[10px] text-[#5a7a52]">Health Score</span>
