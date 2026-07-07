@@ -6,10 +6,10 @@ export default function PersonalStorageCard() {
   const s = WORKSPACE_STORAGE;
 
   return (
-    <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-5" data-testid="personal-storage-card">
+    <div className="responsive-card border border-[#e2eedd] bg-white p-4 shadow-sm sm:p-5" data-testid="personal-storage-card">
       <h2 className="text-sm font-semibold text-[#1a2e14] mb-4">Your Personal Storage</h2>
 
-      <div className="flex flex-col sm:flex-row gap-6 items-center">
+      <div className="flex flex-col items-center gap-5 md:flex-row md:items-center md:gap-6">
         {/* Ring */}
         <div className="flex-shrink-0">
           <StorageRing
@@ -22,14 +22,14 @@ export default function PersonalStorageCard() {
         </div>
 
         {/* Details */}
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1 self-stretch">
           <div className="mb-1">
             <span className="text-2xl font-bold text-[#1a2e14]">{s.usedGB} GB</span>
             <span className="text-sm text-[#5a7a52] ml-1">/ {s.totalGB} GB used</span>
           </div>
 
           {/* Progress bar */}
-          <div className="h-2 rounded-full bg-[#e2eedd] overflow-hidden mb-2 w-full max-w-xs">
+          <div className="mb-2 h-2 w-full max-w-md overflow-hidden rounded-full bg-[#e2eedd]">
             <div
               className="h-full rounded-full bg-[#4a7c3f] transition-all duration-700"
               style={{ width: `${s.percentUsed}%` }}
@@ -43,7 +43,7 @@ export default function PersonalStorageCard() {
             {STORAGE_PRIVACY_BULLETS.map((bullet) => (
               <li key={bullet} className="flex items-start gap-2">
                 <ShieldCheck size={13} className="text-[#4a7c3f] flex-shrink-0 mt-0.5" />
-                <span className="text-xs text-[#3d5c30]">{bullet}</span>
+                <span className="safe-text text-xs text-[#3d5c30]">{bullet}</span>
               </li>
             ))}
           </ul>
