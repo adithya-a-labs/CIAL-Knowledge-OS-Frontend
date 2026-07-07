@@ -26,20 +26,20 @@ export default function WorkspaceStatCard({ stat }: WorkspaceStatCardProps) {
 
   return (
     <div
-      className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4 flex flex-col gap-3"
+      className="fluid-card responsive-card flex min-w-0 flex-col gap-3 border border-[#e2eedd] bg-white p-4 shadow-sm hover:border-[#cfe4c8] hover:shadow-md"
       data-testid={`workspace-stat-${stat.key}`}
     >
       <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${colorCls}`}>
         <Icon size={18} />
       </div>
       <div>
-        <p className="text-xs text-[#5a7a52] font-medium">{stat.label}</p>
+        <p className="safe-text text-xs font-medium text-[#5a7a52]">{stat.label}</p>
         <p className="text-2xl font-bold text-[#1a2e14] leading-tight">{stat.count.toLocaleString()}</p>
         <p className="text-[11px] text-[#7a9a72]">{stat.unit}</p>
       </div>
       <Link
         href={stat.href}
-        className="text-xs text-[#4a7c3f] font-medium hover:underline flex items-center gap-1 mt-auto"
+        className="mt-auto flex items-center gap-1 text-xs font-medium text-[#4a7c3f] hover:underline"
       >
         View all →
       </Link>
