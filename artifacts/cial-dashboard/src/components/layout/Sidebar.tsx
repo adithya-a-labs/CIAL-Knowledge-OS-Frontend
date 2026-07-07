@@ -46,11 +46,11 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="hidden lg:flex flex-col w-60 min-h-screen fixed left-0 top-0 z-30 bg-white border-r border-[#e2eedd]"
+      className="fixed left-0 top-0 z-30 hidden h-dvh w-60 flex-col border-r border-[#e2eedd] bg-white/95 shadow-[6px_0_24px_rgba(60,80,40,0.04)] backdrop-blur lg:flex"
       data-testid="sidebar"
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 px-5 py-5 border-b border-[#e2eedd]">
+      <div className="flex min-h-20 items-center gap-3 border-b border-[#e2eedd] px-5 py-4">
         <img
           src={THEME.logoPath}
           alt="CIAL Logo"
@@ -64,7 +64,7 @@ export default function Sidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-0.5" data-testid="sidebar-nav">
+      <nav className="scrollbar-soft flex-1 space-y-0.5 overflow-y-auto px-3 py-4" data-testid="sidebar-nav">
         {visibleItems.map((item) => {
           const IconComponent = ICON_MAP[item.icon] || Home;
           return (
