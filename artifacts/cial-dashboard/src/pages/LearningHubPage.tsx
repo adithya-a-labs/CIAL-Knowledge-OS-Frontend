@@ -39,7 +39,7 @@ export default function LearningHubPage() {
   });
 
   return (
-    <div data-testid="learning-hub-page">
+    <div className="fluid-section" data-testid="learning-hub-page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div>
@@ -49,7 +49,7 @@ export default function LearningHubPage() {
       </div>
 
       {/* Progress summary */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+      <div className="fluid-grid-sm mb-5">
         {[
           { label: 'Total Courses', value: LEARNING_STATS.totalCourses, icon: GraduationCap, color: '#4a7c3f' },
           { label: 'Completed', value: LEARNING_STATS.completedCourses, icon: CheckCircle, color: '#27ae60' },
@@ -58,7 +58,7 @@ export default function LearningHubPage() {
         ].map(stat => {
           const Icon = stat.icon;
           return (
-            <div key={stat.label} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4" data-testid={`learning-stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
+            <div key={stat.label} className="fluid-card responsive-card border border-[#e2eedd] bg-white p-4 shadow-sm hover:shadow-md" data-testid={`learning-stat-${stat.label.toLowerCase().replace(/\s+/g, '-')}`}>
               <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-2" style={{ backgroundColor: stat.color + '20' }}>
                 <Icon size={16} style={{ color: stat.color }} />
               </div>
@@ -70,7 +70,7 @@ export default function LearningHubPage() {
       </div>
 
       {/* Overall progress */}
-      <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4 mb-5">
+      <div className="responsive-card mb-5 border border-[#e2eedd] bg-white p-4 shadow-sm">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-semibold text-[#1a2e14]">Overall Learning Progress</span>
           <span className="text-sm font-bold text-[#4a7c3f]">{LEARNING_STATS.overallProgress}%</span>
@@ -80,7 +80,7 @@ export default function LearningHubPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-4 bg-white border border-[#e2eedd] rounded-xl p-1 w-fit">
+      <div className="scrollbar-soft mb-4 flex w-full gap-1 overflow-x-auto rounded-xl border border-[#e2eedd] bg-white p-1 shadow-sm sm:w-fit">
         {(['courses', 'paths'] as const).map(tab => (
           <button
             key={tab}
@@ -96,20 +96,20 @@ export default function LearningHubPage() {
       {activeTab === 'courses' && (
         <>
           {/* Filters */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value === 'All Categories' ? '' : e.target.value)} className="text-sm bg-white border border-[#ddecd6] rounded-lg px-3 py-2 text-[#1a2e14] focus:outline-none" data-testid="filter-category">
+          <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2 sm:max-w-xl">
+            <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value === 'All Categories' ? '' : e.target.value)} className="w-full rounded-lg border border-[#ddecd6] bg-white px-3 py-2 text-sm text-[#1a2e14] focus:ring-2 focus:ring-[#4a7c3f]/30" data-testid="filter-category">
               {COURSE_CATEGORIES.map(c => <option key={c}>{c}</option>)}
             </select>
-            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value === 'All Statuses' ? '' : e.target.value)} className="text-sm bg-white border border-[#ddecd6] rounded-lg px-3 py-2 text-[#1a2e14] focus:outline-none" data-testid="filter-status">
+            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value === 'All Statuses' ? '' : e.target.value)} className="w-full rounded-lg border border-[#ddecd6] bg-white px-3 py-2 text-sm text-[#1a2e14] focus:ring-2 focus:ring-[#4a7c3f]/30" data-testid="filter-status">
               {COURSE_STATUSES.map(s => <option key={s}>{s}</option>)}
             </select>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          <div className="fluid-grid-lg">
             {filtered.map(course => {
               const { label: statusLabel, cls: statusCls, icon: StatusIcon } = STATUS_META[course.status];
               return (
-                <div key={course.id} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-5 flex flex-col gap-3 hover:border-[#4a7c3f] hover:shadow-md transition-all" data-testid={`course-${course.id}`}>
+                <div key={course.id} className="fluid-card responsive-card flex min-w-0 flex-col gap-3 border border-[#e2eedd] bg-white p-5 shadow-sm transition-all hover:border-[#4a7c3f] hover:shadow-md" data-testid={`course-${course.id}`}>
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="text-sm font-semibold text-[#1a2e14] leading-snug flex-1">{course.title}</h3>
                     {course.isMandatory && (
@@ -161,9 +161,9 @@ export default function LearningHubPage() {
       )}
 
       {activeTab === 'paths' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="fluid-grid-lg">
           {LEARNING_PATHS.map(path => (
-            <div key={path.id} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-5 flex flex-col gap-3 hover:border-[#4a7c3f] hover:shadow-md transition-all" data-testid={`path-${path.id}`}>
+            <div key={path.id} className="fluid-card responsive-card flex min-w-0 flex-col gap-3 border border-[#e2eedd] bg-white p-5 shadow-sm transition-all hover:border-[#4a7c3f] hover:shadow-md" data-testid={`path-${path.id}`}>
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#4a7c3f] to-[#7ab648] flex items-center justify-center">
                 <GraduationCap size={20} className="text-white" />
               </div>
