@@ -31,15 +31,15 @@ export default function ContextChips({
   const hasAnyContext = selectedDocuments.length > 0 || uploadedFiles.length > 0;
 
   return (
-    <div className="border-t border-[#e2eedd] bg-[#fbfef9] px-3 py-2.5 sm:px-4" data-testid="chat-context-area">
+    <div className="border-t border-border bg-white px-3 py-2.5 sm:px-4" data-testid="chat-context-area">
       {!hasAnyContext && (
-        <div className="rounded-lg border border-dashed border-[#d7e8cf] bg-white px-3 py-2 text-xs text-[#7d9b73]">
+        <div className="rounded-lg border border-dashed border-border bg-muted px-3 py-2 text-xs text-muted-foreground">
           No context selected. Responses will use the selected scope defaults until documents or uploads are added.
         </div>
       )}
 
       {searchScope === 'current_upload' && uploadedFiles.length === 0 && (
-        <div className="mt-2 rounded-lg border border-[#efd8b5] bg-[#fffaf2] px-3 py-2 text-xs font-medium text-[#8a5a16] first:mt-0">
+        <div className="mt-2 rounded-lg border border-[#e4c691] bg-[#fffaf2] px-3 py-2 text-xs font-medium text-[#7c4b0c] first:mt-0">
           Current Upload Only is selected, but no files have been attached yet.
         </div>
       )}
@@ -49,14 +49,14 @@ export default function ContextChips({
           {visibleDocuments.map((document) => (
             <span
               key={document.id}
-              className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[#cfe3c7] bg-white px-2.5 py-1 text-xs font-medium text-[#1a2e14]"
+              className="ce-chip"
             >
-              <FileText size={12} className="shrink-0 text-[#4a7c3f]" />
+              <FileText size={12} className="shrink-0 text-primary" />
               <span className="safe-text max-w-[13rem] truncate">{document.title}</span>
               <button
                 type="button"
                 onClick={() => onRemoveDocument(document.id)}
-                className="rounded-full p-0.5 text-[#7d9b73] hover:bg-[#f0f7ed] hover:text-[#3d6834]"
+                className="rounded-md p-0.5 text-muted-foreground hover:bg-muted hover:text-primary"
                 aria-label={`Remove ${document.title}`}
                 data-testid={`button-remove-context-${document.id}`}
               >
@@ -66,7 +66,7 @@ export default function ContextChips({
           ))}
 
           {hiddenDocumentCount > 0 && (
-            <span className="inline-flex items-center rounded-full border border-[#cfe3c7] bg-[#f0f7ed] px-2.5 py-1 text-xs font-semibold text-[#4a7c3f]">
+            <span className="ce-chip bg-accent text-primary">
               +{hiddenDocumentCount} more
             </span>
           )}
@@ -74,7 +74,7 @@ export default function ContextChips({
           {uploadedFiles.map((file) => (
             <span
               key={file.id}
-              className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[#c7d8e8] bg-white px-2.5 py-1 text-xs font-medium text-[#1a2e14]"
+              className="ce-chip"
             >
               <UploadCloud size={12} className="shrink-0 text-[#346c96]" />
               <span className="safe-text max-w-[12rem] truncate">
@@ -83,7 +83,7 @@ export default function ContextChips({
               <button
                 type="button"
                 onClick={() => onRemoveFile(file.id)}
-                className="rounded-full p-0.5 text-[#7d9b73] hover:bg-[#eef6fc] hover:text-[#346c96]"
+                className="rounded-md p-0.5 text-muted-foreground hover:bg-muted hover:text-[#346c96]"
                 aria-label={`Remove ${file.name}`}
                 data-testid={`button-remove-upload-${file.id}`}
               >

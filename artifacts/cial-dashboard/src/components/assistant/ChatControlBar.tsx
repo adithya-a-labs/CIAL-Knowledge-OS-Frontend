@@ -25,15 +25,15 @@ export default function ChatControlBar({
   onManageContext,
 }: ChatControlBarProps) {
   return (
-    <div className="flex flex-col gap-2 border-b border-[#e2eedd] bg-white px-3 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:px-4">
+    <div className="ce-toolbar flex flex-col gap-2 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-4">
       <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2">
-        <label className="flex min-w-0 items-center gap-2 rounded-lg border border-[#ddecd6] bg-[#f8fdf6] px-2.5 py-2">
-          <FileSearch size={15} className="shrink-0 text-[#4a7c3f]" />
-          <span className="text-[11px] font-semibold uppercase text-[#5a7a52]">Scope</span>
+        <label className="ce-control flex min-w-0 items-center gap-2 px-2.5 py-2">
+          <FileSearch size={15} className="shrink-0 text-primary" />
+          <span className="text-[11px] font-semibold uppercase text-muted-foreground">Scope</span>
           <select
             value={searchScope}
             onChange={(event) => onSearchScopeChange(event.target.value as SearchScope)}
-            className="min-w-0 flex-1 bg-transparent text-xs font-medium text-[#1a2e14]"
+            className="min-w-0 flex-1 bg-transparent text-xs font-medium text-foreground"
             data-testid="select-search-scope"
           >
             {Object.entries(SEARCH_SCOPE_LABELS).map(([value, label]) => (
@@ -44,13 +44,13 @@ export default function ChatControlBar({
           </select>
         </label>
 
-        <label className="flex min-w-0 items-center gap-2 rounded-lg border border-[#ddecd6] bg-[#f8fdf6] px-2.5 py-2">
-          <SlidersHorizontal size={15} className="shrink-0 text-[#4a7c3f]" />
-          <span className="text-[11px] font-semibold uppercase text-[#5a7a52]">Length</span>
+        <label className="ce-control flex min-w-0 items-center gap-2 px-2.5 py-2">
+          <SlidersHorizontal size={15} className="shrink-0 text-primary" />
+          <span className="text-[11px] font-semibold uppercase text-muted-foreground">Length</span>
           <select
             value={responseLength}
             onChange={(event) => onResponseLengthChange(event.target.value as ResponseLength)}
-            className="min-w-0 flex-1 bg-transparent text-xs font-medium text-[#1a2e14]"
+            className="min-w-0 flex-1 bg-transparent text-xs font-medium text-foreground"
             data-testid="select-response-length"
           >
             {Object.entries(RESPONSE_LENGTH_LABELS).map(([value, label]) => (
@@ -65,12 +65,12 @@ export default function ChatControlBar({
       <button
         type="button"
         onClick={onManageContext}
-        className="inline-flex min-h-9 items-center justify-center gap-2 rounded-lg border border-[#cfe3c7] bg-[#f0f7ed] px-3 text-xs font-semibold text-[#3d6834] transition-colors hover:bg-[#e5f2df]"
+        className="ce-action ce-action-primary min-h-9 px-3"
         data-testid="button-manage-context"
       >
         <BookOpenCheck size={15} />
         Manage Context
-        <span className="rounded-full bg-white px-1.5 py-0.5 text-[10px] text-[#5a7a52]">
+        <span className="rounded-md bg-white/95 px-1.5 py-0.5 text-[10px] text-primary">
           {selectedContextCount + uploadedFileCount}
         </span>
       </button>
