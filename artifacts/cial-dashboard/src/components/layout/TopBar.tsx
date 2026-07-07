@@ -8,13 +8,13 @@ interface TopBarProps {
 export default function TopBar({ onMenuClick }: TopBarProps) {
   return (
     <header
-      className="h-14 bg-white border-b border-[#e2eedd] flex items-center justify-between px-4 sticky top-0 z-20"
+      className="sticky top-0 z-20 flex min-h-14 items-center justify-between border-b border-[#e2eedd] bg-white/85 px-3 backdrop-blur-md sm:px-4"
       data-testid="topbar"
     >
       {/* Mobile hamburger */}
       <button
         onClick={onMenuClick}
-        className="lg:hidden p-2 rounded-lg hover:bg-[#f0f7ed] text-[#5a7a52] transition-colors"
+        className="rounded-lg p-2 text-[#5a7a52] transition-colors hover:bg-[#f0f7ed] lg:hidden"
         data-testid="button-hamburger"
         aria-label="Open sidebar"
       >
@@ -25,10 +25,10 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
       <div className="hidden lg:block" />
 
       {/* Right side */}
-      <div className="flex items-center gap-2">
+      <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
         {/* Notifications */}
         <button
-          className="relative p-2 rounded-lg hover:bg-[#f0f7ed] text-[#5a7a52] transition-colors"
+          className="relative rounded-lg p-2 text-[#5a7a52] transition-colors hover:bg-[#f0f7ed]"
           data-testid="button-notifications"
           aria-label="Notifications"
         >
@@ -42,7 +42,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
 
         {/* Help */}
         <button
-          className="p-2 rounded-lg hover:bg-[#f0f7ed] text-[#5a7a52] transition-colors"
+          className="rounded-lg p-2 text-[#5a7a52] transition-colors hover:bg-[#f0f7ed]"
           data-testid="button-help"
           aria-label="Help"
         >
@@ -51,15 +51,15 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
 
         {/* User profile */}
         <button
-          className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-[#f0f7ed] transition-colors"
+          className="flex min-w-0 items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-[#f0f7ed] sm:px-3"
           data-testid="button-user-profile"
         >
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#4a7c3f] to-[#7ab648] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
             {CURRENT_USER.initials}
           </div>
-          <div className="hidden sm:block text-left">
+          <div className="hidden max-w-36 text-left sm:block md:max-w-44">
             <div className="text-xs font-semibold text-[#1a2e14] leading-tight" data-testid="text-username">{CURRENT_USER.name}</div>
-            <div className="text-[10px] text-[#5a7a52] leading-tight" data-testid="text-department">{CURRENT_USER.department}</div>
+            <div className="truncate text-[10px] leading-tight text-[#5a7a52]" data-testid="text-department">{CURRENT_USER.department}</div>
           </div>
           <ChevronDown size={14} className="text-[#5a7a52] hidden sm:block" />
         </button>
