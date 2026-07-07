@@ -33,7 +33,7 @@ export default function KnowledgeGraphPage() {
   };
 
   return (
-    <div data-testid="knowledge-graph-page">
+    <div className="fluid-section" data-testid="knowledge-graph-page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div>
@@ -42,12 +42,12 @@ export default function KnowledgeGraphPage() {
         </div>
       </div>
 
-      <div className="flex flex-col xl:flex-row gap-4">
+      <div className="flex flex-col gap-4 xl:flex-row">
         {/* Graph Panel */}
-        <div className="flex-1 min-w-0 bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden">
+        <div className="responsive-card min-w-0 flex-1 overflow-hidden border border-[#e2eedd] bg-white shadow-sm">
           {/* Toolbar */}
-          <div className="flex items-center gap-3 px-4 py-3 border-b border-[#f0f7ed]">
-            <div className="relative flex-1 max-w-xs">
+          <div className="flex flex-col gap-3 border-b border-[#f0f7ed] px-4 py-3 sm:flex-row sm:items-center">
+            <div className="relative min-w-0 flex-1 sm:max-w-xs">
               <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a9a72]" />
               <input
                 value={search}
@@ -66,10 +66,10 @@ export default function KnowledgeGraphPage() {
           </div>
 
           {/* SVG Graph */}
-          <div className="overflow-auto p-2">
+          <div className="scrollbar-soft overflow-auto p-2">
             <svg
               viewBox="0 0 800 560"
-              className="w-full max-w-[800px] mx-auto"
+              className="mx-auto aspect-[10/7] w-full max-w-[800px]"
               style={{ minHeight: 400 }}
             >
               {/* Edges */}
@@ -158,9 +158,9 @@ export default function KnowledgeGraphPage() {
         </div>
 
         {/* Detail Panel */}
-        <div className="xl:w-72 flex-shrink-0">
+        <div className="grid gap-4 xl:w-72 xl:flex-shrink-0">
           {selectedNode ? (
-            <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-5" data-testid="graph-detail-panel">
+            <div className="responsive-card border border-[#e2eedd] bg-white p-5 shadow-sm" data-testid="graph-detail-panel">
               <div className="flex items-start justify-between mb-3">
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ backgroundColor: selectedNode.color + '20' }}>
                   <div className="w-4 h-4 rounded-full" style={{ backgroundColor: selectedNode.color }} />
@@ -197,7 +197,7 @@ export default function KnowledgeGraphPage() {
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-5 text-center" data-testid="graph-hint-panel">
+            <div className="responsive-card border border-[#e2eedd] bg-white p-5 text-center shadow-sm" data-testid="graph-hint-panel">
               <div className="w-12 h-12 rounded-full bg-[#f0f7ed] flex items-center justify-center mx-auto mb-3">
                 <Info size={20} className="text-[#4a7c3f]" />
               </div>
