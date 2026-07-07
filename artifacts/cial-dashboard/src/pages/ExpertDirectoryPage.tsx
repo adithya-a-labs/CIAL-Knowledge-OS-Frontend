@@ -27,7 +27,7 @@ export default function ExpertDirectoryPage() {
   });
 
   return (
-    <div data-testid="expert-directory-page">
+    <div className="fluid-section" data-testid="expert-directory-page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
         <div>
@@ -41,21 +41,21 @@ export default function ExpertDirectoryPage() {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-2 mb-5">
-        <div className="relative flex-1 min-w-[200px]">
+      <div className="mb-5 grid grid-cols-1 gap-2 md:grid-cols-[minmax(16rem,1fr)_minmax(10rem,14rem)_minmax(10rem,14rem)]">
+        <div className="relative min-w-0">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#7a9a72]" />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Search by name or expertise..."
-            className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-[#ddecd6] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4a7c3f]/30"
+            className="w-full rounded-lg border border-[#ddecd6] bg-white py-2 pl-9 pr-3 text-sm focus:ring-2 focus:ring-[#4a7c3f]/30"
             data-testid="expert-search"
           />
         </div>
         <select
           value={dept}
           onChange={e => setDept(e.target.value)}
-          className="text-sm bg-white border border-[#ddecd6] rounded-lg px-3 py-2 text-[#1a2e14] focus:outline-none focus:ring-2 focus:ring-[#4a7c3f]/30"
+          className="w-full rounded-lg border border-[#ddecd6] bg-white px-3 py-2 text-sm text-[#1a2e14] focus:ring-2 focus:ring-[#4a7c3f]/30"
           data-testid="filter-department"
         >
           {EXPERT_DEPARTMENTS.map(d => <option key={d} value={d === 'All Departments' ? '' : d}>{d}</option>)}
@@ -63,7 +63,7 @@ export default function ExpertDirectoryPage() {
         <select
           value={tag}
           onChange={e => setTag(e.target.value)}
-          className="text-sm bg-white border border-[#ddecd6] rounded-lg px-3 py-2 text-[#1a2e14] focus:outline-none focus:ring-2 focus:ring-[#4a7c3f]/30"
+          className="w-full rounded-lg border border-[#ddecd6] bg-white px-3 py-2 text-sm text-[#1a2e14] focus:ring-2 focus:ring-[#4a7c3f]/30"
           data-testid="filter-expertise"
         >
           <option value="">All Expertise</option>
@@ -75,11 +75,11 @@ export default function ExpertDirectoryPage() {
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-[#5a7a52]">No experts match your search.</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div className="fluid-grid-lg">
           {filtered.map(expert => (
             <div
               key={expert.id}
-              className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-5 flex flex-col gap-4 hover:border-[#4a7c3f] hover:shadow-md transition-all"
+              className="fluid-card responsive-card flex min-w-0 flex-col gap-4 border border-[#e2eedd] bg-white p-5 shadow-sm transition-all hover:border-[#4a7c3f] hover:shadow-md"
               data-testid={`expert-card-${expert.id}`}
             >
               {/* Top row */}
