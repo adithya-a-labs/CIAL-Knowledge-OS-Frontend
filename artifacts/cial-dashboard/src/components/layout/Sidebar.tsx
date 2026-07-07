@@ -4,7 +4,7 @@ import {
   HelpCircle, Users, Users2, BarChart2, Settings,
   LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
   GraduationCap, Network, AlertTriangle, Building2,
-  Shield, KeyRound, ScrollText,
+  Shield, KeyRound, ScrollText, FolderOpen,
 } from 'lucide-react';
 import { NAV_ITEMS, WORKSPACE_NAV_ITEMS, ADMIN_NAV_ITEMS } from '@/config/navigationConfig';
 import { THEME } from '@/config/themeConfig';
@@ -17,7 +17,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: 
   HelpCircle, Users, Users2, BarChart2, Settings,
   LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
   GraduationCap, Network, AlertTriangle, Building2,
-  Shield, KeyRound, ScrollText,
+  Shield, KeyRound, ScrollText, FolderOpen,
 };
 
 export default function Sidebar() {

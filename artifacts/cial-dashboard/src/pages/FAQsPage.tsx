@@ -1,94 +1,343 @@
-import { useState } from 'react';
-import { ChevronDown, ThumbsUp, ThumbsDown } from 'lucide-react';
-import PageHeader from '@/components/common/PageHeader';
-import SearchBar from '@/components/common/SearchBar';
-import EmptyState from '@/components/common/EmptyState';
-import { FAQS, FAQ_CATEGORIES } from '@/data/faqData';
+import { useMemo, useState } from 'react';
+import {
+  Bot,
+  ChevronRight,
+  Clock3,
+  HelpCircle,
+  Search,
+  Sparkles,
+  ThumbsUp,
+  X,
+  Zap,
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+  buildMockAnswer,
+  popularQuestions,
+  quickAnswerCategories,
+  recentlyAsked,
+  suggestionChips,
+  type QuickAnswerQuestion,
+} from '@/data/quickAnswersData';
 
-export default function FAQsPage() {
-  const [search, setSearch] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [openId, setOpenId] = useState<string | null>(null);
+function CategoryBadge({ category }: { category: string }) {
+  const badgeClass = useMemo(() => {
+    if (category.includes('Safety')) return 'bg-red-50 text-red-700';
+    if (category.includes('IT')) return 'bg-blue-50 text-blue-700';
+    if (category.includes('Airfield')) return 'bg-[#f0f7ed] text-primary';
+    if (category.includes('People')) return 'bg-green-50 text-green-700';
+    if (category.includes('HVAC')) return 'bg-cyan-50 text-cyan-700';
+    if (category.includes('Baggage')) return 'bg-emerald-50 text-emerald-700';
+    return 'bg-slate-100 text-slate-700';
+  }, [category]);
 
-  const filtered = FAQS.filter(faq => {
-    if (search && !faq.question.toLowerCase().includes(search.toLowerCase())) return false;
-    if (selectedCategory && faq.category !== selectedCategory) return false;
-    return true;
-  });
+  return <span className={cn('rounded-full px-2.5 py-1 text-[11px] font-semibold', badgeClass)}>{category}</span>;
+}
+
+function SectionHeader({
+  icon,
+  title,
+  subtitle,
+  action,
+}: {
+  icon?: React.ReactNode;
+  title: string;
+  subtitle: string;
+  action: string;
+}) {
+  return (
+    <div className="mb-4 flex items-start justify-between gap-3">
+      <div className="min-w-0">
+        <div className="flex items-center gap-2">
+          {icon}
+          <h2 className="text-base font-semibold text-slate-950">{title}</h2>
+        </div>
+        <p className="mt-0.5 text-sm text-slate-500">{subtitle}</p>
+      </div>
+      <button type="button" className="mt-1 hidden flex-shrink-0 text-xs font-semibold text-primary transition-colors hover:text-[#2f5626] sm:inline-flex">
+        {action}
+      </button>
+    </div>
+  );
+}
+
+function AskResultPanel({
+  answer,
+  onOpen,
+  onDismiss,
+}: {
+  answer: QuickAnswerQuestion;
+  onOpen: (answer: QuickAnswerQuestion) => void;
+  onDismiss: () => void;
+}) {
+  return (
+    <div className="rounded-xl border border-[#dcebd4] bg-[#f8fdf6] p-4 shadow-sm">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-white text-primary shadow-sm">
+              <Sparkles size={16} />
+            </span>
+            <div>
+              <p className="text-sm font-semibold text-slate-950">{answer.question}</p>
+              <p className="mt-0.5 text-xs text-slate-500">Mock instant answer</p>
+            </div>
+          </div>
+          <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-700">{answer.preview}</p>
+        </div>
+        <button type="button" onClick={onDismiss} className="ce-icon-button h-8 min-h-8 min-w-8" aria-label="Dismiss answer">
+          <X size={16} />
+        </button>
+      </div>
+      <div className="mt-4 flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={() => onOpen(answer)}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#3d6834]"
+        >
+          View full answer
+          <ChevronRight size={14} />
+        </button>
+        <button type="button" className="inline-flex items-center gap-1.5 rounded-lg border border-[#dcebd4] bg-white px-3 py-2 text-xs font-semibold text-primary hover:bg-white/80">
+          <Bot size={14} />
+          Ask AI Assistant
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function PopularQuestionCard({
+  item,
+  onOpen,
+}: {
+  item: QuickAnswerQuestion;
+  onOpen: (item: QuickAnswerQuestion) => void;
+}) {
+  const Icon = item.icon;
 
   return (
-    <div className="fluid-section" data-testid="faqs-page">
-      <PageHeader title="FAQs" subtitle="Find answers to frequently asked questions." />
-
-      <div className="mb-5 grid grid-cols-1 gap-3 md:grid-cols-[minmax(16rem,1fr)_minmax(10rem,14rem)]">
-        <SearchBar value={search} onChange={setSearch} placeholder="Search FAQs..." className="min-w-0" />
-        <select
-          value={selectedCategory}
-          onChange={e => setSelectedCategory(e.target.value)}
-          className="w-full rounded-lg border border-[#ddecd6] bg-white px-3 py-2 text-sm text-[#1a2e14] focus:ring-2 focus:ring-[#4a7c3f]/30"
-          data-testid="filter-faq-category"
-        >
-          <option value="">All Categories</option>
-          {FAQ_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
-        </select>
+    <article className="flex min-h-64 min-w-[17rem] flex-1 flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md lg:min-w-0">
+      <div className="mb-4 flex items-start gap-3">
+        <span className={cn('inline-flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl', item.iconClassName)}>
+          <Icon size={24} />
+        </span>
+        <h3 className="min-w-0 text-sm font-semibold leading-5 text-slate-950">{item.question}</h3>
       </div>
 
-      {filtered.length === 0 ? (
-        <div className="responsive-card border border-[#e2eedd] bg-white shadow-sm">
-          <EmptyState />
-        </div>
-      ) : (
-        <div className="space-y-2">
-          {filtered.map((faq) => {
-            const isOpen = openId === faq.id;
-            return (
-              <div
-                key={faq.id}
-                className="responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm"
-                data-testid={`faq-item-${faq.id}`}
-              >
-                <button
-                  onClick={() => setOpenId(isOpen ? null : faq.id)}
-                  className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition-colors hover:bg-[#f8fdf6] sm:px-5"
-                  data-testid={`faq-toggle-${faq.id}`}
-                >
-                  <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <div className="flex-1 min-w-0">
-                      <p className="safe-text text-sm font-medium text-[#1a2e14]">{faq.question}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#f0f7ed] text-[#4a7c3f] font-medium">{faq.category}</span>
-                        <span className="text-[11px] text-[#9ab88e]">{faq.helpfulCount} found helpful</span>
-                      </div>
-                    </div>
-                  </div>
-                  <ChevronDown
-                    size={16}
-                    className={`text-[#5a7a52] flex-shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                  />
-                </button>
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <CategoryBadge category={item.category} />
+        <span className="text-xs text-slate-500">{item.helpful}</span>
+      </div>
 
-                {isOpen && (
-                  <div className="px-5 pb-4 border-t border-[#f0f7ed]">
-                    <p className="text-sm text-[#3d5c30] mt-3 leading-relaxed">{faq.answer}</p>
-                    <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs text-[#9ab88e]">Was this helpful?</span>
-                        <button className="p-1.5 rounded-lg hover:bg-[#f0f7ed] text-[#5a7a52] hover:text-[#4a7c3f] transition-colors" data-testid={`button-helpful-yes-${faq.id}`}>
-                          <ThumbsUp size={13} />
-                        </button>
-                        <button className="p-1.5 rounded-lg hover:bg-[#fdf0f0] text-[#5a7a52] hover:text-[#c0392b] transition-colors" data-testid={`button-helpful-no-${faq.id}`}>
-                          <ThumbsDown size={13} />
-                        </button>
-                      </div>
-                      <span className="text-[11px] text-[#9ab88e]">Last updated: {faq.lastUpdated}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
+      <p className="line-clamp-4 flex-1 text-sm leading-6 text-slate-700">{item.preview}</p>
+
+      <button
+        type="button"
+        onClick={() => onOpen(item)}
+        className="mt-4 inline-flex items-center gap-1.5 self-start text-sm font-semibold text-primary transition-colors hover:text-[#2f5626]"
+      >
+        View Answer
+        <ChevronRight size={14} />
+      </button>
+    </article>
+  );
+}
+
+function CategoryCard({ category }: { category: (typeof quickAnswerCategories)[number] }) {
+  const Icon = category.icon;
+
+  return (
+    <button
+      type="button"
+      className="flex min-h-20 items-center gap-3 rounded-xl border border-slate-200 bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:shadow-md"
+    >
+      <span className={cn('inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl', category.iconClassName)}>
+        <Icon size={22} />
+      </span>
+      <span className="min-w-0">
+        <span className="block truncate text-sm font-semibold text-slate-950">{category.name}</span>
+        <span className="mt-1 block text-sm text-slate-500">{category.count} questions</span>
+      </span>
+    </button>
+  );
+}
+
+function RecentlyAskedRow({ item }: { item: (typeof recentlyAsked)[number] }) {
+  return (
+    <button type="button" className="flex w-full items-center gap-3 border-b border-slate-100 px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-slate-50">
+      <Clock3 size={18} className="flex-shrink-0 text-slate-400" />
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-sm font-semibold text-slate-700">{item.question}</span>
+      </span>
+      <span className="hidden flex-shrink-0 sm:block">
+        <CategoryBadge category={item.category} />
+      </span>
+      <span className="hidden w-20 flex-shrink-0 text-xs text-slate-500 sm:block">{item.timestamp}</span>
+      <ChevronRight size={16} className="flex-shrink-0 text-slate-500" />
+    </button>
+  );
+}
+
+function AnswerModal({
+  answer,
+  onClose,
+}: {
+  answer: QuickAnswerQuestion | null;
+  onClose: () => void;
+}) {
+  if (!answer) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="quick-answer-title">
+      <div className="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+        <div className="flex items-start justify-between gap-4 border-b border-slate-200 p-5">
+          <div className="min-w-0">
+            <div className="mb-2">
+              <CategoryBadge category={answer.category} />
+            </div>
+            <h2 id="quick-answer-title" className="text-lg font-semibold leading-6 text-slate-950">
+              {answer.question}
+            </h2>
+          </div>
+          <button type="button" onClick={onClose} className="ce-icon-button" aria-label="Close answer">
+            <X size={18} />
+          </button>
         </div>
-      )}
+
+        <div className="space-y-5 p-5">
+          <div>
+            <h3 className="text-sm font-semibold text-slate-950">Answer</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-700">{answer.fullAnswer}</p>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-slate-950">Related sources</h3>
+            <div className="mt-2 space-y-2">
+              {answer.sources.map((source) => (
+                <div key={source} className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
+                  <HelpCircle size={15} className="text-primary" />
+                  {source}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 border-t border-slate-200 pt-4 sm:flex-row sm:items-center sm:justify-between">
+            <button type="button" className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#dcebd4] bg-white px-3 py-2 text-sm font-semibold text-primary transition-colors hover:bg-[#f8fdf6]">
+              <Bot size={16} />
+              Ask AI Assistant
+            </button>
+            <button type="button" className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#3d6834]">
+              <ThumbsUp size={16} />
+              Mark helpful
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function FAQsPage() {
+  const [question, setQuestion] = useState('');
+  const [mockAnswer, setMockAnswer] = useState<QuickAnswerQuestion | null>(null);
+  const [activeAnswer, setActiveAnswer] = useState<QuickAnswerQuestion | null>(null);
+
+  const handleAsk = () => {
+    const answer = buildMockAnswer(question);
+    setMockAnswer(answer);
+  };
+
+  return (
+    <div className="fluid-section space-y-7" data-testid="quick-answers-page">
+      <header>
+        <h1 className="text-2xl font-semibold tracking-normal text-slate-950">Quick Answers</h1>
+        <p className="mt-1 text-sm text-slate-600">Get instant answers to common questions. Powered by CIAL AI and trusted enterprise knowledge.</p>
+      </header>
+
+      <section className="space-y-4">
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_auto]">
+          <div className="flex min-h-16 items-center gap-3 rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition-colors focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15">
+            <Search size={22} className="ml-3 flex-shrink-0 text-slate-500" />
+            <label className="min-w-0 flex-1">
+              <span className="sr-only">Ask a question</span>
+              <input
+                value={question}
+                onChange={(event) => setQuestion(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') handleAsk();
+                }}
+                placeholder="Ask a question..."
+                className="h-11 w-full bg-transparent text-sm font-medium text-slate-800 placeholder:text-slate-500"
+              />
+            </label>
+            <button
+              type="button"
+              onClick={handleAsk}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#eef6e9] px-5 text-sm font-semibold text-primary transition-colors hover:bg-[#e2f0db]"
+            >
+              <Sparkles size={16} />
+              Ask
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="inline-flex min-h-16 items-center justify-center gap-3 rounded-xl border border-[#cfe2c5] bg-white px-6 text-sm font-semibold text-primary shadow-sm transition-colors hover:bg-[#f8fdf6]"
+          >
+            <Bot size={18} />
+            Ask AI Assistant
+          </button>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-sm font-semibold text-slate-700">Try asking:</span>
+          {suggestionChips.map((chip) => (
+            <button
+              key={chip}
+              type="button"
+              onClick={() => setQuestion(chip)}
+              className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:border-[#cfe2c5] hover:bg-[#f8fdf6] hover:text-primary"
+            >
+              {chip}
+            </button>
+          ))}
+        </div>
+
+        {mockAnswer && <AskResultPanel answer={mockAnswer} onOpen={setActiveAnswer} onDismiss={() => setMockAnswer(null)} />}
+      </section>
+
+      <section>
+        <SectionHeader icon={<Zap size={18} className="text-slate-950" />} title="Popular Questions" subtitle="Frequently asked by your colleagues" action="View all FAQs ->" />
+        <div className="scrollbar-soft flex gap-3 overflow-x-auto pb-1 xl:grid xl:grid-cols-5 xl:overflow-visible">
+          {popularQuestions.map((item) => (
+            <PopularQuestionCard key={item.id} item={item} onOpen={setActiveAnswer} />
+          ))}
+        </div>
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(24rem,0.95fr)]">
+        <div>
+          <SectionHeader title="Browse by Category" subtitle="Find answers by topic" action="View all categories ->" />
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {quickAnswerCategories.map((category) => (
+              <CategoryCard key={category.id} category={category} />
+            ))}
+          </div>
+        </div>
+
+        <div className="xl:border-l xl:border-slate-200 xl:pl-6">
+          <SectionHeader title="Recently Asked" subtitle="Your recent questions" action="View all history ->" />
+          <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+            {recentlyAsked.map((item) => (
+              <RecentlyAskedRow key={item.id} item={item} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <AnswerModal answer={activeAnswer} onClose={() => setActiveAnswer(null)} />
     </div>
   );
 }
