@@ -17,11 +17,11 @@ export default function DashboardBlock({
 }: DashboardBlockProps) {
   return (
     <div
-      className={`bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden ${className}`}
+      className={`fluid-card responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm ${className}`}
       data-testid={`block-${title.toLowerCase().replace(/\s+/g, '-')}`}
     >
-      <div className="flex items-center justify-between px-4 py-3 border-b border-[#f0f7ed]">
-        <h3 className="text-sm font-semibold text-[#1a2e14]">{title}</h3>
+      <div className="flex items-center justify-between gap-3 border-b border-[#f0f7ed] px-4 py-3">
+        <h3 className="safe-text text-sm font-semibold text-[#1a2e14]">{title}</h3>
         {(viewAllHref || onViewAll) && (
           <button
             onClick={onViewAll}
@@ -32,7 +32,7 @@ export default function DashboardBlock({
           </button>
         )}
       </div>
-      <div className="p-4">{children}</div>
+      <div className="p-3.5 sm:p-4">{children}</div>
     </div>
   );
 }
