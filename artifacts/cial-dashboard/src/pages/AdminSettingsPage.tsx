@@ -36,11 +36,11 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div data-testid="admin-settings-page">
+    <div className="fluid-section" data-testid="admin-settings-page">
       <PageHeader title="Admin / Settings" subtitle="Manage system configuration." />
 
       {/* Tab Bar */}
-      <div className="flex overflow-x-auto gap-1 mb-5 bg-white rounded-xl border border-[#e2eedd] p-1 shadow-sm">
+      <div className="scrollbar-soft mb-5 flex gap-1 overflow-x-auto rounded-xl border border-[#e2eedd] bg-white p-1 shadow-sm">
         {TABS.map(tab => (
           <button
             key={tab.id}
@@ -59,9 +59,9 @@ export default function AdminSettingsPage() {
 
       {/* Theme Tab */}
       {activeTab === 'theme' && (
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4" data-testid="tab-content-theme">
+        <div className="fluid-grid" data-testid="tab-content-theme">
           {THEME_CONFIG_ITEMS.map(item => (
-            <div key={item.label} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4">
+            <div key={item.label} className="fluid-card responsive-card min-w-0 border border-[#e2eedd] bg-white p-4 shadow-sm hover:shadow-md">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-xs font-semibold text-[#5a7a52] uppercase tracking-wide">{item.label}</p>
                 {item.type === 'swatch' && <div className="w-8 h-8 rounded-lg border" style={{ background: item.value }} />}
@@ -78,9 +78,9 @@ export default function AdminSettingsPage() {
 
       {/* Document Ingestion Tab */}
       {activeTab === 'ingestion' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="tab-content-ingestion">
+        <div className="fluid-grid" data-testid="tab-content-ingestion">
           {INGESTION_SETTINGS.map(item => (
-            <div key={item.label} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4">
+            <div key={item.label} className="fluid-card responsive-card min-w-0 border border-[#e2eedd] bg-white p-4 shadow-sm hover:shadow-md">
               <p className="text-xs font-semibold text-[#5a7a52] uppercase tracking-wide mb-1.5">{item.label}</p>
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-[#1a2e14]">{item.value}</p>
@@ -97,8 +97,8 @@ export default function AdminSettingsPage() {
 
       {/* User Roles Tab */}
       {activeTab === 'users' && (
-        <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden" data-testid="tab-content-users">
-          <table className="w-full">
+        <div className="scrollbar-soft responsive-card overflow-x-auto border border-[#e2eedd] bg-white shadow-sm" data-testid="tab-content-users">
+          <table className="w-full min-w-[44rem]">
             <thead>
               <tr className="border-b border-[#e2eedd] bg-[#f8fdf6]">
                 {['Name', 'Email', 'Role', 'Last Active', 'Actions'].map(h => (
@@ -136,8 +136,8 @@ export default function AdminSettingsPage() {
 
       {/* Audit Log Tab */}
       {activeTab === 'audit' && (
-        <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden" data-testid="tab-content-audit">
-          <div className="overflow-x-auto">
+        <div className="responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm" data-testid="tab-content-audit">
+          <div className="scrollbar-soft overflow-x-auto">
             <table className="w-full min-w-[700px]">
               <thead>
                 <tr className="border-b border-[#e2eedd] bg-[#f8fdf6]">
@@ -167,9 +167,9 @@ export default function AdminSettingsPage() {
 
       {/* Integrations Tab */}
       {activeTab === 'integrations' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" data-testid="tab-content-integrations">
+        <div className="fluid-grid" data-testid="tab-content-integrations">
           {INTEGRATIONS.map((intg) => (
-            <div key={intg.name} className="bg-white rounded-xl border border-[#e2eedd] shadow-sm p-4">
+            <div key={intg.name} className="fluid-card responsive-card min-w-0 border border-[#e2eedd] bg-white p-4 shadow-sm hover:shadow-md">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-semibold text-[#1a2e14]">{intg.name}</p>
