@@ -37,20 +37,20 @@ export default function WorkspacePage() {
   const visibleConvos = MY_CONVERSATIONS.filter(c => c.ownerId === currentUser.id);
 
   return (
-    <div className="min-h-full bg-[#f8fdf6]">
+    <div className="fluid-section min-h-full overflow-hidden rounded-xl bg-[#f8fdf6]">
       {/* Page Header */}
-      <div className="bg-white border-b border-[#e2eedd] px-4 sm:px-6 py-4">
+      <div className="border-b border-[#e2eedd] bg-white px-4 py-4 sm:px-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-bold text-[#1a2e14]">My Workspace</h1>
+              <h1 className="safe-text text-xl font-bold text-[#1a2e14] sm:text-2xl">My Workspace</h1>
               <Lock size={16} className="text-[#4a7c3f]" />
             </div>
-            <p className="text-sm text-[#5a7a52] mt-0.5">
+            <p className="safe-text mt-1 text-sm text-[#5a7a52]">
               Your personal knowledge space. Private. Secure. Only visible to you.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <PrivacyBadge size="md" />
             <WorkspaceUploadButton onClick={() => setShowUploadHint(true)} />
           </div>
@@ -65,7 +65,7 @@ export default function WorkspacePage() {
 
       <div className="p-4 sm:p-6">
         {/* 3-column desktop layout */}
-        <div className="flex flex-col xl:flex-row gap-6">
+        <div className="flex flex-col gap-5 xl:flex-row xl:gap-6">
 
           {/* ── Main content ── */}
           <div className="flex-1 min-w-0 space-y-5">
@@ -74,14 +74,14 @@ export default function WorkspacePage() {
             <PersonalStorageCard />
 
             {/* Stat Cards */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="fluid-grid-sm">
               {WORKSPACE_STATS.map((stat) => (
                 <WorkspaceStatCard key={stat.key} stat={stat} />
               ))}
             </div>
 
             {/* Recent Uploads + Recent AI Chats — side by side on lg */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
               <RecentUploadsTable
                 documents={visibleDocs}
                 onViewAll={() => {}}
@@ -94,13 +94,13 @@ export default function WorkspacePage() {
             </div>
 
             {/* Collections */}
-            <div className="bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden" data-testid="collections-section">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-[#f0f7ed]">
+            <div className="responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm" data-testid="collections-section">
+              <div className="flex items-center justify-between gap-3 border-b border-[#f0f7ed] px-4 py-3">
                 <h3 className="text-sm font-semibold text-[#1a2e14]">My Collections</h3>
                 <button className="text-xs text-[#4a7c3f] hover:underline font-medium">View all</button>
               </div>
               <div className="p-4">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-3 2xl:grid-cols-4 gap-3 overflow-x-auto">
+                <div className="fluid-grid-sm">
                   {MY_COLLECTIONS.map((col) => (
                     <CollectionCard key={col.id} collection={col} />
                   ))}
@@ -111,7 +111,7 @@ export default function WorkspacePage() {
           </div>
 
           {/* ── Right Panel ── */}
-          <div className="xl:w-72 2xl:w-80 space-y-4 flex-shrink-0">
+          <div className="grid gap-4 xl:w-72 xl:flex-shrink-0 2xl:w-80">
             <AISearchModeSelector value={aiMode} onChange={setAiMode} />
             <StorageBreakdownChart data={STORAGE_BREAKDOWN} />
             <RecentActivityCard activities={RECENT_ACTIVITY} />
