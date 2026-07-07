@@ -12,7 +12,7 @@ export default function AppShell({ children }: AppShellProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen" style={{ background: THEME.background }}>
+    <div className="app-shell min-h-screen">
       {/* Desktop sidebar */}
       <Sidebar />
 
@@ -20,9 +20,9 @@ export default function AppShell({ children }: AppShellProps) {
       <MobileSidebarDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
 
       {/* Main content area */}
-      <div className="lg:pl-60 flex flex-col min-h-screen">
+      <div className="lg:pl-60 flex min-h-screen min-w-0 flex-col transition-[padding] duration-200 ease-out">
         <TopBar onMenuClick={() => setMobileOpen(true)} />
-        <main className="flex-1 p-4 md:p-6" data-testid="main-content">
+        <main className="app-content flex-1 w-full min-w-0 px-3 py-4 sm:px-4 md:px-6 lg:px-7 2xl:px-8" data-testid="main-content">
           {children}
         </main>
         {/* Footer */}
