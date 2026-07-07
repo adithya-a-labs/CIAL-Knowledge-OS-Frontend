@@ -1,8 +1,5 @@
-import { BookOpenCheck, FileSearch, SlidersHorizontal } from 'lucide-react';
-import {
-  RESPONSE_LENGTH_LABELS,
-  SEARCH_SCOPE_LABELS,
-} from '@/data/assistantData';
+import { BookOpenCheck } from 'lucide-react';
+import { ResponseLengthPopover, SearchModePopover } from './AssistantSettingsPopover';
 import type { ResponseLength, SearchScope } from '@/types/assistant';
 
 interface ChatControlBarProps {
@@ -27,39 +24,13 @@ export default function ChatControlBar({
   return (
     <div className="ce-toolbar flex flex-col gap-2 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-4">
       <div className="grid min-w-0 grid-cols-1 gap-2 sm:grid-cols-2">
-        <label className="ce-control flex min-w-0 items-center gap-2 px-2.5 py-2">
-          <FileSearch size={15} className="shrink-0 text-primary" />
-          <span className="text-[11px] font-semibold uppercase text-muted-foreground">Scope</span>
-          <select
-            value={searchScope}
-            onChange={(event) => onSearchScopeChange(event.target.value as SearchScope)}
-            className="min-w-0 flex-1 bg-transparent text-xs font-medium text-foreground"
-            data-testid="select-search-scope"
-          >
-            {Object.entries(SEARCH_SCOPE_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div data-testid="select-search-scope">
+          <SearchModePopover value={searchScope} onChange={onSearchScopeChange} />
+        </div>
 
-        <label className="ce-control flex min-w-0 items-center gap-2 px-2.5 py-2">
-          <SlidersHorizontal size={15} className="shrink-0 text-primary" />
-          <span className="text-[11px] font-semibold uppercase text-muted-foreground">Length</span>
-          <select
-            value={responseLength}
-            onChange={(event) => onResponseLengthChange(event.target.value as ResponseLength)}
-            className="min-w-0 flex-1 bg-transparent text-xs font-medium text-foreground"
-            data-testid="select-response-length"
-          >
-            {Object.entries(RESPONSE_LENGTH_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div data-testid="select-response-length">
+          <ResponseLengthPopover value={responseLength} onChange={onResponseLengthChange} />
+        </div>
       </div>
 
       <button
