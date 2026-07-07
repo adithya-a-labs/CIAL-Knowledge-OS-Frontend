@@ -4,6 +4,7 @@ export interface NavItem {
   path: string;
   icon: string;
   requiredRole?: string;
+  children?: NavItem[];
 }
 
 // ─── Auth / Users ─────────────────────────────────────────────────────────────

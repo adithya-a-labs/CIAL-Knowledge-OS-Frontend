@@ -5,9 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import AppShell from "@/components/layout/AppShell";
 import DashboardPage from "@/pages/DashboardPage";
 import AIAssistantPage from "@/pages/AIAssistantPage";
-import DocumentsPage from "@/pages/DocumentsPage";
-import KnowledgeBasePage from "@/pages/KnowledgeBasePage";
-import PoliciesSOPsPage from "@/pages/PoliciesSOPsPage";
+import KnowledgeCenterPage from "@/pages/KnowledgeCenterPage";
 import FAQsPage from "@/pages/FAQsPage";
 import ExpertDirectoryPage from "@/pages/ExpertDirectoryPage";
 import LearningHubPage from "@/pages/LearningHubPage";
@@ -27,9 +25,11 @@ function Router() {
       <Switch>
         <Route path="/" component={DashboardPage} />
         <Route path="/assistant" component={AIAssistantPage} />
-        <Route path="/documents" component={DocumentsPage} />
-        <Route path="/knowledge" component={KnowledgeBasePage} />
-        <Route path="/policies" component={PoliciesSOPsPage} />
+        <Route path="/knowledge-center" component={KnowledgeCenterPage} />
+        <Route path="/knowledge-center/:tab" component={KnowledgeCenterPage} />
+        <Route path="/documents" component={KnowledgeCenterPage} />
+        <Route path="/knowledge" component={KnowledgeCenterPage} />
+        <Route path="/policies" component={KnowledgeCenterPage} />
         <Route path="/faqs" component={FAQsPage} />
         <Route path="/experts" component={ExpertDirectoryPage} />
         <Route path="/learning" component={LearningHubPage} />

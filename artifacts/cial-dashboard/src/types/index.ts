@@ -21,6 +21,7 @@ export interface NavItem {
   path: string;
   icon: string;
   requiredRole?: Role;
+  children?: NavItem[];
 }
 
 export interface DashboardBlock {

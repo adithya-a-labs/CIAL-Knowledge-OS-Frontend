@@ -46,10 +46,20 @@ export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDraw
   if (!open) return null;
 
   const isActive = (path: string) => {
+    if (path === '/knowledge-center') {
+      return location.startsWith('/knowledge-center') || location === '/documents' || location === '/knowledge' || location === '/policies';
+    }
     if (path === '/workspace') return location === '/workspace';
     if (path === '/') return location === '/';
     if (path === '/admin') return location === '/admin';
     return location.startsWith(path);
+  };
+
+  const isChildActive = (path: string) => {
+    if (path === '/knowledge-center') return location === '/knowledge-center' || location === '/knowledge';
+    if (path === '/knowledge-center/documents') return location === '/knowledge-center/documents' || location === '/documents';
+    if (path === '/knowledge-center/policies') return location === '/knowledge-center/policies' || location === '/policies';
+    return location === path;
   };
 
   const linkCls = (path: string) =>
@@ -77,11 +87,30 @@ export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDraw
         <nav className="scrollbar-soft flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
           {visibleItems.map((item) => {
             const Icon = ICON_MAP[item.icon] || Home;
+            const active = isActive(item.path);
+
             return (
-              <Link key={item.path} href={item.path} className={linkCls(item.path)}>
-                <Icon size={18} className={isActive(item.path) ? 'text-primary' : 'text-muted-foreground'} />
-                <span>{item.label}</span>
-              </Link>
+              <div key={item.path}>
+                <Link href={item.path} className={linkCls(item.path)}>
+                  <Icon size={18} className={active ? 'text-primary' : 'text-muted-foreground'} />
+                  <span>{item.label}</span>
+                </Link>
+                {item.children && active && (
+                  <div className="ml-6 mt-1 space-y-0.5 border-l border-slate-200 pl-2">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.path}
+                        href={child.path}
+                        className={`flex items-center rounded-md px-3 py-1.5 text-xs font-medium transition-colors hover:bg-slate-100 ${
+                          isChildActive(child.path) ? 'bg-[#f0f7ed] text-primary' : 'text-slate-600'
+                        }`}
+                      >
+                        <span>{child.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             );
           })}
 

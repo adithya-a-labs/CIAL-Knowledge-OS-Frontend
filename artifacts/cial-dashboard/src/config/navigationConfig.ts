@@ -3,9 +3,17 @@ import { NavItem } from '../types';
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Home', path: '/', icon: 'Home' },
   { label: 'AI Assistant', path: '/assistant', icon: 'Bot' },
-  { label: 'Documents', path: '/documents', icon: 'FileText' },
-  { label: 'Knowledge Base', path: '/knowledge', icon: 'BookOpen' },
-  { label: 'Policies & SOPs', path: '/policies', icon: 'ShieldCheck' },
+  {
+    label: 'Knowledge Center',
+    path: '/knowledge-center',
+    icon: 'BookOpen',
+    children: [
+      { label: 'All Content', path: '/knowledge-center', icon: 'BookOpen' },
+      { label: 'Articles', path: '/knowledge-center/articles', icon: 'FileText' },
+      { label: 'Documents', path: '/knowledge-center/documents', icon: 'FileText' },
+      { label: 'Policies & SOPs', path: '/knowledge-center/policies', icon: 'ShieldCheck' },
+    ],
+  },
   { label: 'FAQs', path: '/faqs', icon: 'HelpCircle' },
   { label: 'Expert Directory', path: '/experts', icon: 'Users2' },
   { label: 'Learning Hub', path: '/learning', icon: 'GraduationCap' },
