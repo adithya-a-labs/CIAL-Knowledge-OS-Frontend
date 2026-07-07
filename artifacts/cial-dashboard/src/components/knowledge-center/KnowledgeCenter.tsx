@@ -21,6 +21,7 @@ import {
   Star,
   Trash2,
   Upload,
+  X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -57,6 +58,7 @@ interface KnowledgeDriveSearchProps {
   onSearchChange: (value: string) => void;
   onUpload: () => void;
   onNewFolder: () => void;
+  onOpenInAssistant: () => void;
 }
 
 interface SuggestedFoldersProps {
@@ -137,7 +139,7 @@ function DriveButton({
   );
 }
 
-function KnowledgeDriveSearch({ searchQuery, onSearchChange, onUpload, onNewFolder }: KnowledgeDriveSearchProps) {
+function KnowledgeDriveSearch({ searchQuery, onSearchChange, onUpload, onNewFolder, onOpenInAssistant }: KnowledgeDriveSearchProps) {
   return (
     <div className="grid gap-3 xl:grid-cols-[minmax(18rem,1fr)_auto]">
       <label className="relative block min-w-0">
@@ -148,12 +150,17 @@ function KnowledgeDriveSearch({ searchQuery, onSearchChange, onUpload, onNewFold
           value={searchQuery}
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder="Ask or search across Knowledge Center..."
-          className="h-14 w-full rounded-2xl border border-slate-200 bg-white px-12 text-sm font-medium text-slate-800 shadow-sm transition-colors placeholder:text-slate-500 hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/15"
+          className="h-12 w-full rounded-xl border border-slate-200 bg-white px-12 pr-20 text-sm font-medium text-slate-800 shadow-sm transition-colors placeholder:text-slate-500 hover:border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/15"
         />
-        <Sparkles size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-primary" />
+        <span className="absolute right-4 top-1/2 hidden -translate-y-1/2 text-xs font-semibold text-slate-500 sm:block">⌘K</span>
       </label>
 
       <div className="flex flex-wrap items-center gap-2">
+        <DriveButton onClick={onOpenInAssistant} className="h-12">
+          <Sparkles size={16} className="text-primary" />
+          AI
+          <ChevronDown size={15} />
+        </DriveButton>
         <DriveButton onClick={onUpload} variant="primary">
           <Upload size={16} />
           Upload Document
@@ -170,22 +177,27 @@ function KnowledgeDriveSearch({ searchQuery, onSearchChange, onUpload, onNewFold
   );
 }
 
-function KnowledgeDriveBanner() {
+function KnowledgeDriveBanner({ onDismiss, onOpenInAssistant }: { onDismiss: () => void; onOpenInAssistant: () => void }) {
   return (
     <div className="flex items-center justify-between gap-3 rounded-2xl border border-[#dcebd4] bg-[#f8fdf6] px-4 py-3 text-sm text-slate-700">
       <span className="flex min-w-0 items-center gap-3">
-        <span className="inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-white text-primary shadow-sm">
-          <Bot size={17} />
+        <span className="inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-[#dcebd4] bg-white text-primary shadow-sm">
+          <Sparkles size={17} />
         </span>
         <span className="min-w-0">
           <span className="block font-semibold text-slate-900">Ask AI across selected folders, SOPs, manuals and policies.</span>
           <span className="block text-xs text-slate-500">Use file actions like summarize, find related SOPs, or ask AI about this item.</span>
         </span>
       </span>
-      <DriveButton variant="ghost" className="hidden flex-shrink-0 sm:inline-flex">
-        <Sparkles size={15} />
-        Use in AI Assistant
-      </DriveButton>
+      <span className="flex flex-shrink-0 items-center gap-2">
+        <DriveButton onClick={onOpenInAssistant} variant="secondary" className="hidden bg-white sm:inline-flex">
+          <Sparkles size={15} />
+          Use in AI Assistant
+        </DriveButton>
+        <IconButton onClick={onDismiss} aria-label="Dismiss AI helper banner" className="h-8 w-8">
+          <X size={15} />
+        </IconButton>
+      </span>
     </div>
   );
 }
@@ -203,7 +215,9 @@ function KnowledgeDriveSidebar({
       <div className="border-b border-slate-200 p-3">
         <DriveButton onClick={onUpload} variant="primary" className="h-11 w-full justify-start">
           <Upload size={17} />
-          New / Upload
+          <span className="flex-1 text-left">New / Upload</span>
+          <span className="h-5 border-l border-white/30" />
+          <ChevronDown size={15} />
         </DriveButton>
         <DriveButton onClick={onNewFolder} variant="secondary" className="mt-2 h-10 w-full justify-start">
           <FolderPlus size={16} />
@@ -350,17 +364,20 @@ function CurrentLocationHeader({
   onSelectFolder: (folderId: string | null) => void;
 }) {
   const folder = getFolderById(activeFolderId);
-  const title = folder ? getBreadcrumb(activeFolderId).map((item) => item.name).join(' / ') : 'Welcome to Knowledge Center';
+  const title = folder ? getBreadcrumb(activeFolderId).map((item) => item.name).join(' / ') : 'Knowledge Center';
+  const activeLabel = folder ? folder.name : 'All Content';
 
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="min-w-0">
-        <div className="mb-2">
+        <div className="sr-only">
           <Breadcrumb activeFolderId={activeFolderId} onSelectFolder={onSelectFolder} />
         </div>
-        <p className="text-xs font-semibold uppercase tracking-normal text-primary">CIAL Drive</p>
-        <h1 className="mt-1 text-2xl font-semibold tracking-normal text-slate-950">{title}</h1>
-        <p className="mt-1 text-sm text-slate-600">Search, browse and manage trusted enterprise knowledge.</p>
+        <h1 className="text-xl font-semibold tracking-normal text-slate-950">{title}</h1>
+        <button type="button" onClick={() => onSelectFolder(activeFolderId)} className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+          {activeLabel}
+          <ChevronDown size={13} />
+        </button>
       </div>
       <IconButton aria-label="Knowledge Center information" className="border border-slate-200 bg-white shadow-sm">
         <Info size={17} />
@@ -572,10 +589,11 @@ function FileCard({
       </button>
 
       <div className="flex items-center gap-2 px-3 py-3">
-        <span className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-[#f0f7ed] text-[11px] font-bold text-primary">
-          {file.owner.split(' ').map((part) => part[0]).join('').slice(0, 2)}
+        <span className="inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-white">
+          {file.ownerInitials}
         </span>
-        <p className="truncate text-xs text-slate-500">{file.activityLabel}</p>
+        <p className="min-w-0 flex-1 truncate text-xs text-slate-500">{file.activityLabel}</p>
+        <span className="flex-shrink-0 text-xs text-slate-500">{file.lastUpdated}</span>
       </div>
     </article>
   );
@@ -707,10 +725,11 @@ function FileListView({
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="grid min-w-[56rem] grid-cols-[2.5rem_minmax(18rem,1fr)_9rem_8rem_7rem_9rem_3rem] items-center border-b border-slate-200 bg-slate-50/80 px-3 py-3 text-xs font-semibold text-slate-500">
+      <div className="grid min-w-[64rem] grid-cols-[2.5rem_minmax(18rem,1fr)_9rem_9rem_8rem_7rem_9rem_3rem] items-center border-b border-slate-200 bg-slate-50/80 px-3 py-3 text-xs font-semibold text-slate-500">
         <input type="checkbox" checked={allSelected} onChange={onToggleAll} aria-label="Select all files" className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary/25" />
         <span>Name</span>
         <span>Owner</span>
+        <span>Department</span>
         <span>Type</span>
         <span>Size</span>
         <span>Last updated</span>
@@ -721,7 +740,7 @@ function FileListView({
           <div
             key={file.id}
             className={cn(
-              'group grid min-w-[56rem] grid-cols-[2.5rem_minmax(18rem,1fr)_9rem_8rem_7rem_9rem_3rem] items-center border-b border-slate-100 px-3 py-2.5 text-sm last:border-b-0 hover:bg-slate-50',
+              'group grid min-w-[64rem] grid-cols-[2.5rem_minmax(18rem,1fr)_9rem_9rem_8rem_7rem_9rem_3rem] items-center border-b border-slate-100 px-3 py-2.5 text-sm last:border-b-0 hover:bg-slate-50',
               selectedItems.includes(file.id) && 'bg-[#f0f7ed]/80',
             )}
           >
@@ -738,6 +757,7 @@ function FileListView({
               {file.starred && <Star size={13} className="flex-shrink-0 text-amber-500" />}
             </button>
             <span className="truncate text-slate-600">{file.owner}</span>
+            <span className="truncate text-slate-600">{file.department}</span>
             <span className="text-slate-600">{file.type}</span>
             <span className="text-slate-600">{file.size}</span>
             <span className="text-slate-600">{file.lastUpdated}</span>
@@ -815,6 +835,7 @@ export function KnowledgeCenterPage() {
   const [viewMode, setViewMode] = useState<DriveViewMode>('grid');
   const [sortMode, setSortMode] = useState<DriveSortMode>('latest');
   const [fullBrowserOpen, setFullBrowserOpen] = useState(false);
+  const [isAIBannerVisible, setIsAIBannerVisible] = useState(true);
 
   const activeFolder = getFolderById(activeFolderId);
   const hasSearch = searchQuery.trim().length > 0;
@@ -860,6 +881,7 @@ export function KnowledgeCenterPage() {
 
   const handleOpenFile = (_file: DriveFile) => {};
   const handleFileAction = (_action: string, _file: DriveFile) => {};
+  const handleOpenInAssistant = () => {};
   const handleUpload = () => {};
   const handleNewFolder = () => {};
 
@@ -867,7 +889,15 @@ export function KnowledgeCenterPage() {
 
   return (
     <div className="fluid-section" data-testid="knowledge-center-page">
-      <div className="flex gap-5">
+      <KnowledgeDriveSearch
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        onUpload={handleUpload}
+        onNewFolder={handleNewFolder}
+        onOpenInAssistant={handleOpenInAssistant}
+      />
+
+      <div className="mt-4 flex gap-5">
         <KnowledgeDriveSidebar
           activeFolderId={activeFolderId}
           expandedTreeNodes={expandedTreeNodes}
@@ -885,8 +915,9 @@ export function KnowledgeCenterPage() {
             </DriveButton>
           </div>
 
-          <KnowledgeDriveSearch searchQuery={searchQuery} onSearchChange={setSearchQuery} onUpload={handleUpload} onNewFolder={handleNewFolder} />
-          <KnowledgeDriveBanner />
+          {isAIBannerVisible && (
+            <KnowledgeDriveBanner onDismiss={() => setIsAIBannerVisible(false)} onOpenInAssistant={handleOpenInAssistant} />
+          )}
           <CurrentLocationHeader activeFolderId={activeFolderId} onSelectFolder={handleSelectFolder} />
 
           {showFullBrowser ? (

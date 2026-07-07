@@ -26,7 +26,9 @@ export const WORKSPACE_NAV_ITEMS: NavItem[] = [
   { label: 'My Documents', path: '/workspace/documents', icon: 'FileText' },
   { label: 'My Notes', path: '/workspace/notes', icon: 'StickyNote' },
   { label: 'Bookmarks', path: '/workspace/bookmarks', icon: 'Bookmark' },
-  { label: 'Collections', path: '/workspace/collections', icon: 'FolderOpen' },
+  { label: 'My Collections', path: '/workspace/collections', icon: 'FolderOpen' },
+  { label: 'Shared with Me', path: '/workspace/shared', icon: 'Users' },
+  { label: 'Trash', path: '/workspace/trash', icon: 'Trash2' },
 ];
 
 export const ADMIN_NAV_ITEMS: NavItem[] = [
