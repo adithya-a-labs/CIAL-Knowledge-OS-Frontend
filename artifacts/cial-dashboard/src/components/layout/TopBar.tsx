@@ -8,13 +8,13 @@ interface TopBarProps {
 export default function TopBar({ onMenuClick }: TopBarProps) {
   return (
     <header
-      className="sticky top-0 z-20 flex min-h-14 items-center justify-between border-b border-[#e2eedd] bg-white/85 px-3 backdrop-blur-md sm:px-4"
+      className="sticky top-0 z-20 flex min-h-14 items-center justify-between border-b border-border bg-white/90 px-3 backdrop-blur-md sm:px-4"
       data-testid="topbar"
     >
       {/* Mobile hamburger */}
       <button
         onClick={onMenuClick}
-        className="rounded-lg p-2 text-[#5a7a52] transition-colors hover:bg-[#f0f7ed] lg:hidden"
+        className="ce-icon-button lg:hidden"
         data-testid="button-hamburger"
         aria-label="Open sidebar"
       >
@@ -28,13 +28,13 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
       <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
         {/* Notifications */}
         <button
-          className="relative rounded-lg p-2 text-[#5a7a52] transition-colors hover:bg-[#f0f7ed]"
+          className="ce-icon-button relative"
           data-testid="button-notifications"
           aria-label="Notifications"
         >
           <Bell size={18} />
           {(CURRENT_USER.notificationsCount ?? 0) > 0 && (
-            <span className="absolute top-1 right-1 w-4 h-4 bg-[#e8820c] text-white text-[9px] font-bold rounded-full flex items-center justify-center" data-testid="notification-badge">
+            <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#b76a09] text-[9px] font-bold text-white" data-testid="notification-badge">
               {CURRENT_USER.notificationsCount}
             </span>
           )}
@@ -42,7 +42,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
 
         {/* Help */}
         <button
-          className="rounded-lg p-2 text-[#5a7a52] transition-colors hover:bg-[#f0f7ed]"
+          className="ce-icon-button"
           data-testid="button-help"
           aria-label="Help"
         >
@@ -51,17 +51,17 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
 
         {/* User profile */}
         <button
-          className="flex min-w-0 items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-[#f0f7ed] sm:px-3"
+          className="flex min-w-0 items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:px-3"
           data-testid="button-user-profile"
         >
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#4a7c3f] to-[#7ab648] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary text-xs font-bold text-white">
             {CURRENT_USER.initials}
           </div>
           <div className="hidden max-w-36 text-left sm:block md:max-w-44">
-            <div className="text-xs font-semibold text-[#1a2e14] leading-tight" data-testid="text-username">{CURRENT_USER.name}</div>
-            <div className="truncate text-[10px] leading-tight text-[#5a7a52]" data-testid="text-department">{CURRENT_USER.department}</div>
+            <div className="text-xs font-semibold leading-tight text-foreground" data-testid="text-username">{CURRENT_USER.name}</div>
+            <div className="truncate text-[10px] leading-tight text-muted-foreground" data-testid="text-department">{CURRENT_USER.department}</div>
           </div>
-          <ChevronDown size={14} className="text-[#5a7a52] hidden sm:block" />
+          <ChevronDown size={14} className="hidden text-muted-foreground sm:block" />
         </button>
       </div>
     </header>

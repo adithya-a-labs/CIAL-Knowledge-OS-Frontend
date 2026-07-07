@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'wouter';
 import {
   Home, Bot, FileText, BookOpen, ShieldCheck,
-  HelpCircle, Users, Users2, BarChart2, Settings, Leaf,
+  HelpCircle, Users, Users2, BarChart2, Settings,
   LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
   GraduationCap, Network, AlertTriangle, Building2,
   Shield, KeyRound, ScrollText,
@@ -38,19 +38,15 @@ export default function Sidebar() {
   };
 
   const navLinkCls = (path: string) =>
-    `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer ${
-      isActive(path)
-        ? 'bg-gradient-to-r from-[#4a7c3f] to-[#5a9a45] text-white shadow-sm'
-        : 'text-[#3d5c30] hover:bg-[#f0f7ed] hover:text-[#2d4f22]'
-    }`;
+    `ce-nav-item cursor-pointer ${isActive(path) ? 'ce-nav-item-active' : ''}`;
 
   return (
     <aside
-      className="fixed left-0 top-0 z-30 hidden h-dvh w-60 flex-col border-r border-[#e2eedd] bg-white/95 shadow-[6px_0_24px_rgba(60,80,40,0.04)] backdrop-blur lg:flex"
+      className="fixed left-0 top-0 z-30 hidden h-dvh w-60 flex-col border-r border-border bg-white/95 shadow-sm backdrop-blur lg:flex"
       data-testid="sidebar"
     >
       {/* Logo */}
-      <div className="flex min-h-20 items-center gap-3 border-b border-[#e2eedd] px-5 py-4">
+      <div className="flex min-h-20 items-center gap-3 border-b border-border px-5 py-4">
         <img
           src={THEME.logoPath}
           alt="CIAL Logo"
@@ -58,8 +54,8 @@ export default function Sidebar() {
           data-testid="sidebar-logo"
         />
         <div>
-          <div className="font-bold text-sm text-[#1a2e14] leading-tight">CIAL</div>
-          <div className="text-[10px] text-[#5a7a52] leading-tight">Knowledge OS</div>
+          <div className="text-sm font-semibold leading-tight text-foreground">CIAL</div>
+          <div className="text-[10px] leading-tight text-muted-foreground">Knowledge OS</div>
         </div>
       </div>
 
@@ -74,7 +70,7 @@ export default function Sidebar() {
               className={navLinkCls(item.path)}
               data-testid={`nav-${item.label.toLowerCase().replace(/[\s&]/g, '-').replace(/-+/g, '-')}`}
             >
-              <IconComponent size={18} className={isActive(item.path) ? 'text-white' : 'text-[#5a7a52]'} />
+              <IconComponent size={18} className={isActive(item.path) ? 'text-primary' : 'text-muted-foreground'} />
               <span className="truncate">{item.label}</span>
             </Link>
           );
@@ -82,7 +78,7 @@ export default function Sidebar() {
 
         {/* MY WORKSPACE section */}
         <div className="pt-4 pb-1">
-          <p className="text-[10px] font-bold text-[#7a9a72] uppercase tracking-widest px-3 mb-1">
+            <p className="mb-1 px-3 text-[10px] font-bold uppercase tracking-normal text-muted-foreground">
             My Workspace
           </p>
         </div>
@@ -95,7 +91,7 @@ export default function Sidebar() {
               className={navLinkCls(item.path)}
               data-testid={`nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <IconComponent size={18} className={isActive(item.path) ? 'text-white' : 'text-[#5a7a52]'} />
+              <IconComponent size={18} className={isActive(item.path) ? 'text-primary' : 'text-muted-foreground'} />
               <span className="truncate">{item.label}</span>
             </Link>
           );
@@ -105,7 +101,7 @@ export default function Sidebar() {
         {canAdmin && (
           <>
             <div className="pt-4 pb-1">
-              <p className="text-[10px] font-bold text-[#7a9a72] uppercase tracking-widest px-3 mb-1">
+                <p className="mb-1 px-3 text-[10px] font-bold uppercase tracking-normal text-muted-foreground">
                 Admin
               </p>
             </div>
@@ -118,7 +114,7 @@ export default function Sidebar() {
                   className={navLinkCls(item.path)}
                   data-testid={`nav-${item.label.toLowerCase().replace(/[\s&]/g, '-').replace(/-+/g, '-')}`}
                 >
-                  <IconComponent size={18} className={isActive(item.path) ? 'text-white' : 'text-[#5a7a52]'} />
+                  <IconComponent size={18} className={isActive(item.path) ? 'text-primary' : 'text-muted-foreground'} />
                   <span className="truncate">{item.label}</span>
                 </Link>
               );
@@ -130,20 +126,13 @@ export default function Sidebar() {
       {/* Bottom Card */}
       <div className="p-3">
         <div
-          className="rounded-xl p-4 text-white relative overflow-hidden"
+          className="rounded-xl border border-border bg-[#171d26] p-4 text-white"
           style={{ background: THEME.sidebarBottomBackground }}
           data-testid="sidebar-bottom-card"
         >
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-1">
-              <Leaf size={16} className="text-green-300" />
-              <span className="text-[10px] font-medium text-green-200 uppercase tracking-wider">CIAL</span>
-            </div>
-            <p className="text-sm font-semibold text-white leading-snug">{THEME.swagathamText}</p>
-            <p className="text-[10px] text-green-200 mt-1">Greener Aviation</p>
-          </div>
-          <div className="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-white/5" />
-          <div className="absolute -right-2 -bottom-4 w-14 h-14 rounded-full bg-white/5" />
+          <span className="ce-badge border-white/15 bg-white/10 text-white/75">CIAL</span>
+          <p className="mt-2 text-sm font-semibold leading-snug text-white">{THEME.swagathamText}</p>
+          <p className="mt-1 text-[10px] text-white/60">Enterprise knowledge workspace</p>
         </div>
       </div>
     </aside>

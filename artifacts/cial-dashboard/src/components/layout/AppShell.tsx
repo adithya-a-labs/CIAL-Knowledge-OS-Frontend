@@ -13,22 +13,17 @@ export default function AppShell({ children }: AppShellProps) {
 
   return (
     <div className="app-shell min-h-screen">
-      {/* Desktop sidebar */}
       <Sidebar />
-
-      {/* Mobile drawer */}
       <MobileSidebarDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
 
-      {/* Main content area */}
-      <div className="lg:pl-60 flex min-h-screen min-w-0 flex-col transition-[padding] duration-200 ease-out">
+      <div className="flex min-h-screen min-w-0 flex-col transition-[padding] duration-200 ease-out lg:pl-60">
         <TopBar onMenuClick={() => setMobileOpen(true)} />
-        <main className="app-content flex-1 w-full min-w-0 px-3 py-4 sm:px-4 md:px-6 lg:px-7 2xl:px-8" data-testid="main-content">
+        <main className="app-content w-full min-w-0 flex-1 px-3 py-4 sm:px-4 md:px-6 lg:px-7 2xl:px-8" data-testid="main-content">
           {children}
         </main>
-        {/* Footer */}
-        <footer className="mt-4 py-4 px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#5a7a52] border-t border-[#e2eedd] bg-white/50">
+        <footer className="mt-4 flex flex-col items-center justify-between gap-2 border-t border-border bg-white px-6 py-4 text-xs text-muted-foreground sm:flex-row">
           <span data-testid="footer-text">{THEME.footerText}</span>
-          <span className="font-medium text-[#4a7c3f]" data-testid="footer-tagline">{THEME.swagathamText} 🌿</span>
+          <span className="font-medium text-primary" data-testid="footer-tagline">{THEME.swagathamText}</span>
         </footer>
       </div>
     </div>
