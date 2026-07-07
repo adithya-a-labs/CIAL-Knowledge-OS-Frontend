@@ -74,7 +74,7 @@ function renderContentWithCitations(
             type="button"
             disabled={!source}
             onClick={() => source && onCitationClick(source)}
-            className="mx-0.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-[#e5f2df] px-1.5 text-[11px] font-bold text-[#4a7c3f] align-middle hover:bg-[#d4e9c9] disabled:opacity-40"
+            className="mx-0.5 inline-flex min-h-5 min-w-5 items-center justify-center rounded-md border border-[hsl(95_28%_78%)] bg-[hsl(95_24%_94%)] px-1.5 text-[11px] font-bold text-primary align-middle hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-40"
             data-testid={`inline-citation-${indexNumber}`}
           >
             {part}
@@ -90,16 +90,16 @@ function renderContentWithCitations(
     if (numbered) {
       return (
         <div key={`line-${lineIndex}`} className="mt-1.5 flex gap-2">
-          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#4a7c3f] text-[10px] font-bold text-white">
+          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-primary text-[10px] font-bold text-white">
             {numbered[1]}
           </span>
-          <span className="safe-text text-sm text-[#1a2e14]">{renderedParts}</span>
+          <span className="safe-text text-sm text-foreground">{renderedParts}</span>
         </div>
       );
     }
 
     return (
-      <p key={`line-${lineIndex}`} className="safe-text mt-1 text-sm leading-6 text-[#1a2e14]">
+      <p key={`line-${lineIndex}`} className="safe-text mt-1 text-sm leading-6 text-foreground">
         {renderedParts}
       </p>
     );
@@ -108,7 +108,7 @@ function renderContentWithCitations(
 
 function MetadataPanel({ metadata }: { metadata: AssistantMessageMetadata }) {
   return (
-    <div className="rounded-lg border border-[#dbead4] bg-white px-3 py-2 text-[11px] font-medium text-[#5a7a52]">
+    <div className="rounded-lg border border-border bg-muted px-3 py-2 text-[11px] font-medium text-muted-foreground">
       {SEARCH_SCOPE_LABELS[metadata.searchScope]} / {RESPONSE_LENGTH_LABELS[metadata.responseLength]} /{' '}
       {metadata.documentsSearched} docs / {metadata.chunksRetrieved} chunks / {metadata.sourcesUsed} sources /{' '}
       {metadata.confidence}% confidence / {metadata.generationTimeSeconds.toFixed(1)}s
@@ -130,10 +130,10 @@ export default function ChatMessage({
     return (
       <div className="flex justify-end" data-testid={`chat-message-user-${message.id}`}>
         <div className="max-w-[92%] sm:max-w-[76%] lg:max-w-[70%]">
-          <div className="safe-text rounded-2xl rounded-tr-sm bg-[#4a7c3f] px-4 py-3 text-sm text-white">
+          <div className="safe-text rounded-xl border border-primary bg-primary px-4 py-3 text-sm text-white shadow-sm">
             {message.content}
           </div>
-          <p className="mt-1 text-right text-[11px] text-[#9ab88e]">{message.timestamp}</p>
+          <p className="mt-1 text-right text-[11px] text-muted-foreground">{message.timestamp}</p>
         </div>
       </div>
     );
@@ -144,10 +144,12 @@ export default function ChatMessage({
   return (
     <div className="flex justify-start" data-testid={`chat-message-ai-${message.id}`}>
       <div className="max-w-[94%] space-y-2 sm:max-w-[84%] lg:max-w-[80%]">
-        <div className="rounded-2xl rounded-tl-sm border border-[#e2eedd] bg-[#f8fdf6] px-4 py-3">
-          <p className="mb-2 text-xs font-semibold text-[#4a7c3f]">Response</p>
+        <div className="ce-card px-4 py-3">
+          <div className="mb-2 flex items-center justify-between gap-3 border-b border-border pb-2">
+            <p className="text-xs font-semibold text-foreground">Grounded response</p>
+            <span className="ce-meta-text">{message.timestamp}</span>
+          </div>
           {renderContentWithCitations(message.content, sources, onCitationClick)}
-          <p className="mt-2 text-[11px] text-[#9ab88e]">{message.timestamp}</p>
         </div>
 
         {message.metadata && <MetadataPanel metadata={message.metadata} />}
@@ -155,15 +157,15 @@ export default function ChatMessage({
         <SourceCitationCard sources={sources} onOpenSource={onSourceOpen} />
 
         {message.relatedQuestions && message.relatedQuestions.length > 0 && (
-          <div className="rounded-xl border border-[#ddecd6] bg-white p-3">
-            <p className="mb-2 text-xs font-semibold text-[#1a2e14]">Related questions</p>
+          <div className="ce-card p-3">
+            <p className="mb-2 text-xs font-semibold text-foreground">Related questions</p>
             <div className="flex flex-wrap gap-2">
               {message.relatedQuestions.map((question) => (
                 <button
                   key={question}
                   type="button"
                   onClick={() => onRelatedQuestionClick(question)}
-                  className="rounded-full border border-[#dbead4] bg-[#fbfef9] px-3 py-1.5 text-xs font-medium text-[#4a7c3f] hover:bg-[#f0f7ed]"
+                  className="ce-action min-h-8 text-primary"
                   data-testid="button-related-question"
                 >
                   {question}
@@ -177,7 +179,7 @@ export default function ChatMessage({
           <button
             type="button"
             onClick={() => onCopy(message.content)}
-            className="inline-flex items-center gap-1 rounded-lg border border-[#cfe3c7] bg-white px-2.5 py-1.5 text-xs font-semibold text-[#4a7c3f] hover:bg-[#f0f7ed]"
+            className="ce-action text-primary"
             data-testid={`button-copy-${message.id}`}
           >
             <Clipboard size={13} />
@@ -195,7 +197,7 @@ export default function ChatMessage({
                 key={action.label}
                 type="button"
                 onClick={() => onUnavailableAction(action.label)}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#e2eedd] bg-white px-2.5 py-1.5 text-xs font-semibold text-[#7d9b73] hover:bg-[#f8fdf6]"
+                className="ce-action"
                 data-testid={`button-action-${action.label.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 <Icon size={13} />
@@ -206,7 +208,7 @@ export default function ChatMessage({
         </div>
 
         <div className="flex flex-wrap items-center gap-2 px-1">
-          <span className="text-[11px] text-[#9ab88e]">Feedback</span>
+          <span className="text-[11px] text-muted-foreground">Feedback</span>
           {feedbackOptions.map((option) => {
             const Icon = option.icon;
             const active = selectedFeedback === option.value;
@@ -218,10 +220,10 @@ export default function ChatMessage({
                   // TODO: Send feedback to backend analytics/evaluation logging.
                   onFeedback(message.id, option.value);
                 }}
-                className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-semibold transition-colors ${
+                className={`inline-flex items-center gap-1 rounded-lg border px-2 py-1 text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
                   active
-                    ? 'bg-[#4a7c3f] text-white'
-                    : 'bg-white text-[#5a7a52] hover:bg-[#f0f7ed] hover:text-[#4a7c3f]'
+                    ? 'border-primary bg-primary text-white'
+                    : 'border-border bg-white text-muted-foreground hover:bg-muted hover:text-foreground'
                 }`}
                 data-testid={`button-feedback-${option.value}-${message.id}`}
               >

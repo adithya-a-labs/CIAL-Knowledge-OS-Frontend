@@ -170,7 +170,7 @@ export default function ChatPanel() {
 
   return (
     <div className="flex min-h-0 min-w-0 flex-1 gap-4" data-testid="assistant-workspace">
-      <div className="responsive-card flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden border border-[#e2eedd] bg-white shadow-sm" data-testid="chat-panel">
+      <div className="ce-panel responsive-card flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden" data-testid="chat-panel">
         <ChatControlBar
           searchScope={searchScope}
           responseLength={responseLength}
@@ -181,7 +181,7 @@ export default function ChatPanel() {
           onManageContext={() => setContextManagerOpen(true)}
         />
 
-        <div className="scrollbar-soft min-h-0 flex-1 space-y-4 overflow-y-auto p-3 sm:space-y-5 sm:p-5" data-testid="chat-messages">
+        <div className="scrollbar-soft min-h-0 flex-1 space-y-4 overflow-y-auto bg-[hsl(210_20%_98%)] p-3 sm:space-y-5 sm:p-5" data-testid="chat-messages">
           {messages.map((msg) => (
             <ChatMessage
               key={msg.id}
@@ -221,14 +221,14 @@ export default function ChatPanel() {
           }
         />
 
-        <div className="border-t border-[#e2eedd] bg-[#fffdf8] px-4 py-1.5">
-          <p className="text-center text-[10px] text-[#9ab88e]">
+        <div className="border-t border-border bg-white px-4 py-1.5">
+          <p className="text-center text-[10px] text-muted-foreground">
             All responses may be inaccurate. Please verify critical information with official documents.
           </p>
         </div>
 
-        <div className="border-t border-[#e2eedd] p-3 sm:p-4">
-          <div className="flex min-w-0 items-center gap-2 rounded-xl border border-[#ddecd6] bg-[#f8fdf6] px-3 py-2.5 transition-all focus-within:border-[#4a7c3f] focus-within:ring-2 focus-within:ring-[#4a7c3f]/30 sm:px-4">
+        <div className="border-t border-border bg-white p-3 sm:p-4">
+          <div className="ce-control flex min-w-0 items-center gap-2 px-3 py-2.5 sm:px-4">
             <input
               ref={fileInputRef}
               type="file"
@@ -241,7 +241,7 @@ export default function ChatPanel() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="rounded-lg p-1.5 text-[#7d9b73] transition-colors hover:bg-white hover:text-[#4a7c3f]"
+              className="ce-icon-button"
               aria-label="Attach files"
               data-testid="button-attach-file"
             >
@@ -255,18 +255,19 @@ export default function ChatPanel() {
                 if (event.key === 'Enter' && !event.shiftKey) handleSend();
               }}
               placeholder="Ask a grounded question..."
-              className="min-w-0 flex-1 bg-transparent text-sm text-[#1a2e14] outline-none placeholder:text-[#9ab88e]"
+              className="min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
               data-testid="input-chat"
             />
-            <button className="text-[#9ab88e] transition-colors hover:text-[#4a7c3f]" data-testid="button-voice">
+            <button className="ce-icon-button" data-testid="button-voice" aria-label="Start voice input">
               <Mic size={16} />
             </button>
             <button
               type="button"
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#4a7c3f] text-white transition-colors hover:bg-[#3d6834] disabled:bg-gray-300"
+              className="ce-action ce-action-primary h-8 w-8 shrink-0 p-0 disabled:border-gray-300 disabled:bg-gray-300"
               data-testid="button-send"
+              aria-label="Send message"
             >
               <Send size={14} />
             </button>
