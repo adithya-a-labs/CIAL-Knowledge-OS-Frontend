@@ -6,7 +6,7 @@ export default function KpiRow() {
   const [, setLocation] = useLocation();
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3" data-testid="kpi-row">
+    <div className="fluid-grid-sm" data-testid="kpi-row">
       {DASHBOARD_KPI_STATS.map((stat) => (
         <StatCard
           key={stat.label}
