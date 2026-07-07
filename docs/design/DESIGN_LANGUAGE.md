@@ -4,6 +4,116 @@ This document is the primary source of truth for the visual and interaction dire
 
 Use this file as the reference for prompts, implementation tasks, and design reviews. If a decision feels unclear, default to calm, professional, enterprise-grade clarity over novelty.
 
+# User Emotional Experience
+
+Every screen in CIAL Knowledge OS should make the user feel a certain way. The interface is not simply a collection of components—it is an environment that people spend hours working inside. Every interaction should reduce stress, increase confidence, and make knowledge feel immediately accessible.
+
+## The Desired Feeling
+
+When using CIAL Knowledge OS, users should feel:
+
+### Calm
+The interface should never overwhelm users with visual noise. Whitespace, hierarchy, and restrained colors should create a peaceful working environment. Users should feel that everything has its place.
+
+---
+
+### In Control
+Users should always know:
+- where they are
+- what they can do next
+- what information they're looking at
+- how to return to previous views
+
+Navigation should feel effortless.
+
+---
+
+### Confident
+Information should feel trustworthy. Actions should feel safe. Important operations should feel deliberate. The UI should inspire confidence rather than uncertainty.
+
+---
+
+### Productive
+The product should feel fast even when handling large knowledge bases. Users should spend their time thinking—not searching through clutter. The interface should remove friction from everyday work.
+
+---
+
+### Intelligent
+The system should feel like a knowledgeable assistant. Search, recommendations, AI responses, and organization should make users feel that the software understands their intent. The product should quietly help without constantly demanding attention.
+
+---
+
+### Professional
+This is enterprise software used in operational environments. The design should communicate reliability, maturity, and precision. It should never feel experimental or playful.
+
+---
+
+### Premium
+The experience should feel thoughtfully crafted. Small details matter:
+- smooth transitions
+- consistent spacing
+- polished typography
+- subtle animations
+- refined interactions
+
+Quality should be felt rather than announced.
+
+---
+
+### Familiar
+Users should immediately understand how to interact with the interface. Borrow proven interaction patterns from:
+- Windows Explorer
+- Dropbox
+- Google Drive
+- Arc
+- Linear
+- GitHub
+- Notion
+
+Avoid reinventing common workflows unless there is a clear usability benefit.
+
+---
+
+### Focused
+At any moment, the interface should direct attention toward one primary task. Avoid competing focal points. There should rarely be more than one obvious primary action on screen.
+
+---
+
+### Empowered
+Users should feel that the system gives them more capability rather than more complexity. AI should augment human decision-making, not replace it. Every feature should increase clarity and confidence.
+
+## Emotional Design Principles
+
+Every new page should answer these questions before implementation:
+- Does this reduce cognitive load?
+- Does this make users feel confident?
+- Does this help users find information faster?
+- Does the interface feel calm?
+- Is there unnecessary visual noise?
+- Can the next action be understood in under two seconds?
+- Would someone feel comfortable spending eight hours a day using this interface?
+- Does this interaction feel polished enough for a premium enterprise product?
+
+## If a design choice creates a conflict
+
+Always prioritize:
+1. Clarity
+2. Simplicity
+3. Confidence
+4. Consistency
+5. Speed
+6. Visual polish
+
+Never sacrifice usability purely for aesthetics.
+
+## The North Star
+
+The ideal user reaction is:
+
+> "Everything is exactly where I expect it to be. The interface stays out of my way. Finding knowledge feels effortless, and I trust the system."
+
+This sentence should guide every future UI decision.
+
 ## 1. Product Philosophy
 
 CIAL Knowledge OS is not a generic admin dashboard. It is an enterprise operating system for organizational knowledge used by airport operations teams, knowledge workers, departments, analysts, and support staff.
