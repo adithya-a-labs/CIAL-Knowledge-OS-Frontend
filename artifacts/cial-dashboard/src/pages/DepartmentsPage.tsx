@@ -17,10 +17,10 @@ const DEPT_COLORS = [
 
 export default function DepartmentsPage() {
   return (
-    <div data-testid="departments-page">
+    <div className="fluid-section" data-testid="departments-page">
       <PageHeader title="Departments" subtitle="Overview of all departments and knowledge data." />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="fluid-grid-lg">
         {DEPARTMENTS.map((dept, idx) => {
           const IconComp = ICON_MAP[dept.icon] || Building2;
           const colors = DEPT_COLORS[idx % DEPT_COLORS.length];
@@ -28,14 +28,14 @@ export default function DepartmentsPage() {
           return (
             <div
               key={dept.id}
-              className="bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden hover:shadow-md transition-shadow"
+              className="fluid-card responsive-card min-w-0 overflow-hidden border border-[#e2eedd] bg-white shadow-sm hover:shadow-md"
               data-testid={`dept-card-${dept.id}`}
             >
               {/* Colored header */}
               <div className={`bg-gradient-to-r ${colors.header} p-5`}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-bold text-white text-base">{dept.name}</h3>
+                    <h3 className="safe-text text-base font-bold text-white">{dept.name}</h3>
                     <p className="text-xs text-white/75 mt-0.5">Department</p>
                   </div>
                   <div className={`w-10 h-10 rounded-xl ${colors.icon} flex items-center justify-center`}>
@@ -69,8 +69,8 @@ export default function DepartmentsPage() {
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#4a7c3f] to-[#7ab648] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                     {dept.headInitials}
                   </div>
-                  <div>
-                    <p className="text-xs font-semibold text-[#1a2e14]">{dept.headName}</p>
+                  <div className="min-w-0">
+                    <p className="truncate text-xs font-semibold text-[#1a2e14]">{dept.headName}</p>
                     <p className="text-[10px] text-[#5a7a52]">Department Head</p>
                   </div>
                 </div>
