@@ -14,16 +14,16 @@ export default function HeroSearch() {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-[#e2eedd] shadow-sm overflow-hidden" data-testid="hero-search">
+    <div className="responsive-card overflow-hidden border border-[#e2eedd] bg-white shadow-sm" data-testid="hero-search">
       <div className="grid grid-cols-1 lg:grid-cols-5">
         {/* Left: Greeting + Search */}
-        <div className="lg:col-span-3 p-6 lg:p-8">
-          <h1 className="text-2xl font-bold text-[#1a2e14]" data-testid="text-welcome">
+        <div className="p-4 sm:p-6 lg:col-span-3 lg:p-8">
+          <h1 className="safe-text text-2xl font-bold leading-tight text-[#1a2e14] sm:text-3xl" data-testid="text-welcome">
             Welcome back, <span className="text-[#4a7c3f]">{firstName}</span> 👋
           </h1>
           <p className="text-sm text-[#5a7a52] mt-1">How can I help you today?</p>
 
-          <div className="mt-5 flex items-center gap-2 bg-[#f8fdf6] border border-[#ddecd6] rounded-xl px-4 py-3 focus-within:ring-2 focus-within:ring-[#4a7c3f]/30 focus-within:border-[#4a7c3f] transition-all">
+          <div className="mt-5 flex min-w-0 items-center gap-2 rounded-xl border border-[#ddecd6] bg-[#f8fdf6] px-3 py-3 transition-all focus-within:border-[#4a7c3f] focus-within:ring-2 focus-within:ring-[#4a7c3f]/30 sm:px-4">
             <Search size={16} className="text-[#9ab88e] flex-shrink-0" />
             <input
               type="text"
@@ -31,7 +31,7 @@ export default function HeroSearch() {
               onChange={e => setSearchQuery(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSearch()}
               placeholder="Ask anything about CIAL knowledge base..."
-              className="flex-1 bg-transparent text-sm text-[#1a2e14] placeholder:text-[#9ab88e] outline-none"
+              className="min-w-0 flex-1 bg-transparent text-sm text-[#1a2e14] outline-none placeholder:text-[#9ab88e]"
               data-testid="input-hero-search"
             />
             <button
@@ -43,7 +43,7 @@ export default function HeroSearch() {
             </button>
             <button
               onClick={handleSearch}
-              className="w-8 h-8 bg-[#4a7c3f] hover:bg-[#3d6834] rounded-lg flex items-center justify-center text-white transition-colors"
+              className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#4a7c3f] text-white transition-colors hover:bg-[#3d6834]"
               data-testid="button-submit-search"
             >
               <Send size={14} />
@@ -51,7 +51,7 @@ export default function HeroSearch() {
           </div>
 
           {/* Quick search pills */}
-          <div className="flex flex-wrap gap-2 mt-3">
+          <div className="mt-3 flex flex-wrap gap-2">
             {HERO_QUICK_SEARCHES.map((q) => (
               <button
                 key={q}
@@ -67,7 +67,7 @@ export default function HeroSearch() {
 
         {/* Right: Decorative airport illustration */}
         <div
-          className="lg:col-span-2 min-h-[160px] lg:min-h-[220px] relative overflow-hidden"
+          className="relative min-h-[140px] overflow-hidden sm:min-h-[160px] lg:col-span-2 lg:min-h-[220px]"
           aria-hidden="true"
         >
           <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, #c8e6a0 0%, #8fc85a 60%, #5a8a35 100%)' }} />
