@@ -20,10 +20,10 @@ export default function StatCard({ label, value, delta, trend, icon, iconBg, vie
 
   return (
     <div
-      className="bg-white rounded-xl border border-[#e2eedd] p-4 shadow-sm hover:shadow-md transition-shadow duration-200"
+      className="fluid-card responsive-card min-w-0 border border-[#e2eedd] bg-white p-4 shadow-sm hover:border-[#cfe4c8] hover:shadow-md"
       data-testid={`stat-card-${label.toLowerCase().replace(/\s+/g, '-')}`}
     >
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between gap-3">
         <div
           className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ background: iconBg || 'hsl(100 35% 93%)' }}
@@ -41,9 +41,9 @@ export default function StatCard({ label, value, delta, trend, icon, iconBg, vie
         )}
       </div>
       <div className="mt-3">
-        <div className="text-[11px] text-[#5a7a52] font-medium uppercase tracking-wide" data-testid="stat-label">{label}</div>
+        <div className="safe-text text-[11px] font-medium uppercase tracking-wide text-[#5a7a52]" data-testid="stat-label">{label}</div>
         <div className="text-2xl font-bold text-[#1a2e14] mt-0.5" data-testid="stat-value">{value}</div>
-        <div className={`text-xs mt-1 flex items-center gap-1 ${trend === 'up' ? 'text-[#27ae60]' : trend === 'down' ? 'text-[#c0392b]' : 'text-[#5a7a52]'}`} data-testid="stat-delta">
+        <div className={`mt-1 flex items-center gap-1 text-xs ${trend === 'up' ? 'text-[#27ae60]' : trend === 'down' ? 'text-[#c0392b]' : 'text-[#5a7a52]'}`} data-testid="stat-delta">
           {trend === 'up' && <TrendingUp size={11} />}
           {trend === 'down' && <TrendingDown size={11} />}
           <span>{delta}</span>
