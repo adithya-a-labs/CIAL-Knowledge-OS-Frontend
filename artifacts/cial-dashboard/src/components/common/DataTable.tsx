@@ -21,14 +21,14 @@ export default function DataTable<T extends object>({
   className = '',
 }: DataTableProps<T>) {
   return (
-    <div className={`w-full overflow-x-auto ${className}`}>
-      <table className="w-full text-sm">
+    <div className={`scrollbar-soft w-full overflow-x-auto rounded-xl ${className}`}>
+      <table className="w-full min-w-[42rem] text-sm">
         <thead>
           <tr className="border-b border-[#e2eedd]">
             {columns.map((col) => (
               <th
                 key={String(col.key)}
-                className={`text-left text-xs font-semibold text-[#5a7a52] uppercase tracking-wide py-2 px-3 ${col.className ?? ''}`}
+                className={`px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-[#5a7a52] ${col.className ?? ''}`}
               >
                 {col.header}
               </th>
@@ -46,11 +46,11 @@ export default function DataTable<T extends object>({
             data.map((row, i) => (
               <tr
                 key={i}
-                className="border-b border-[#f0f7ed] hover:bg-[#f8fdf6] transition-colors"
+                className="border-b border-[#f0f7ed] transition-colors hover:bg-[#f8fdf6]"
                 data-testid={rowTestId ? rowTestId(row, i) : undefined}
               >
                 {columns.map((col) => (
-                  <td key={String(col.key)} className={`py-2 px-3 text-[#1a2e14] ${col.className ?? ''}`}>
+                  <td key={String(col.key)} className={`safe-text px-3 py-2 text-[#1a2e14] ${col.className ?? ''}`}>
                     {col.render
                       ? col.render(row, i)
                       : String((row as Record<string, unknown>)[String(col.key)] ?? '')}
