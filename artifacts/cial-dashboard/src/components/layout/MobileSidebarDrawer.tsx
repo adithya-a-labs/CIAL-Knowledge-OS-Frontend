@@ -60,9 +60,9 @@ export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDraw
     }`;
 
   return (
-    <div className="lg:hidden fixed inset-0 z-50 flex">
+    <div className="fixed inset-0 z-50 flex lg:hidden">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} data-testid="sidebar-overlay" />
-      <aside className="relative w-64 bg-white flex flex-col h-full shadow-2xl animate-in slide-in-from-left duration-200" data-testid="mobile-sidebar">
+      <aside className="relative flex h-full w-[min(19rem,86vw)] flex-col bg-white shadow-2xl animate-in slide-in-from-left duration-200" data-testid="mobile-sidebar">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-[#e2eedd]">
           <div className="flex items-center gap-3">
@@ -78,7 +78,7 @@ export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDraw
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-0.5">
+        <nav className="scrollbar-soft flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
           {visibleItems.map((item) => {
             const Icon = ICON_MAP[item.icon] || Home;
             return (
