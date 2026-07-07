@@ -18,11 +18,11 @@ export default function PoliciesSOPsPage() {
   });
 
   return (
-    <div data-testid="policies-sops-page">
+    <div className="fluid-section" data-testid="policies-sops-page">
       <PageHeader title="Policies & SOPs" subtitle="Find all policies and standard operating procedures." />
 
-      <div className="flex flex-col sm:flex-row gap-3 mb-4">
-        <SearchBar value={search} onChange={setSearch} placeholder="Search SOPs..." className="flex-1" />
+      <div className="mb-4 grid grid-cols-1 gap-3 lg:grid-cols-[minmax(16rem,1fr)_repeat(3,minmax(9rem,12rem))]">
+        <SearchBar value={search} onChange={setSearch} placeholder="Search SOPs..." className="min-w-0" />
         {[
           { key: 'department', label: 'All Departments', options: SOP_DEPARTMENTS },
           { key: 'status', label: 'All Status', options: SOP_STATUSES },
@@ -32,7 +32,7 @@ export default function PoliciesSOPsPage() {
             key={f.key}
             value={filters[f.key as keyof typeof filters]}
             onChange={e => setFilters(p => ({ ...p, [f.key]: e.target.value }))}
-            className="text-sm bg-white border border-[#ddecd6] rounded-lg px-3 py-2 text-[#1a2e14] focus:outline-none focus:ring-2 focus:ring-[#4a7c3f]/30"
+            className="w-full rounded-lg border border-[#ddecd6] bg-white px-3 py-2 text-sm text-[#1a2e14] focus:ring-2 focus:ring-[#4a7c3f]/30"
             data-testid={`filter-sop-${f.key}`}
           >
             <option value="">{f.label}</option>
@@ -41,8 +41,8 @@ export default function PoliciesSOPsPage() {
         ))}
       </div>
 
-      <div className="hidden md:block bg-white rounded-xl border border-[#e2eedd] shadow-sm overflow-hidden">
-        <table className="w-full" data-testid="sops-table">
+      <div className="scrollbar-soft hidden overflow-x-auto rounded-xl border border-[#e2eedd] bg-white shadow-sm md:block">
+        <table className="w-full min-w-[62rem]" data-testid="sops-table">
           <thead>
             <tr className="border-b border-[#e2eedd] bg-[#f8fdf6]">
               {['SOP Title', 'Department', 'Version', 'Status', 'Owner', 'Last Review', 'Next Review', 'Actions'].map(h => (
@@ -75,9 +75,9 @@ export default function PoliciesSOPsPage() {
       </div>
 
       {/* Mobile */}
-      <div className="md:hidden space-y-3">
+      <div className="space-y-3 md:hidden">
         {filtered.length === 0 ? <EmptyState /> : filtered.map((sop) => (
-          <div key={sop.id} className="bg-white rounded-xl border border-[#e2eedd] p-4 shadow-sm" data-testid={`sop-card-${sop.id}`}>
+          <div key={sop.id} className="responsive-card border border-[#e2eedd] bg-white p-4 shadow-sm" data-testid={`sop-card-${sop.id}`}>
             <div className="flex items-start justify-between gap-2 mb-2">
               <p className="font-semibold text-sm text-[#1a2e14] flex-1">{sop.title}</p>
               <StatusPill status={sop.status} />
