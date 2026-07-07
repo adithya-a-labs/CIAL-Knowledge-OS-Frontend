@@ -101,7 +101,7 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* CIAL Knowledge OS — Light Mode */
+/* CIAL Knowledge OS - Light Mode */
 :root {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
@@ -109,59 +109,59 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  /* Page background — very soft mint */
-  --background: 105 25% 96%;
-  /* Main text — dark charcoal */
-  --foreground: 85 20% 15%;
-  /* Default border — light sage */
-  --border: 100 20% 87%;
+  /* Page background - calm neutral workspace */
+  --background: 210 20% 97%;
+  /* Main text - dark charcoal */
+  --foreground: 216 24% 12%;
+  /* Default border - neutral enterprise line */
+  --border: 214 18% 88%;
   /* Input borders */
-  --input: 100 20% 80%;
-  /* Focus ring — CIAL green */
+  --input: 214 16% 82%;
+  /* Focus ring - CIAL green */
   --ring: 95 45% 38%;
 
-  /* Card — pure white */
+  /* Card - pure white */
   --card: 0 0% 100%;
-  --card-foreground: 85 20% 15%;
-  --card-border: 100 20% 89%;
+  --card-foreground: 216 24% 12%;
+  --card-border: 214 18% 88%;
 
-  /* Sidebar — white */
+  /* Sidebar - white */
   --sidebar: 0 0% 100%;
-  --sidebar-foreground: 85 20% 18%;
-  --sidebar-border: 100 15% 90%;
-  /* Active sidebar item — CIAL primary green */
+  --sidebar-foreground: 216 24% 14%;
+  --sidebar-border: 214 18% 88%;
+  /* Active sidebar item - CIAL primary green */
   --sidebar-primary: 95 50% 33%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 100 35% 93%;
+  --sidebar-accent: 210 18% 95%;
   --sidebar-accent-foreground: 95 40% 28%;
   --sidebar-ring: 95 45% 38%;
 
   /* Popover */
   --popover: 0 0% 100%;
-  --popover-foreground: 85 20% 15%;
-  --popover-border: 100 20% 87%;
+  --popover-foreground: 216 24% 12%;
+  --popover-border: 214 18% 88%;
 
-  /* Primary — CIAL forest green */
+  /* Primary - CIAL forest green */
   --primary: 95 50% 33%;
   --primary-foreground: 0 0% 100%;
 
-  /* Secondary — soft mint */
-  --secondary: 100 30% 92%;
-  --secondary-foreground: 95 40% 25%;
+  /* Secondary - neutral control surface */
+  --secondary: 210 18% 95%;
+  --secondary-foreground: 216 18% 22%;
 
   /* Muted */
-  --muted: 100 20% 94%;
-  --muted-foreground: 85 15% 45%;
+  --muted: 210 18% 95%;
+  --muted-foreground: 216 10% 42%;
 
-  /* Accent — pale green */
-  --accent: 95 35% 90%;
+  /* Accent - restrained CIAL green */
+  --accent: 95 22% 92%;
   --accent-foreground: 95 45% 25%;
 
   /* Destructive */
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  /* Charts — CIAL palette */
+  /* Charts - CIAL palette */
   --chart-1: 95 50% 33%;   /* forest green */
   --chart-2: 88 60% 48%;   /* lime green */
   --chart-3: 30 90% 55%;   /* amber */
@@ -171,16 +171,16 @@
   --app-font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
   --app-font-serif: Georgia, serif;
   --app-font-mono: Menlo, monospace;
-  --radius: 0.75rem; /* 12px — generous rounding for enterprise feel */
+  --radius: 0.75rem; /* 12px */
 
-  --shadow-2xs: 0px 1px 2px 0px rgba(60, 80, 40, 0.04);
-  --shadow-xs: 0px 1px 3px 0px rgba(60, 80, 40, 0.06);
-  --shadow-sm: 0px 2px 4px 0px rgba(60, 80, 40, 0.06), 0px 1px 2px -1px rgba(60, 80, 40, 0.04);
-  --shadow: 0px 2px 8px 0px rgba(60, 80, 40, 0.08), 0px 1px 2px -1px rgba(60, 80, 40, 0.04);
-  --shadow-md: 0px 4px 12px 0px rgba(60, 80, 40, 0.10), 0px 2px 4px -1px rgba(60, 80, 40, 0.06);
-  --shadow-lg: 0px 8px 20px 0px rgba(60, 80, 40, 0.12), 0px 4px 6px -1px rgba(60, 80, 40, 0.06);
-  --shadow-xl: 0px 16px 32px 0px rgba(60, 80, 40, 0.14), 0px 8px 10px -1px rgba(60, 80, 40, 0.08);
-  --shadow-2xl: 0px 24px 48px 0px rgba(60, 80, 40, 0.16);
+  --shadow-2xs: 0px 1px 2px 0px rgba(15, 23, 42, 0.03);
+  --shadow-xs: 0px 1px 3px 0px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0px 1px 2px 0px rgba(15, 23, 42, 0.04);
+  --shadow: 0px 1px 3px 0px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0px 8px 24px -12px rgba(15, 23, 42, 0.18);
+  --shadow-lg: 0px 18px 48px -24px rgba(15, 23, 42, 0.22);
+  --shadow-xl: 0px 24px 64px -28px rgba(15, 23, 42, 0.24);
+  --shadow-2xl: 0px 32px 80px -32px rgba(15, 23, 42, 0.28);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
@@ -200,7 +200,7 @@
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
-/* No dark mode for this enterprise dashboard — light only */
+/* No dark mode for this enterprise dashboard - light only */
 
 @layer base {
   * {
@@ -243,22 +243,20 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: hsl(100 20% 95%);
+    background: hsl(210 18% 95%);
   }
   ::-webkit-scrollbar-thumb {
-    background: hsl(95 30% 75%);
+    background: hsl(214 14% 76%);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(95 40% 55%);
+    background: hsl(214 12% 58%);
   }
 }
 
 @layer utilities {
   .app-shell {
-    background:
-      radial-gradient(circle at 10% 0%, hsl(95 42% 91% / 0.7), transparent 30rem),
-      linear-gradient(180deg, hsl(105 31% 97%) 0%, hsl(100 25% 94%) 100%);
+    background: hsl(var(--background));
   }
 
   .app-content {
@@ -297,7 +295,7 @@
   }
 
   .fluid-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
   }
 
   .fluid-filter-row {
@@ -314,7 +312,7 @@
   }
 
   .responsive-card {
-    border-radius: clamp(0.75rem, 1.2vw, 1rem);
+    border-radius: 0.75rem;
   }
 
   .safe-text {
@@ -324,7 +322,7 @@
 
   .scrollbar-soft {
     scrollbar-width: thin;
-    scrollbar-color: hsl(95 30% 75%) hsl(100 20% 95%);
+    scrollbar-color: hsl(214 14% 76%) hsl(210 18% 95%);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -413,22 +411,22 @@
 
   /* CIAL specific utilities */
   .cial-sidebar-active {
-    background: linear-gradient(135deg, hsl(95 50% 33%) 0%, hsl(88 55% 38%) 100%);
+    background: hsl(var(--primary));
     color: white;
-    box-shadow: 0 2px 8px rgba(74, 124, 63, 0.35);
+    box-shadow: none;
   }
 
   .cial-card {
     background: white;
-    border-radius: 1rem;
-    border: 1px solid hsl(100 20% 89%);
-    box-shadow: 0 2px 8px rgba(60, 80, 40, 0.06);
+    border-radius: 0.75rem;
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-sm);
     transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
   }
 
   .cial-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(60, 80, 40, 0.1);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
   }
 
   .cial-hero-gradient {
@@ -436,7 +434,164 @@
   }
 
   .cial-sidebar-gradient {
-    background: linear-gradient(180deg, hsl(90 60% 25%) 0%, hsl(88 55% 30%) 60%, hsl(85 50% 22%) 100%);
+    background: hsl(216 24% 12%);
+  }
+
+  .ce-panel {
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    background: white;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .ce-card {
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    background: white;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .ce-subtle-card {
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    background: hsl(210 20% 98%);
+  }
+
+  .ce-toolbar {
+    border-bottom: 1px solid hsl(var(--border));
+    background: hsl(0 0% 100% / 0.96);
+  }
+
+  .ce-control {
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    background: hsl(210 20% 98%);
+    transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .ce-control:focus-within,
+  .ce-control:focus-visible {
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.14);
+  }
+
+  .ce-icon-button {
+    display: inline-flex;
+    min-height: 2rem;
+    min-width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: hsl(var(--muted-foreground));
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+
+  .ce-icon-button:hover {
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+  }
+
+  .ce-icon-button:focus-visible,
+  .ce-action:focus-visible,
+  .ce-chip:focus-visible,
+  .ce-nav-item:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  .ce-action {
+    display: inline-flex;
+    min-height: 2rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    background: white;
+    padding-inline: 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: hsl(var(--muted-foreground));
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+
+  .ce-action:hover {
+    border-color: hsl(214 16% 80%);
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+  }
+
+  .ce-action-primary {
+    border-color: hsl(var(--primary));
+    background: hsl(var(--primary));
+    color: white;
+  }
+
+  .ce-action-primary:hover {
+    border-color: hsl(95 50% 28%);
+    background: hsl(95 50% 28%);
+    color: white;
+  }
+
+  .ce-chip {
+    display: inline-flex;
+    max-width: 100%;
+    align-items: center;
+    gap: 0.375rem;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.5rem;
+    background: white;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: hsl(var(--foreground));
+  }
+
+  .ce-badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.375rem;
+    padding: 0.125rem 0.375rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: hsl(var(--muted-foreground));
+    background: hsl(var(--muted));
+  }
+
+  .ce-badge-accent {
+    border-color: hsl(95 28% 78%);
+    color: hsl(95 44% 28%);
+    background: hsl(95 24% 94%);
+  }
+
+  .ce-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 0.5rem;
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: hsl(216 14% 30%);
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+
+  .ce-nav-item:hover {
+    background: hsl(var(--muted));
+    color: hsl(var(--foreground));
+  }
+
+  .ce-nav-item-active {
+    background: hsl(95 24% 94%);
+    color: hsl(95 44% 26%);
+    box-shadow: inset 3px 0 0 hsl(var(--primary));
+  }
+
+  .ce-meta-text {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.6875rem;
+    line-height: 1rem;
   }
 
   .cial-text-green {
