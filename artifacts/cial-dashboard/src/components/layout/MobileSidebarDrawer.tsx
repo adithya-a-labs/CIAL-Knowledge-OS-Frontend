@@ -1,25 +1,8 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
-import {
-  X, Home, Bot, FileText, BookOpen, ShieldCheck,
-  HelpCircle, Users, Users2, BarChart2, Settings,
-  LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
-  GraduationCap, Network, AlertTriangle, Building2,
-  Shield, KeyRound, ScrollText, FolderOpen, Trash2,
-} from 'lucide-react';
-import { NAV_ITEMS, WORKSPACE_NAV_ITEMS, ADMIN_NAV_ITEMS } from '@/config/navigationConfig';
+import { MessageSquare, Sparkles, X } from 'lucide-react';
 import { THEME } from '@/config/themeConfig';
-import { CURRENT_USER } from '@/config/userConfig';
-import { hasPermission } from '@/config/securityConfig';
-import { Role } from '@/types';
-
-const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  Home, Bot, FileText, BookOpen, ShieldCheck,
-  HelpCircle, Users, Users2, BarChart2, Settings,
-  LayoutDashboard, StickyNote, Bookmark, MessageSquare, HardDrive,
-  GraduationCap, Network, AlertTriangle, Building2,
-  Shield, KeyRound, ScrollText, FolderOpen, Trash2,
-};
+import { homeNavItems } from '@/data/homePageData';
 
 interface MobileSidebarDrawerProps {
   open: boolean;
@@ -28,54 +11,40 @@ interface MobileSidebarDrawerProps {
 
 export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDrawerProps) {
   const [location] = useLocation();
-  const userRole = CURRENT_USER.role as Role;
-  const canAdmin = hasPermission(userRole, 'canAccessAdmin');
-
-  const visibleItems = NAV_ITEMS.filter(item => {
-    if (!item.requiredRole) return true;
-    return canAdmin;
-  });
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [open]);
 
-  useEffect(() => { onClose(); }, [location]);
+  useEffect(() => {
+    onClose();
+  }, [location]);
 
   if (!open) return null;
 
-  const isActive = (path: string) => {
+  const isActive = (label: string, path: string) => {
+    if (label === 'Conversations') return false;
+    if (path === '/') return location === '/';
     if (path === '/knowledge-center') {
       return location.startsWith('/knowledge-center') || location === '/documents' || location === '/knowledge' || location === '/policies';
     }
     if (path === '/workspace') return location === '/workspace';
-    if (path === '/') return location === '/';
-    if (path === '/admin') return location === '/admin';
     return location.startsWith(path);
   };
 
-  const isChildActive = (path: string) => {
-    if (path === '/knowledge-center') return location === '/knowledge-center' || location === '/knowledge';
-    if (path === '/knowledge-center/documents') return location === '/knowledge-center/documents' || location === '/documents';
-    if (path === '/knowledge-center/policies') return location === '/knowledge-center/policies' || location === '/policies';
-    return location === path;
-  };
-
-  const linkCls = (path: string) =>
-    `ce-nav-item cursor-pointer ${isActive(path) ? 'ce-nav-item-active' : ''}`;
-
   return (
     <div className="fixed inset-0 z-50 flex lg:hidden">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} data-testid="sidebar-overlay" />
+      <div className="absolute inset-0 bg-black/35 backdrop-blur-sm" onClick={onClose} data-testid="sidebar-overlay" />
       <aside className="relative flex h-full w-[min(19rem,86vw)] flex-col bg-white shadow-2xl animate-in slide-in-from-left duration-200" data-testid="mobile-sidebar">
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-border px-4 py-4">
+        <div className="flex items-center justify-between border-b border-[#e3e9e1] px-4 py-4">
           <div className="flex items-center gap-3">
-            <img src={THEME.logoPath} alt="CIAL Logo" className="h-8 w-auto object-contain" />
+            <img src={THEME.logoPath} alt="CIAL Logo" className="h-9 w-auto object-contain" />
             <div>
-              <div className="text-sm font-semibold text-foreground">CIAL</div>
-              <div className="text-[10px] text-muted-foreground">Knowledge OS</div>
+              <div className="text-lg font-semibold text-[#25611f]">CIAL</div>
+              <div className="text-xs text-slate-500">Knowledge OS</div>
             </div>
           </div>
           <button onClick={onClose} className="ce-icon-button" data-testid="button-close-sidebar" aria-label="Close sidebar">
@@ -83,80 +52,40 @@ export default function MobileSidebarDrawer({ open, onClose }: MobileSidebarDraw
           </button>
         </div>
 
-        {/* Nav */}
-        <nav className="scrollbar-soft flex-1 space-y-0.5 overflow-y-auto px-3 py-4">
-          {visibleItems.map((item) => {
-            const Icon = ICON_MAP[item.icon] || Home;
-            const active = isActive(item.path);
+        <nav className="scrollbar-soft flex-1 space-y-1 overflow-y-auto px-3 py-4">
+          {homeNavItems.map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.label, item.path);
 
             return (
-              <div key={item.path}>
-                <Link href={item.path} className={linkCls(item.path)}>
-                  <Icon size={18} className={active ? 'text-primary' : 'text-muted-foreground'} />
-                  <span>{item.label}</span>
-                </Link>
-                {item.children && active && (
-                  <div className="ml-6 mt-1 space-y-0.5 border-l border-slate-200 pl-2">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.path}
-                        href={child.path}
-                        className={`flex items-center rounded-md px-3 py-1.5 text-xs font-medium transition-colors hover:bg-slate-100 ${
-                          isChildActive(child.path) ? 'bg-[#f0f7ed] text-primary' : 'text-slate-600'
-                        }`}
-                      >
-                        <span>{child.label}</span>
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-
-          {/* MY WORKSPACE section */}
-          <div className="pt-4 pb-1">
-            <p className="mb-1 px-3 text-[10px] font-bold uppercase tracking-normal text-muted-foreground">
-              My Workspace
-            </p>
-          </div>
-          {WORKSPACE_NAV_ITEMS.map((item) => {
-            const Icon = ICON_MAP[item.icon] || Home;
-            return (
-              <Link key={item.path} href={item.path} className={linkCls(item.path)}>
-                <Icon size={18} className={isActive(item.path) ? 'text-primary' : 'text-muted-foreground'} />
+              <Link
+                key={item.label}
+                href={item.path}
+                className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+                  active ? 'bg-[#edf6e9] text-[#244f1d]' : 'text-slate-700 hover:bg-[#f6f8f5] hover:text-slate-950'
+                }`}
+              >
+                <Icon size={18} className={active ? 'text-[#2f6d25]' : 'text-slate-500'} />
                 <span>{item.label}</span>
               </Link>
             );
           })}
-
-          {/* ADMIN section */}
-          {canAdmin && (
-            <>
-              <div className="pt-4 pb-1">
-                <p className="mb-1 px-3 text-[10px] font-bold uppercase tracking-normal text-muted-foreground">
-                  Admin
-                </p>
-              </div>
-              {ADMIN_NAV_ITEMS.map((item) => {
-                const Icon = ICON_MAP[item.icon] || Shield;
-                return (
-                  <Link key={item.path} href={item.path} className={linkCls(item.path)}>
-                    <Icon size={18} className={isActive(item.path) ? 'text-primary' : 'text-muted-foreground'} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
-            </>
-          )}
         </nav>
 
-        {/* Bottom */}
-        <div className="p-3">
-          <div className="rounded-xl border border-border bg-[#171d26] p-4 text-white" style={{ background: THEME.sidebarBottomBackground }}>
-            <span className="ce-badge border-white/15 bg-white/10 text-white/75">CIAL</span>
-            <p className="mt-2 text-sm font-semibold">{THEME.swagathamText}</p>
-            <p className="mt-1 text-[10px] text-white/60">Enterprise knowledge workspace</p>
+        <div className="p-4">
+          <div className="rounded-2xl border border-[#e3e9e1] bg-white p-4 shadow-sm">
+            <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-950">
+              <Sparkles size={16} className="text-[#2f6d25]" />
+              Ask CIAL Anything
+            </div>
+            <p className="text-xs leading-5 text-slate-500">Your AI knowledge assistant that knows everything.</p>
+            <Link
+              href="/assistant"
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-[#edf6e9] px-3 py-2.5 text-sm font-semibold text-[#24551f]"
+            >
+              <MessageSquare size={16} />
+              New Conversation
+            </Link>
           </div>
         </div>
       </aside>
