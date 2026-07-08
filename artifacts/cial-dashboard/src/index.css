@@ -110,7 +110,7 @@
   --elevate-2: rgba(0,0,0, .08);
 
   /* Page background - calm neutral workspace */
-  --background: 210 20% 97%;
+  --background: 105 18% 97%;
   /* Main text - dark charcoal */
   --foreground: 216 24% 12%;
   /* Default border - neutral enterprise line */
@@ -256,7 +256,9 @@
 
 @layer utilities {
   .app-shell {
-    background: hsl(var(--background));
+    background:
+      radial-gradient(circle at top left, hsl(96 44% 94% / 0.7), transparent 28rem),
+      linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(var(--background)) 18rem, hsl(105 18% 97%) 100%);
   }
 
   .app-content {
