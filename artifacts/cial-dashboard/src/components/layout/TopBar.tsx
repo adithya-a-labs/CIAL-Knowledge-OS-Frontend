@@ -8,13 +8,13 @@ interface TopBarProps {
 export default function TopBar({ onMenuClick }: TopBarProps) {
   return (
     <header
-      className="sticky top-0 z-20 flex min-h-14 items-center justify-between border-b border-border bg-white/90 px-3 backdrop-blur-md sm:px-4"
+      className="sticky top-0 z-20 flex min-h-16 items-center justify-between border-b border-[#e3e9e1] bg-white/88 px-3 backdrop-blur-md sm:px-5"
       data-testid="topbar"
     >
       {/* Mobile hamburger */}
       <button
         onClick={onMenuClick}
-        className="ce-icon-button lg:hidden"
+        className="inline-flex min-h-8 min-w-8 items-center justify-center rounded-lg text-slate-500 transition hover:bg-[#f6f8f5] hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring lg:!hidden"
         data-testid="button-hamburger"
         aria-label="Open sidebar"
       >
@@ -26,7 +26,6 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
 
       {/* Right side */}
       <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
-        {/* Notifications */}
         <button
           className="ce-icon-button relative"
           data-testid="button-notifications"
@@ -40,7 +39,6 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           )}
         </button>
 
-        {/* Help */}
         <button
           className="ce-icon-button"
           data-testid="button-help"
@@ -49,17 +47,17 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           <HelpCircle size={18} />
         </button>
 
-        {/* User profile */}
+        {/* TODO: Replace static profile data with the authenticated user session. */}
         <button
-          className="flex min-w-0 items-center gap-2 rounded-lg px-2 py-1.5 transition-colors hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:px-3"
+          className="flex min-w-0 items-center gap-3 rounded-xl px-2 py-1.5 transition-colors hover:bg-[#f6f8f5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:px-3"
           data-testid="button-user-profile"
         >
-          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-primary text-xs font-bold text-white">
+          <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#25611f] text-sm font-bold text-white shadow-sm">
             {CURRENT_USER.initials}
           </div>
           <div className="hidden max-w-36 text-left sm:block md:max-w-44">
-            <div className="text-xs font-semibold leading-tight text-foreground" data-testid="text-username">{CURRENT_USER.name}</div>
-            <div className="truncate text-[10px] leading-tight text-muted-foreground" data-testid="text-department">{CURRENT_USER.department}</div>
+            <div className="text-sm font-semibold leading-tight text-slate-950" data-testid="text-username">{CURRENT_USER.name}</div>
+            <div className="truncate text-xs leading-tight text-slate-500" data-testid="text-department">{CURRENT_USER.department}</div>
           </div>
           <ChevronDown size={14} className="hidden text-muted-foreground sm:block" />
         </button>
